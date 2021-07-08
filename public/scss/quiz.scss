@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    padding: 100px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.creation-container {
+    display: block;
+    grid-template-rows: auto;
+    .creation-content {
+        padding: 15px;
+        border-radius: 25px;
+        border: 1px solid #707070;
+        section.step-section {
+            &.layout-container-grid {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+            }
+            .layout-container {
+                height: 250px;
+                margin: 5px;
+                border: 1px solid #707070;
+                border-radius: 25px;
+            }
+        }
+    }
+}
+
+.carousel {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    min-height: 450px;
+    padding-bottom: 50px;
+    .carousel-button-container {
+        position: absolute;
+        height: 50px;
+        bottom: 0;
+        right: 0;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+    .card {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: none;
+        box-sizing: border-box;
+        padding-bottom: 50px;
+        &.current {
+            display: block;
+        }
+    }
+}
+
+.question-container {
+    margin: 25px;
+    padding: 25px;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 1px solid #707070;
+    .save {
+        height: 25px;
+    }
+}

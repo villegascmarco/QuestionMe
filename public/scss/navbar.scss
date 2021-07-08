@@ -1,0 +1,41 @@
+.qme-navbar {
+    $nav-height: 60px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $nav-height;
+    margin-right: 50px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    .navbar-icon {
+        margin-left: 50px;
+        img {
+            height: 100%;
+            width: auto;
+        }
+    }
+    .navbar-content {
+        display: flex;
+        flex-direction: row;
+        list-style: none;
+        margin: 0;
+        margin-right: 50px;
+        .navbar-item {
+            margin: auto 20px;
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            &.navbar-button {
+                button {
+                    background-color: rgba(255, 0, 0, 0.6);
+                    border-radius: 15px;
+                }
+            }
+        }
+    }
+}
