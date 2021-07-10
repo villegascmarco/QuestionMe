@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,10 @@ Route::get('/', function () {
     return view('main');
 });
 
-Route::get('/test', function () {
-    return view('main');
+// Resource::
+
+Route::get('/login','SiteController@login')->name('login');
+
+Route::group(['middleware'=>['auth']], function(){
+    Route::get('/user','SiteController@user');
 });
