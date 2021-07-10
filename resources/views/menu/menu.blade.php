@@ -1,6 +1,6 @@
 <nav class="qme-navbar">
     <div class="navbar-icon">
-        <img src="{{ asset('img/png/logo.png')}}"  alt="app logo"/>
+        <a href="/"><img src="{{ asset('img/png/logo.png')}}"  alt="app logo"/></a>
     </div>
     <ul class="navbar-content">
         <li class="navbar-item active">

@@ -1,0 +1,295 @@
+html, body {
+    font-family: 'Montserrat', sans-serif;
+    margin:0;
+    height: 100vh;
+    background-color: rgba(248, 241, 227, 0.171)
+}
+
+.loginContainer {
+    margin: 120px auto auto auto;
+    width: 350px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    border-radius: .3em;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-shadow: -2px 0px 166px -29px rgba(0,0,0,0.21);
+    -moz-box-shadow: -2px 0px 166px -29px rgba(0,0,0,0.21);
+    box-shadow: -2px 0px 166px -29px rgba(0,0,0,0.21);
+    border-radius: 10px;
+}
+
+.loginTitle {
+    margin-top: -10px;
+    text-align: center;
+}
+
+.inputTitle {
+    margin-bottom: 10px;
+    display: flex;
+    align-self: flex-start;
+    margin-left: 30px;
+}
+
+.inputLogin {
+    margin-bottom: 30px;
+    width: 80%;
+    height: 30px;
+    padding-left: 2%;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid black;
+
+}
+
+.inputLogin:focus {
+    border: 3px solid transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+input[type=password] {
+    font-size: 25px;
+}
+
+.btnLogIn {    
+    border-radius: 7px;
+    width: 200px;
+    border: 2px solid #fa4639;
+    font-size: 20px;
+    padding: 2% 0;
+    cursor: pointer;
+    background-color: transparent;
+    color: #fa4639;
+    transition: .2s ease-in;
+    
+}
+
+.btnLogIn:hover {
+    background-color: #fa4639;
+    color: white;
+}
+
+.line {
+    position: relative;
+}
+
+.alternative::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    top: 52%;
+    right: 120%;
+    width: 6em;
+    background-color: #000000;
+    transform: translateY(-50%);
+}
+
+.alternative::before {
+    content: "";
+    position: absolute;
+    height: 2px;
+    top: 52%;
+    left: 120%;
+    width: 6em;
+    background-color: #000000;
+    transform: translateY(-50%);
+}
+
+.social-media {
+    display: flex;
+    margin-top: -40px;
+}
+
+
+
+/* Google sing-in */
+  
+  .google-btn {
+      margin: 25px;
+      max-width: 184px;
+      height: 42px;
+      background-color: #fcfcfc;
+      border-radius: 2px;
+      box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .2);
+      cursor: pointer;
+      cursor: hand;
+      align-self: center;
+      user-select: none;
+      transition: all 400ms ease 0s;
+      display: flex;
+  }
+  .google-btn .google-icon-wrapper {
+      position: absolute;
+      margin-top: 1px;
+      margin-left: 1px;
+      width: 40px;
+      height: 40px;
+      border-radius: 2px;
+      user-select: none
+  }
+  .google-btn .google-icon-svg {
+      position: absolute;
+      margin-top: 11px;
+      margin-left: 11px;
+      width: 18px;
+      height: 18px;
+      user-select: none
+  }
+  .google-btn .btn-text {
+      float: right;
+      margin: 11px 14px 40px 40px;
+      color: #757575;
+      font-size: 14px;
+      letter-spacing: .2px;
+      user-select: none
+  }
+  .google-btn:hover {
+      box-shadow: 0 3px 8px rgba(117, 117, 117, .5);
+      user-select: none
+  }
+  .google-btn:active {
+      box-shadow: 0 1px 1px #757575;
+      background: #F8F8F8;
+      color: #fff;
+      user-select: none
+  }
+  
+  .normal-btn {
+      margin: 25px;
+      width: auto;
+      display: inline-block;
+      min-width: auto;
+      max-width: 184px;
+      height: 42px;
+      background-color: #fcfcfc;
+      border-radius: 2px;
+      box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .2);
+      cursor: pointer;
+      cursor: hand;
+      align-self: center;-webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      transition: all 400ms ease 0s
+  }
+  .normal-btn .btn-text {
+      float: left;
+      margin: 11px 14px 11px 14px;
+      color: #757575;
+      font-size: 14px;
+      letter-spacing: .2px;
+      user-select: none
+  }
+  .normal-btn:hover {
+      box-shadow: 0 3px 8px rgba(117, 117, 117, .5);
+      user-select: none
+  }
+  .normal-btn:active {
+      box-shadow: 0 1px 1px #757575;
+      background: #F8F8F8;
+      color: #fff;
+      user-select: none
+  }
+
+
+
+
+
+
+
+  /* Facebook sing-in */
+  
+  .facebook-btn {
+    margin: 25px;
+    max-width: 184px;
+    height: 42px;
+    background-color: #3b5998;
+    border-radius: 2px;
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .2);
+    cursor: pointer;
+    cursor: hand;
+    align-self: center;
+    user-select: none;
+    transition: all 400ms ease 0s;
+    display: flex;
+}
+.facebook-btn .facebook-icon-wrapper {
+    position: absolute;
+    margin-top: 1px;
+    margin-left: 1px;
+    width: 40px;
+    height: 40px;
+    border-radius: 2px;
+    user-select: none
+}
+.facebook-btn .facebook-icon-svg {
+    position: absolute;
+    margin-top: 11px;
+    margin-left: 11px;
+    width: 18px;
+    height: 18px;
+    user-select: none
+}
+.facebook-btn .btn-text {
+    float: right;
+    margin: 11px 14px 40px 40px;
+    color: #ffffff;
+    font-size: 14px;
+    letter-spacing: .2px;
+    user-select: none
+}
+.facebook-btn:hover {
+    box-shadow: 0 3px 8px rgba(117, 117, 117, .5);
+    user-select: none
+}
+.facebook-btn:active {
+    box-shadow: 0 1px 1px #757575;
+    background: #F8F8F8;
+    color: #fff;
+    user-select: none
+}
+
+.normal-btn {
+    margin: 25px;
+    width: auto;
+    display: inline-block;
+    min-width: auto;
+    max-width: 184px;
+    height: 42px;
+    background-color: #fcfcfc;
+    border-radius: 2px;
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .2);
+    cursor: pointer;
+    cursor: hand;
+    align-self: center;-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: all 400ms ease 0s
+}
+.normal-btn .btn-text {
+    float: left;
+    margin: 11px 14px 11px 14px;
+    color: #757575;
+    font-size: 14px;
+    letter-spacing: .2px;
+    user-select: none
+}
+.normal-btn:hover {
+    box-shadow: 0 3px 8px rgba(117, 117, 117, .5);
+    user-select: none
+}
+.normal-btn:active {
+    box-shadow: 0 1px 1px #757575;
+    background: #F8F8F8;
+    color: #fff;
+    user-select: none
+}
+
+

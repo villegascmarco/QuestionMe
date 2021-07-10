@@ -9,7 +9,9 @@ class SiteController extends Controller
 {
     public function login(){
         $title = "Inicio de sesión";
-        $styleSheets = [];
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/login/login.css')
+        ];
         $jsDocs = [];
         return view('site.auth.login',compact("title","styleSheets","jsDocs"));
     }
