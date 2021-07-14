@@ -22,12 +22,13 @@ Route::get('/', function () {
 
 Route::get('/login', 'SiteController@login')->name('login');
 Route::resource('questions', 'questionController');
+Route::resource('quizes', 'quizController');
 
 
 Route::get('login/facebook', 'Auth\LoginFacebookController@redirect');
 Route::get('login/facebook/callback', 'Auth\LoginFacebookController@callback');
 
 
-Route::group(['middleware'=>['auth']], function(){
-    Route::get('/user','SiteController@user');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/user', 'SiteController@user');
 });
