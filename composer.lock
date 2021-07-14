@@ -1194,9 +1194,7 @@
                     "dev-master": "6.x-dev"
                 },
                 "laravel": {
-                    "providers": [
-                        "Collective\\Html\\HtmlServiceProvider"
-                    ],
+                    "providers": [],
                     "aliases": {
                         "Form": "Collective\\Html\\FormFacade",
                         "Html": "Collective\\Html\\HtmlFacade"
