@@ -20,8 +20,9 @@ Route::get('/', function () {
 
 // Resource::
 
-Route::get('/login','SiteController@login')->name('login');
+Route::get('/login', 'SiteController@login')->name('login');
+Route::resource('questions', 'questionController');
 
-Route::group(['middleware'=>['auth']], function(){
-    Route::get('/user','SiteController@user');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/user', 'SiteController@user');
 });
