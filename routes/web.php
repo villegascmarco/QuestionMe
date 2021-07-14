@@ -20,7 +20,9 @@ Route::get('/', function () {
 
 // Resource::
 
-Route::get('/login','SiteController@login')->name('login');
+Route::get('/login', 'SiteController@login')->name('login');
+Route::resource('questions', 'questionController');
+
 
 Route::get('login/facebook', 'Auth\LoginFacebookController@redirect');
 Route::get('login/facebook/callback', 'Auth\LoginFacebookController@callback');
