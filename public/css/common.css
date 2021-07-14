@@ -2,6 +2,11 @@
   font-family: "Hammersmith One", sans-serif;
 }
 
+body {
+  background-image: url("../img/svg/background.svg");
+  background-repeat: repeat;
+}
+
 /* Works on Firefox */
 * {
   scrollbar-width: 12px;

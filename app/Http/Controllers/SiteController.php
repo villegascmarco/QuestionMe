@@ -7,6 +7,32 @@ use Auth;
 
 class SiteController extends Controller
 {
+
+    /*
+
+        FRONTPAGE
+
+    */
+      
+    public function frontpage(){
+        $title = "QuestionnMe!";
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/frontpage.css')
+        ];
+        $jsDocs = [
+            array('local'=>false,'route'=>'https://code.jquery.com/jquery-3.6.0.js'),
+            array('local'=>true,'route'=>'js/frontpage.js')
+        ];
+        return view('frontpage',compact("title","styleSheets","jsDocs"));
+    }
+    
+
+    /*
+
+        LOGIN
+
+    */
+
     public function login(){
         $title = "Inicio de sesión";
         $styleSheets = [
@@ -15,7 +41,7 @@ class SiteController extends Controller
         $jsDocs = [];
         return view('site.auth.login',compact("title","styleSheets","jsDocs"));
     }
-    
+
     public function user(){
         $title = "Usuarios | Administracion";
         $styleSheets = [

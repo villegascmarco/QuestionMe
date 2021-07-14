@@ -14,9 +14,7 @@ use App\Http\Controllers\SiteController;
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-});
+Route::get('/','SiteController@frontpage');
 
 // Resource::
 
