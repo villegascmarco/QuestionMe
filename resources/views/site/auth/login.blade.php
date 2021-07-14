@@ -17,7 +17,7 @@
         </div>
         <div class="facebook-btn"> 
           <div class="facebook-icon-wrapper"> <img class="facebook-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/F_icon_reversed.svg/1024px-F_icon_reversed.svg.png"></div>
-          <p class="btn-text"> <strong>Facebook</strong></p>
+          <p class="btn-text"><a href="login/facebook"><strong>Facebook</strong></a></p>
         </div>
       </div><a href="#">¿Olvidaste tu contraseña?</a>
     </div>
