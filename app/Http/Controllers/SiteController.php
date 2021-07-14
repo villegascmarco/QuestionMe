@@ -30,6 +30,15 @@ class SiteController extends Controller
         return view('site.user-module.user',compact("title","styleSheets","jsDocs"));
     }
 
+    public function register(){
+        $title = "Registro";
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/register/register.css')
+        ];
+        $jsDocs = [];
+        return view('site.register.register',compact("title","styleSheets","jsDocs"));
+    }
+
     public function loginPost(Request $request){
 
         // Ejecutar validaciones de la petición
