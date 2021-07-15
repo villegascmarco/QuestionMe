@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\quiz;
 use Illuminate\Http\Request;
 
 class quizController extends Controller
@@ -13,7 +14,9 @@ class quizController extends Controller
      */
     public function index()
     {
-        //
+        $quiz = quiz::all();
+
+        return ($quiz);
     }
 
     /**
@@ -34,7 +37,32 @@ class quizController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required|min:10|max:255',
+            'is_template' => 'required|boolean',
+            'quality' => 'required|numeric|between:0,5.00',
+            'status' => 'required|integer',
+            'quiz_origin' => 'required|integer',
+            'category' => 'required|integer',
+            'user' => 'required|integer'
+        ]);
+
+        $quiz = new quiz();
+
+        $quiz->name = $request->name;
+        $quiz->is_template = $request->is_template;
+        $quiz->quality = $request->quality;
+        $quiz->status = $request->status;
+
+        if ($request->is_template) {
+            $quiz->quiz_origin = $request->quiz_origin;
+        }
+
+        $quiz->category = $request->category;
+        $quiz->user = $request->user;
+
+        $quiz->save();
+        return ($quiz);
     }
 
     /**

@@ -19,8 +19,8 @@ class Quiz extends Migration
             $table->boolean('is_template');
             $table->decimal('quality', 13, 2)->default(0);
             $table->integer('status')->default(0);
-            $table->unsignedBigInteger('quiz_origin');
-            $table->foreign('quiz_origin')->references('id')->on('quiz');
+
+            $table->foreignId('quiz_origin')->nullable()->constrained()->references('id')->on('quiz');
 
             $table->unsignedBigInteger('category');
             $table->foreign('category')->references('id')->on('category');
