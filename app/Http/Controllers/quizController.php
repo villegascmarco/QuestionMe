@@ -54,6 +54,7 @@ class quizController extends Controller
         ])->exists();
 
         if ($exists) {
+            return ('Ya tienes un quiz con ese nombre.');
             return Redirect::back()->withErrors(['msg', 'Ya tienes un quiz con ese nombre.']);
         }
 
@@ -105,7 +106,50 @@ class quizController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required|min:10|max:255',
+            'is_template' => 'required|boolean',
+            'quality' => 'required|numeric|between:0,5.00',
+            'status' => 'required|integer',
+            'quiz_origin' => 'required|integer',
+            'category' => 'required|integer',
+            'user' => 'required|integer'
+        ]);
+
+        $quiz = quiz::find($id);
+
+        if (!isset($quiz)) {
+            return ('No existe ese ID');
+            return Redirect::back()->withErrors(['msg', 'No existe ese ID']);
+        }
+
+        $other_quiz = quiz::where([
+            'name' => $request->name,
+            'user' => $request->user
+        ])->first();
+
+
+        if (isset($other_quiz)) {
+            if ($id != $other_quiz->id) {
+                return ('Ya tienes un quiz con ese nombre.');
+                return Redirect::back()->withErrors(['msg', 'Ya tienes un quiz con ese nombre.']);
+            }
+        }
+
+        $quiz->name = $request->name;
+        $quiz->is_template = $request->is_template;
+        $quiz->quality = $request->quality;
+        $quiz->status = $request->status;
+
+        if ($request->is_template) {
+            $quiz->quiz_origin = $request->quiz_origin;
+        }
+
+        $quiz->category = $request->category;
+        $quiz->user = $request->user;
+
+        $quiz->save();
+        return $quiz;
     }
 
     /**
