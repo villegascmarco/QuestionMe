@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\quiz;
 use Illuminate\Http\Request;
+use Session;
 use Illuminate\Support\Facades\Redirect;
 
 class quizController extends Controller
@@ -160,6 +161,16 @@ class quizController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $object = quiz::find($id);
+        if (isset($object)) {
+            $object->delete();
+
+            Session::flash('message', 'Quiz eliminado correctamente.
+                                    Si había quiz que usarón como plantilla este quiz, 
+                                    seguirán teniendo acceso al mismo.');
+            return ('Eliminado');
+        } else {
+            return ('No existe el registro.');
+        }
     }
 }
