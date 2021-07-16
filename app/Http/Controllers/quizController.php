@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class quizController extends Controller
 {
@@ -47,8 +48,16 @@ class quizController extends Controller
             'user' => 'required|integer'
         ]);
 
-        $quiz = new quiz();
+        $exists = quiz::where([
+            'name' => $request->name,
+            'user' => $request->user
+        ])->exists();
 
+        if ($exists) {
+            return Redirect::back()->withErrors(['msg', 'Ya tienes un quiz con ese nombre.']);
+        }
+
+        $quiz = new quiz();
         $quiz->name = $request->name;
         $quiz->is_template = $request->is_template;
         $quiz->quality = $request->quality;
@@ -62,7 +71,7 @@ class quizController extends Controller
         $quiz->user = $request->user;
 
         $quiz->save();
-        return ($quiz);
+        return $quiz;
     }
 
     /**
