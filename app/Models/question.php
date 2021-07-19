@@ -10,4 +10,6 @@ class Question extends Model
     use HasFactory;
 
     protected $table = "question";
+
+    public $timestamps = false;
 }

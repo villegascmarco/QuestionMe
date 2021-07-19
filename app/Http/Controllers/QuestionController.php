@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class QuestionController extends Controller
 {
@@ -27,7 +28,39 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'question' => 'required|min:10|max:255',
+            'order' => 'required|integer',
+            'question_type' => 'required|exists:question_type,id',
+            'quiz' => 'required|integer',
+        ]);
+
+        $exists = Question::where([
+            'question' => $request->question,
+        ])->exists();
+
+        if ($exists) {
+            return ('Ya tienes una pregunta similar.');
+            return Redirect::back()->withErrors(['msg', 'Ya tienes una pregunta similar.']);
+        }
+
+        $exists = Question::where([
+            'order' => $request->order,
+        ])->exists();
+
+        if ($exists) {
+            return ('Ya tienes una pregunta con el mismo índice.');
+            return Redirect::back()->withErrors(['msg', 'Ya tienes una pregunta con el mismo índice.']);
+        }
+
+        $question = new Question();
+        $question->question = $request->question;
+        $question->order = $request->order;
+        $question->question_type = $request->question_type;
+        $question->quiz = $request->quiz;
+
+        $question->save();
+        return $question;
     }
 
     /**
