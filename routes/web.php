@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::get('/login', 'SiteController@login')->name('login');
 Route::resource('questions', 'questionController');
-Route::resource('quizzes', 'quizController');
+Route::resource('quizzes', 'QuizController');
 
 
 Route::get('login/facebook', 'Auth\LoginFacebookController@redirect');
