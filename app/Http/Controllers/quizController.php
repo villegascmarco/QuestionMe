@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 
@@ -16,8 +17,7 @@ class quizController extends Controller
      */
     public function index()
     {
-        $quiz = quiz::all();
-
+        $quiz = DB::Table('quiz')->where('is_template', true)->get();
         return ($quiz);
     }
 
@@ -41,10 +41,9 @@ class quizController extends Controller
     {
         $validateData = $request->validate([
             'name' => 'required|min:10|max:255',
-            'is_template' => 'required|boolean',
+            'is_template' => 'boolean',
             'quality' => 'required|numeric|between:0,5.00',
             'status' => 'required|integer',
-            'quiz_origin' => 'required|integer',
             'category' => 'required|integer',
             'user' => 'required|integer'
         ]);
@@ -61,11 +60,14 @@ class quizController extends Controller
 
         $quiz = new quiz();
         $quiz->name = $request->name;
-        $quiz->is_template = $request->is_template;
+        $quiz->is_template = $request->has('is_template');
         $quiz->quality = $request->quality;
         $quiz->status = $request->status;
 
         if ($request->is_template) {
+            $validateData = $request->validate([
+                'quiz_origin' => 'required|integer',
+            ]);
             $quiz->quiz_origin = $request->quiz_origin;
         }
 
@@ -84,7 +86,9 @@ class quizController extends Controller
      */
     public function show($id)
     {
-        //
+        $quiz = DB::Table('quiz')->where('user', $id)->get();
+
+        return ($quiz);
     }
 
     /**
