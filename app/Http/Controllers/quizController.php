@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 
-class quizController extends Controller
+class QuizController extends Controller
 {
     /**
      * Display a listing of the resource.
