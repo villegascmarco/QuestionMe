@@ -21,7 +21,7 @@ Route::get('/', function () {
 // Resource::
 
 Route::get('/login', 'SiteController@login')->name('login');
-Route::resource('questions', 'QuestionController');
+Route::resource('quizzes.questions', 'QuestionController');
 Route::resource('quizzes', 'QuizController');
 
 

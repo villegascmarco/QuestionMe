@@ -12,9 +12,11 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($quiz)
     {
-        //
+        $questions = Question::where('quiz', $quiz)->get();
+
+        return ($questions);
     }
 
     /**
@@ -31,10 +33,10 @@ class QuestionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Question  $question
+     * @param  int  $id from
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $question)
+    public function show($id)
     {
         //
     }
