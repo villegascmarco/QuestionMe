@@ -43,6 +43,7 @@ class quizController extends Controller
             'name' => 'required|min:10|max:255',
             'is_template' => 'boolean',
             'quality' => 'required|numeric|between:0,5.00',
+            'quiz_origin' => 'integer',
             'status' => 'required|integer',
             'category' => 'required|integer',
             'user' => 'required|integer'
@@ -60,16 +61,10 @@ class quizController extends Controller
 
         $quiz = new quiz();
         $quiz->name = $request->name;
-        $quiz->is_template = $request->has('is_template');
+        $quiz->is_template = $request->is_template;
         $quiz->quality = $request->quality;
         $quiz->status = $request->status;
-
-        if ($request->is_template) {
-            $validateData = $request->validate([
-                'quiz_origin' => 'required|integer',
-            ]);
-            $quiz->quiz_origin = $request->quiz_origin;
-        }
+        $quiz->quiz_origin = $request->quiz_origin;
 
         $quiz->category = $request->category;
         $quiz->user = $request->user;
@@ -111,12 +106,12 @@ class quizController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //No se debe poder modificar el campo quiz_origin
         $validateData = $request->validate([
             'name' => 'required|min:10|max:255',
-            'is_template' => 'required|boolean',
+            'is_template' => 'boolean',
             'quality' => 'required|numeric|between:0,5.00',
             'status' => 'required|integer',
-            'quiz_origin' => 'required|integer',
             'category' => 'required|integer',
             'user' => 'required|integer'
         ]);
@@ -145,10 +140,6 @@ class quizController extends Controller
         $quiz->is_template = $request->is_template;
         $quiz->quality = $request->quality;
         $quiz->status = $request->status;
-
-        if ($request->is_template) {
-            $quiz->quiz_origin = $request->quiz_origin;
-        }
 
         $quiz->category = $request->category;
         $quiz->user = $request->user;
