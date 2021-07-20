@@ -26,17 +26,17 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($quiz, Request $request)
     {
         $validateData = $request->validate([
             'question' => 'required|min:10|max:255',
             'order' => 'required|integer',
             'question_type' => 'required|exists:question_type,id',
-            'quiz' => 'required|integer',
         ]);
 
         $exists = Question::where([
             'question' => $request->question,
+            'quiz' => $quiz,
         ])->exists();
 
         if ($exists) {
@@ -46,7 +46,7 @@ class QuestionController extends Controller
 
         $exists = Question::where([
             'order' => $request->order,
-            'quiz' => $request->quiz,
+            'quiz' => $quiz,
         ])->exists();
 
         if ($exists) {
@@ -58,9 +58,14 @@ class QuestionController extends Controller
         $question->question = $request->question;
         $question->order = $request->order;
         $question->question_type = $request->question_type;
-        $question->quiz = $request->quiz;
+        $question->quiz = $quiz;
 
-        // $question->save();
+        try {
+            $question->save();
+        } catch (\Throwable $th) {
+            return ('Ocurrió un error.');
+            return Redirect::back()->withErrors(['msg', 'Ocurrió un error.']);
+        }
         return $question;
     }
 
