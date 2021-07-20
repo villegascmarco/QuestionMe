@@ -30,7 +30,6 @@ class QuestionController extends Controller
     {
         $validateData = $request->validate([
             'question' => 'required|min:10|max:255',
-            'order' => 'required|integer',
             'question_type' => 'required|exists:question_type,id',
         ]);
 
@@ -44,19 +43,8 @@ class QuestionController extends Controller
             return Redirect::back()->withErrors(['msg', 'Ya tienes una pregunta similar.']);
         }
 
-        $exists = Question::where([
-            'order' => $request->order,
-            'quiz' => $quiz,
-        ])->exists();
-
-        if ($exists) {
-            return ('Ya tienes una pregunta con el mismo índice.');
-            return Redirect::back()->withErrors(['msg', 'Ya tienes una pregunta con el mismo índice.']);
-        }
-
         $question = new Question();
         $question->question = $request->question;
-        $question->order = $request->order;
         $question->question_type = $request->question_type;
         $question->quiz = $quiz;
 

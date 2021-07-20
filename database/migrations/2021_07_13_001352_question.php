@@ -16,7 +16,6 @@ class Question extends Migration
         Schema::create('question', function (Blueprint $table) {
             $table->id();
             $table->string('question');
-            $table->integer('order')->default(0);
 
             $table->unsignedBigInteger('question_type');
             $table->foreign('question_type')->references('id')->on('question_type');
