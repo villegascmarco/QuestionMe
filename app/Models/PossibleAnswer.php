@@ -5,16 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class PossibleAnswer extends Model
 {
     use HasFactory;
 
-    protected $table = "question";
+    protected $table = "possible_answer";
 
     public $timestamps = false;
-
-    public function possible_answers()
-    {
-        return $this->hasMany(PossibleAnswer::class, 'question');
-    }
 }

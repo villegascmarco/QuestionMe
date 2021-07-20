@@ -21,8 +21,9 @@ Route::get('/', function () {
 // Resource::
 
 Route::get('/login', 'SiteController@login')->name('login');
-Route::resource('quizzes.questions', 'QuestionController');
 Route::resource('quizzes', 'QuizController');
+Route::resource('quizzes.questions', 'QuestionController');
+Route::resource('quizzes.questions.answers', 'PossibleAnswerController');
 
 
 Route::get('login/facebook', 'Auth\LoginFacebookController@redirect');

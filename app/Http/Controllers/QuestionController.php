@@ -15,9 +15,7 @@ class QuestionController extends Controller
      */
     public function index($quiz)
     {
-        $questions = Question::where('quiz', $quiz)->get();
-
-        return ($questions);
+        return (Question::with('possible_answers')->where('quiz', $quiz)->get());
     }
 
     /**
