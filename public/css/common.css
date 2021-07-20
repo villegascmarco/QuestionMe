@@ -1,6 +1,10 @@
 * {
   font-family: 'Hammersmith One', sans-serif; }
 
+body {
+  background-image: url("../img/svg/background.svg");
+  background-repeat: repeat; }
+
 /* Works on Firefox */
 * {
   scrollbar-width: 12px;
@@ -81,7 +85,7 @@
     right: 25px;
     height: 15px;
     width: 15px;
-    background-image: url("../../assets/svg/icons/down-arrow.svg"); }
+    background-image: url("../img/svg/icons/down-arrow.svg"); }
   .qme-select.simple {
     display: grid;
     grid-template-columns: 2fr 5fr;
@@ -316,6 +320,15 @@
         display: none; }
     .bubble-categories-container .bubble:hover {
       cursor: pointer; }
+
+.qme-alert-form {
+  position: absolute;
+  top: -1rem;
+  font-size: 0.8rem;
+  background-color: rgba(255, 0, 0, 0.6);
+  color: white;
+  padding: 0 10px;
+  border-radius: 0.8rem; }
 
 .margin-5 {
   margin: 5px; }
