@@ -3,6 +3,7 @@ let admPanel = document.getElementById('adm-panel');
 let moduleContent = document.getElementById('content-panel');
 let buttons = Array.from(document.querySelectorAll('.table-btn.btn-detail'));
 
+
 buttons.forEach((btn, index) => {
     btn.addEventListener('click', () => {
         showAdmPanel(admPanel);

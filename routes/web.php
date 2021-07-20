@@ -39,6 +39,6 @@ Route::resource('user_role','user_roleController', ["except" => ['destroy']]);
 Route::get('login/facebook', 'Auth\LoginFacebookController@redirect');
 Route::get('login/facebook/callback', 'Auth\LoginFacebookController@callback');
 
-Route::group(['middleware'=>['auth']], function(){
-    Route::get('/user','SiteController@user');
-});
+Route::get('/user','SiteController@user');
+// Route::group(['middleware'=>['auth']], function(){
+// });
