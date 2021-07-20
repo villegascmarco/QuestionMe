@@ -38,7 +38,7 @@ tableController.showData({
                 let button = document.createElement('button');
                 button.setAttribute('class', 'table-btn btn-detail');
                 let img = document.createElement('img');
-                img.setAttribute('src', './assets/svg/icons/view.svg');
+                img.setAttribute('src', `${ASSETS_ROUTE}img/svg/icons/view.svg`);
                 button.appendChild(img);
                 button.addEventListener('click', () => {
                     console.log(value);
@@ -52,7 +52,8 @@ tableController.showData({
                 let button = document.createElement('button');
                 button.setAttribute('class', 'table-btn btn-detail');
                 let img = document.createElement('img');
-                img.setAttribute('src', './assets/svg/icons/trash.svg');
+                img.setAttribute('src', `${ASSETS_ROUTE}img/svg/icons/trash.svg`);
+                console.log(`${ASSETS_ROUTE}`)
                 button.appendChild(img);
                 button.addEventListener('click', () => {
                     console.log(value);

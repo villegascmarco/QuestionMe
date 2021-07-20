@@ -24,13 +24,13 @@
             </div>
             <div class="module-buttons">
                 <button class="qme-button round red">
-                    <img class="icon" src="./assets/svg/icons/plus.svg">
+                    <img class="icon" src="{{asset('img/svg/icons/plus-white.svg')}}">
                 </button>
             </div>
         </header>
         <div class="module-table-container">
             <div class="table-search">
-                <img src="./assets/svg/icons/search.svg" class="table-search-icon" />
+                <img src="{{asset('img/svg/icons/search.svg')}}" class="table-search-icon" />
                 <input type="text" class="table-search-input" id="txtTableSearch" placeholder="Busca un usuario aquí" />
             </div>
             <div class="module-table-parent">
