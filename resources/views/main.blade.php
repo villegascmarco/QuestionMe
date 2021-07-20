@@ -19,7 +19,7 @@
     @include('menu.menu')
     
     @yield('content')
-    
+
     <script>
         let ASSETS_ROUTE = '{{ URL::asset('')}}'
     </script>

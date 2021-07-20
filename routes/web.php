@@ -28,6 +28,6 @@ Route::get('login/facebook/callback', 'Auth\LoginFacebookController@callback');
 Route::get('/register', 'SiteController@register')->name('register');
 
 
-Route::group(['middleware'=>['auth']], function(){
-    Route::get('/user','SiteController@user');
-});
+Route::get('/user','SiteController@user');
+// Route::group(['middleware'=>['auth']], function(){
+// });

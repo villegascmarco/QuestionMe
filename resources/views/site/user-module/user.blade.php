@@ -19,18 +19,17 @@
                             <option>Usuario</option>                
                         </select>
                     </div>
-
                 </div>
             </div>
             <div class="module-buttons">
-                <button class="qme-button round red">
+                <button class="qme-button round red" id="btn-show-panel">
                     <img class="icon" src="{{asset('img/svg/icons/plus-white.svg')}}">
                 </button>
             </div>
         </header>
         <div class="module-table-container">
             <div class="table-search">
-                <img src="{{asset('img/svg/icons/search.svg')}}" class="table-search-icon" />
+                <img src="{{ asset('img/svg/icons/search.svg')}}" class="table-search-icon" />
                 <input type="text" class="table-search-input" id="txtTableSearch" placeholder="Busca un usuario aquí" />
             </div>
             <div class="module-table-parent">
@@ -46,201 +45,10 @@
                             <th>Desactivar</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        <!-- <tr>
-                        <td colspan="7" class="text-inactive">No hay usuarios disponibles </td>
-                    </tr> -->
                         <tr>
-                            <td class="table-picture">
-                                <img src="./assets/img/eddie.jpeg" alt="">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail" ">
-                                    <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>                           
-                        <tr>
-                            <td class="table-picture ">
-                                <img src="./assets/img/eddie.jpeg " alt=" ">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail " ">
-                                <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-picture">
-                                <img src="./assets/img/eddie.jpeg" alt="">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail" ">
-                                    <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>                           
-                        <tr>
-                            <td class="table-picture ">
-                                <img src="./assets/img/eddie.jpeg " alt=" ">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail " ">
-                                <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-picture">
-                                <img src="./assets/img/eddie.jpeg" alt="">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail" ">
-                                    <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>                           
-                        <tr>
-                            <td class="table-picture ">
-                                <img src="./assets/img/eddie.jpeg " alt=" ">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail " ">
-                                <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-picture">
-                                <img src="./assets/img/eddie.jpeg" alt="">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail" ">
-                                    <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>                           
-                        <tr>
-                            <td class="table-picture ">
-                                <img src="./assets/img/eddie.jpeg " alt=" ">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail " ">
-                                <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-picture">
-                                <img src="./assets/img/eddie.jpeg" alt="">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail" ">
-                                    <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>                           
-                        <tr>
-                            <td class="table-picture ">
-                                <img src="./assets/img/eddie.jpeg " alt=" ">
-                            </td>
-                            <td>Eddie</td>
-                            <td>Facebook</td>
-                            <td>Usuario</td>
-                            <td>Activo</td>
-                            <td>
-                                <button class="table-btn btn-detail " ">
-                                <img src="./assets/svg/icons/view.svg " alt=" ">
-                                </button>
-                            </td>
-                            <td>
-                                <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
-                            </button>
-                            </td>
-                        </tr>
+                            <td colspan="7" class="text-inactive">No hay usuarios disponibles </td>
+                        </tr> 
                     </tbody>
                 </table>
             </div>
@@ -251,34 +59,36 @@
         <header>
             <h1>Administrando usuario</h1>
         </header>
-        <div class="adm-panel-body ">
+        <form class="adm-panel-body " name="main-form">
             <div class="qme-input simple margin-top-25 qme-required ">
-                <label class="label " for=" ">Nombre</label>
-                <input class="input " type="text " placeholder="Some text ">
+                <label class="label " for=" " >Nombre</label>
+                <input class="input " type="text " name="name" placeholder="Some text " form-message="Por favor, ingresa un nombre">
             </div>
             <div class="qme-input simple margin-top-25 qme-required ">
-                <label class="label " for=" ">Apellido</label>
-                <input class="input " type="text " placeholder="Some text ">
+                <label class="label " for=" " >Apellido</label>
+                <input class="input " type="text " name="last-name" placeholder="Some text " form-message="Por favor, ingresa un apellido">
             </div>
 
             <div class="qme-select simple margin-top-25 margin-5 qme-required ">
-                <label class="label " for=" ">Estatus</label>
-                <select class="select " name=" " id=" " disabled>
-                    <option value=" ">Activo</option>
-                    <option value=" ">Inactivo</option>
-                </select>
-            </div>
+                <label class="label " for=" ">Estado</label>
+                <select class="select " name="status" disabled form-message="Por favor, selecciona un estatus válido">                    
+                    <option value="0">Selecciona un estado</option>
+                    <option value="1">Activo</option>
+                    <option value="2">Inactivo</option>
+                </select>                
+            </div>            
             <div class="qme-select simple margin-top-25 margin-5 qme-required ">
                 <label class="label " for=" ">Rol</label>
-                <select class="select " name=" " id=" ">
-                    <option value=" ">Usuario</option>
-                    <option value=" ">Administrador</option>
-                </select>
+                <select class="select " name="role" form-message="Por favor, selecciona un rol válido">
+                    <option value="0">Selecciona un rol</option>
+                    <option value="1">Usuario</option>
+                    <option value="2">Administrador</option>
+                </select>                
             </div>
-        </div>
+        </form>
         <div class="adm-panel-controls margin-top-50 ">
-            <button class="qme-button simple margin-left-15 margin-right-15 ">Cancelar</button>
-            <button class="qme-button red margin-left-15 margin-right-15 ">Guardar</button>
+            <button class="qme-button simple margin-left-15 margin-right-15 " id="btn-cancelar">Cancelar</button>
+            <button class="qme-button red margin-left-15 margin-right-15 " id="btn-guardar">Guardar</button>
         </div>
 
     </aside>
