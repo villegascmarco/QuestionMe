@@ -58,6 +58,44 @@ class SiteController extends Controller
         return view('site.user-module.user',compact("title","styleSheets","jsDocs"));
     }
 
+    public function quiz(){
+        $title = "Encuestas | Administracion";
+        $styleSheets = [            
+
+            array('local'=>true,'route'=>'css/common.css'),
+            array('local'=>false,'route'=>'css/navbar.css'),
+            array('local'=>false,'route'=>'css/module.css'),
+            array('local'=>false,'route'=>'css/common/sweetalert2.min.css')
+        ];
+
+        $jsDocs = [
+            array('local'=>false,'route'=>'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js'),            
+            array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),                          
+            array('local'=>true,'route'=>'js/common/module.js'),
+            array('local'=>true,'route'=>'js/common/formsvalidator.js'),            
+        ];
+        return view('site.quiz-module.quiz',compact("title","styleSheets","jsDocs"));
+    }
+  
+    public function quizCreation(){
+        $title = "Creando una encuesta";
+        $styleSheets = [            
+            array('local'=>true,'route'=>'css/common.css'),
+            array('local'=>true,'route'=>'css/navbar.css'),
+            array('local'=>true,'route'=>'css/module.css'),
+            array('local'=>true,'route'=>'css/quiz.css'),
+            array('local'=>true,'route'=>'css/common/sweetalert2.min.css')
+        ];
+
+        $jsDocs = [
+            array('local'=>true,'route'=>'js/common/carousel.js'),
+            array('local'=>true,'route'=>'js/common/wizard.js'),                          
+            array('local'=>true,'route'=>'js/common/quiz.js'),
+            array('local'=>true,'route'=>'js/common/formsvalidator.js'),            
+        ];
+        return view('site.quiz-module.quiz-creation',compact("title","styleSheets","jsDocs"));
+    }
+
     public function register(){
         $title = "Registro";
         $styleSheets = [

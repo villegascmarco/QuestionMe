@@ -29,5 +29,10 @@ Route::get('/register', 'SiteController@register')->name('register');
 
 
 Route::get('/user','SiteController@user');
+
+Route::get('/quiz','SiteController@quiz');
+
+Route::get('/new-quiz','SiteController@quizCreation');
+
 // Route::group(['middleware'=>['auth']], function(){
 // });
