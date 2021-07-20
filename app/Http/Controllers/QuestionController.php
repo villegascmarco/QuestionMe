@@ -46,6 +46,7 @@ class QuestionController extends Controller
 
         $exists = Question::where([
             'order' => $request->order,
+            'quiz' => $request->quiz,
         ])->exists();
 
         if ($exists) {
@@ -59,7 +60,7 @@ class QuestionController extends Controller
         $question->question_type = $request->question_type;
         $question->quiz = $request->quiz;
 
-        $question->save();
+        // $question->save();
         return $question;
     }
 
