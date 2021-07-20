@@ -16,7 +16,6 @@ class PossibleAnswer extends Migration
         Schema::create('possible_answer', function (Blueprint $table) {
             $table->id();
             $table->string('answer');
-            $table->integer('order')->default(0);
             $table->boolean('is_correct');
 
             $table->unsignedBigInteger('question');

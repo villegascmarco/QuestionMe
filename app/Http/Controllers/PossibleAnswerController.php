@@ -47,24 +47,12 @@ class PossibleAnswerController extends Controller
 
         $validateData = $request->validate([
             'answer' => 'required|min:10|max:255',
-            'order' => 'required|integer',
             'is_correct' => 'boolean',
         ]);
-
-        $exists = PossibleAnswer::where([
-            'order' => $request->order,
-            'question' => $question,
-        ])->exists();
-
-        if ($exists) {
-            return ('Ya tienes una respuesta con el mismo índice.');
-            return Redirect::back()->withErrors(['msg', 'Ya tienes una respuesta con el mismo índice.']);
-        }
 
         $answer = new PossibleAnswer();
         $answer->question = $question;
         $answer->answer = $request->answer;
-        $answer->order = $request->order;
         $answer->is_correct = $request->is_correct;
 
         $answer->save();
