@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class QuestionController extends Controller
 {
@@ -109,8 +110,15 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
+    public function destroy($quiz, $id)
     {
-        //
+        $question =  Question::where([
+            'id' => $id,
+            'quiz' => $quiz,
+        ])->firstOrFail();
+
+        $question->delete();
+        Session::flash('message', 'Pregunta eliminada correctamente.');
+        return ('Pregunta eliminada correctamente');
     }
 }

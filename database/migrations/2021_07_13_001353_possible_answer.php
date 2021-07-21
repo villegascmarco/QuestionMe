@@ -19,7 +19,7 @@ class PossibleAnswer extends Migration
             $table->boolean('is_correct');
 
             $table->unsignedBigInteger('question');
-            $table->foreign('question')->references('id')->on('question');
+            $table->foreign('question')->references('id')->on('question')->onDelete('cascade');;
         });
     }
 
