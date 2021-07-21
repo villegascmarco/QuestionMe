@@ -130,4 +130,9 @@ class PossibleAnswerController extends Controller
         Session::flash('message', 'Respuesta eliminada correctamente.');
         return ('Respuesta eliminada correctamente');
     }
+
+    public static function destroyAll($question)
+    {
+        PossibleAnswer::where('question', $question)->delete();
+    }
 }

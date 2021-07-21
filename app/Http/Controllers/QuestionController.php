@@ -73,9 +73,34 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update($quiz, Request $request, $id)
     {
-        //
+        $question =  Question::where([
+            'id' => $id,
+            'quiz' => $quiz,
+        ])->firstOrFail();
+
+        $validateData = $request->validate([
+            'question' => 'required|min:10|max:255',
+            'question_type' => 'required|exists:question_type,id',
+        ]);
+
+        $question->question = $request->question;
+
+        if ($question->question_type <> $request->question_type) {
+            if ($request->question_type == 2) {
+                PossibleAnswerController::destroyAll($id);
+            }
+        }
+        $question->question_type = $request->question_type;
+
+        try {
+            $question->save();
+        } catch (\Throwable $th) {
+            return ('Ocurrió un error.');
+            return Redirect::back()->withErrors(['msg', 'Ocurrió un error.']);
+        }
+        return $question;
     }
 
     /**
