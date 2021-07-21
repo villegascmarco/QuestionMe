@@ -121,4 +121,17 @@ class QuestionController extends Controller
         Session::flash('message', 'Pregunta eliminada correctamente.');
         return ('Pregunta eliminada correctamente');
     }
+
+    public static function copyAllFrom($oldQuiz, $newQuiz)
+    {
+        $oldQuestions = Question::where('quiz', $oldQuiz)->get();
+
+        foreach ($oldQuestions as $key => $value) {
+            $newQuestion = Question::find($value->id)->replicate();
+            $newQuestion->quiz = $newQuiz;
+
+            $newQuestion->save();
+            PossibleAnswerController::copyAllFrom($value->id, $newQuestion->id);
+        }
+    }
 }

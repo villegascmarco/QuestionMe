@@ -74,6 +74,10 @@ class QuizController extends Controller
         $quiz->user = $request->user;
 
         $quiz->save();
+
+        if ($quiz->quiz_origin) {
+            QuestionController::copyAllFrom($quiz->quiz_origin, $quiz->id);
+        }
         return $quiz;
     }
 

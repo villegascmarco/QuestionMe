@@ -135,4 +135,15 @@ class PossibleAnswerController extends Controller
     {
         PossibleAnswer::where('question', $question)->delete();
     }
+    public static function copyAllFrom($oldQuestion, $newQuestion)
+    {
+        $oldAnswers = PossibleAnswer::where('question', $oldQuestion)->get();
+
+        foreach ($oldAnswers as $key => $value) {
+            $newAnswer = PossibleAnswer::find($value->id)->replicate();
+            $newAnswer->question = $newQuestion;
+
+            $newAnswer->save();
+        }
+    }
 }
