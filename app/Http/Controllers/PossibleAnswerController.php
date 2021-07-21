@@ -6,6 +6,7 @@ use App\Models\PossibleAnswer;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class PossibleAnswerController extends Controller
 {
@@ -77,9 +78,34 @@ class PossibleAnswerController extends Controller
      * @param  \App\Models\PossibleAnswer  $possibleAnswer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PossibleAnswer $possibleAnswer)
+    public function update($quiz, $question, Request $request, $id)
     {
-        //
+        $varQuestion =  Question::where([
+            'id' => $question,
+            'quiz' => $quiz,
+        ])->firstOrFail();
+
+        $answer =  PossibleAnswer::where([
+            'id' => $id,
+            'question' => $question,
+        ])->firstOrFail();
+
+        if ($varQuestion->question_type == 2) {
+            # Respuesta abierta
+            return ('La pregunta no soporta posibles respuestas.');
+            return Redirect::back()->withErrors(['msg', 'La pregunta no soporta posibles respuestas.']);
+        }
+
+        $validateData = $request->validate([
+            'answer' => 'required|min:10|max:255',
+            'is_correct' => 'boolean',
+        ]);
+
+        $answer->answer = $request->answer;
+        $answer->is_correct = $request->is_correct;
+
+        $answer->save();
+        return ($answer);
     }
 
     /**
@@ -88,8 +114,20 @@ class PossibleAnswerController extends Controller
      * @param  \App\Models\PossibleAnswer  $possibleAnswer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PossibleAnswer $possibleAnswer)
+    public function destroy($quiz, $question, $id)
     {
-        //
+        $varQuestion =  Question::where([
+            'id' => $question,
+            'quiz' => $quiz,
+        ])->firstOrFail();
+
+        $answer =  PossibleAnswer::where([
+            'id' => $id,
+            'question' => $question,
+        ])->firstOrFail();
+
+        $answer->delete();
+        Session::flash('message', 'Respuesta eliminada correctamente.');
+        return ('Respuesta eliminada correctamente');
     }
 }
