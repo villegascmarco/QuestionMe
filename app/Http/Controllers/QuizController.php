@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\quiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Session;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class QuizController extends Controller
 {
@@ -17,7 +17,10 @@ class QuizController extends Controller
      */
     public function index()
     {
-        $quiz = DB::Table('quiz')->where('is_template', true)->get();
+        $quiz = DB::Table('quiz')->where([
+            'is_template' => true,
+            'status' => 1,
+        ])->get();
         return ($quiz);
     }
 
@@ -51,7 +54,8 @@ class QuizController extends Controller
 
         $exists = quiz::where([
             'name' => $request->name,
-            'user' => $request->user
+            'user' => $request->user,
+            'status' => 1,
         ])->exists();
 
         if ($exists) {
@@ -81,7 +85,10 @@ class QuizController extends Controller
      */
     public function show($id)
     {
-        $quiz = DB::Table('quiz')->where('user', $id)->get();
+        $quiz = DB::Table('quiz')->where([
+            'user' => $id,
+            'status' => 1,
+        ])->get();
 
         return ($quiz);
     }
@@ -116,16 +123,16 @@ class QuizController extends Controller
             'user' => 'required|integer'
         ]);
 
-        $quiz = quiz::find($id);
+        $quiz = Quiz::where([
+            'id' => $id,
+            'status' => 1,
+        ])->firstOrFail();;
 
-        if (!isset($quiz)) {
-            return ('No existe ese ID');
-            return Redirect::back()->withErrors(['msg', 'No existe ese ID']);
-        }
 
         $other_quiz = quiz::where([
             'name' => $request->name,
-            'user' => $request->user
+            'user' => $request->user,
+            'status' => 1,
         ])->first();
 
 
@@ -156,16 +163,18 @@ class QuizController extends Controller
      */
     public function destroy($id)
     {
-        $object = quiz::find($id);
-        if (isset($object)) {
-            $object->delete();
+        $quiz = Quiz::where([
+            'id' => $id,
+            'status' => 1,
+        ])->firstOrFail();;
 
-            Session::flash('message', 'Quiz eliminado correctamente.
-                                    Si había quiz que usarón como plantilla este quiz, 
-                                    seguirán teniendo acceso al mismo.');
-            return ('Eliminado');
-        } else {
-            return ('No existe el registro.');
-        }
+        $quiz->status = 0;
+
+        $quiz->save();
+
+        Session::flash('message', 'Quiz eliminado correctamente.
+                                Si había quiz que usarón como plantilla este quiz, 
+                                seguirán teniendo acceso al mismo.');
+        return ('Eliminado');
     }
 }
