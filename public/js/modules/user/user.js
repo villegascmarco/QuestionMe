@@ -5,24 +5,37 @@ let btnClose = document.getElementById('btn-close');
 let btnGuardar = document.getElementById('btn-guardar');
 let btnCancelar = document.getElementById('btn-cancelar');
 let form = document.querySelector('form[name="main-form"]');
+let confirmPassword = document.getElementById('confirm-password');
+let picture = document.getElementById('picture');
 let formHandler = null;
 let formOptions = {};
 let userList = [];
 
-let TITLE_SUCCESS_ADD = '¡Bien!';
-let DESCRIPTION_SUCCESS_ADD = 'El usuario se ha añadido.';
-let TITLE_ERROR = 'Ups!';
-let DESCRIPTION_ERROR = 'Ha ocurrido un problema interno, intenta de nuevo más tarde.';
+
+const TITLE_CONFIRM_ADD = '¡Espera!';
+const DESCRIPTION_CONFIRM_ADD = '¿Deseas añadir el nuevo usuario?';
+const CONFIRM_BUTTON = 'Continuar';
+const CANCEL_BUTTON = 'Cancelar';
+const TITLE_SUCCESS_ADD = '¡Bien!';
+const DESCRIPTION_SUCCESS_ADD = 'El usuario se ha añadido.';
+const TITLE_ERROR = 'Ups!';
+const DESCRIPTION_ERROR = 'Ha ocurrido un problema interno, intenta de nuevo más tarde.';
+const REGEX_DATE = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 window.onload = _ => {
 
-    let requestForUsers = fetch('url');
+    let requestForUsers = fetch(`${ASSETS_ROUTE}users`);
 
     startFormHandler();
 
+    confirmPassword.addEventListener('keyup', _ => checkingPassword(confirmPassword));
+
     requestForUsers
-        .then((response) => {
-            userList = response.users;
+        .then(response => response.json())
+        .then((data) => {
+            console.log(data)
+            userList = data;
             addDataToList(userList);
         })
         .catch((err) => {
@@ -47,25 +60,53 @@ window.onload = _ => {
     });
 
 
-    btnGuardar.addEventListener('click', _ => {
+    btnGuardar.addEventListener('click', async _ => {
+
+
 
         if (!formHandler) {
             startFormHandler()
         }
-        console.log(formHandler.checkForm());
+
+
         if (!formHandler.checkForm()) {
             return;
         }
+        if (newUser['password'] !== newUser['confirm-password']) {
+            return;
+        }
+
+        let result = await Swal.fire({
+            icon: 'info',
+            title: TITLE_CONFIRM_ADD,
+            text: DESCRIPTION_CONFIRM_ADD,
+            showCancelButton: true,
+            cancelButtonColor: 'gray',
+            cancelButtonColor: CANCEL_BUTTON,
+            confirmButtonText: CONFIRM_BUTTON,
+            confirmButtonColor: 'rgba(255,0,0,0.6)'
+
+        });
+
+        if (!result.isConfirmed) {
+            return;
+        }
+
 
         let newUser = formHandler.getAsObject();
+        let picUrl = await uploadPic(picture.files[0]);
 
         newUser = {
             ...newUser,
-            'status': 1
+            'status': 1,
+            'statusUser': 1,
+            'picture': picUrl.url
         };
 
         add(newUser)
-            .then(resp => {
+            .then(resp => resp.json())
+            .then(data => {
+
 
                 Swal.fire({
                     icon: 'success',
@@ -73,8 +114,9 @@ window.onload = _ => {
                     text: DESCRIPTION_SUCCESS_ADD
                 });
 
+                console.log(data);
                 formHandler.changeDisabledAll(false);
-                formHandler.setFromObject(get());
+                formHandler.setFromObject(data);
 
             })
             .catch(err => {
@@ -157,21 +199,22 @@ let addDataToList = () => {
 }
 
 let add = newUser => {
+    console.log(newUser);
 
-    return fetch("url", {
+    return fetch(`${ASSETS_ROUTE}users`, {
         method: "POST",
         headers: [
             ["Content-Type", "application/json"],
             ["Content-Type", "text/plain"]
         ],
-        body: JSON.stringify(obj)
+        body: JSON.stringify(newUser)
     });
 
 }
 
 let edit = _ => {
 
-    return fetch("url", {
+    return fetch(`${ASSETS_ROUTE}/users`, {
         method: "PUT",
         headers: [
             ["Content-Type", "application/json"],
@@ -210,21 +253,55 @@ let get = (id = 0) => {
 let startFormHandler = _ => {
     var elList = Array.from(form.querySelectorAll('input, select, textarea'));
     var validations = {
-        'name': (val) => {
-            return val.trim() !== '';
-        },
-        'last-name': (val) => {
-            return val.trim() !== '';
-        },
-        'role': (val) => {
-            return val > 0;
-        }
+        'name': val => val.trim() !== '',
+        'last_name': val => val.trim() !== '',
+        'date_birth': val => REGEX_DATE.test(val),
+        'email': val => REGEX_EMAIL.test(String(val).toLowerCase()),
+        'nameUser': val => val.trim() !== '',
+        'password': val => val !== '',
+        'confirm-pasword': val => val.trim() !== '',
+        'role': val => val > 0
     };
-
-    // <div class="qme-alert-form">
-    //     Por favor, selecciona un rol válido
-    // </div>
 
     formHandler = new FormsValidator(elList, validations);
 
+}
+
+let checkingPassword = el => {
+    console.log('test');
+
+    let user = formHandler.getAsObject();
+
+    let alertInserted = el.parentNode.querySelector('.qme-alert-form');
+    if (alertInserted) {
+        alertInserted.parentNode.removeChild(alertInserted);
+    }
+
+    if (user['password'] !== el.value) {
+        var alert = document.createElement('div');
+        alert.setAttribute('class', 'qme-alert-form');
+        let message = el.getAttribute('form-message');
+        message.trim() !== '' ?
+            alert.innerText = message :
+            alert.innerText = 'Este campo es requerido';
+        el.parentNode.appendChild(alert);
+    }
+
+}
+
+let uploadPic = async pic => {
+    let formData = new FormData();
+
+    formData.append("file", pic);
+    formData.append("upload_preset", "oh1p0xxf");
+    return fetch(
+        "https://api.cloudinary.com/v1_1/dvbqcppe1/image/upload", {
+            method: "POST",
+            body: formData
+        }
+    ).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+    });
 }
