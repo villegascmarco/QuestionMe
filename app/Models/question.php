@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class question extends Model
 {
     use HasFactory;
 
@@ -15,6 +15,6 @@ class Question extends Model
 
     public function possible_answers()
     {
-        return $this->hasMany(PossibleAnswer::class, 'question');
+        return $this->hasMany(possible_answer::class, 'question');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Question;
+use App\Models\question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -16,7 +16,7 @@ class QuestionController extends Controller
      */
     public function index($quiz)
     {
-        return (Question::with('possible_answers')->where('quiz', $quiz)->get());
+        return (question::with('possible_answers')->where('quiz', $quiz)->get());
     }
 
     /**
@@ -32,7 +32,7 @@ class QuestionController extends Controller
             'question_type' => 'required|exists:question_type,id',
         ]);
 
-        $exists = Question::where([
+        $exists = question::where([
             'question' => $request->question,
             'quiz' => $quiz,
         ])->exists();
@@ -42,7 +42,7 @@ class QuestionController extends Controller
             return Redirect::back()->withErrors(['msg', 'Ya tienes una pregunta similar.']);
         }
 
-        $question = new Question();
+        $question = new question();
         $question->question = $request->question;
         $question->question_type = $request->question_type;
         $question->quiz = $quiz;
@@ -71,12 +71,12 @@ class QuestionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Question  $question
+     * @param  \App\Models\question  $question
      * @return \Illuminate\Http\Response
      */
     public function update($quiz, Request $request, $id)
     {
-        $question =  Question::where([
+        $question =  question::where([
             'id' => $id,
             'quiz' => $quiz,
         ])->firstOrFail();
@@ -107,12 +107,12 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Question  $question
+     * @param  \App\Models\question  $question
      * @return \Illuminate\Http\Response
      */
     public function destroy($quiz, $id)
     {
-        $question =  Question::where([
+        $question =  question::where([
             'id' => $id,
             'quiz' => $quiz,
         ])->firstOrFail();
@@ -124,10 +124,10 @@ class QuestionController extends Controller
 
     public static function copyAllFrom($oldQuiz, $newQuiz)
     {
-        $oldQuestions = Question::where('quiz', $oldQuiz)->get();
+        $oldQuestions = question::where('quiz', $oldQuiz)->get();
 
         foreach ($oldQuestions as $key => $value) {
-            $newQuestion = Question::find($value->id)->replicate();
+            $newQuestion = question::find($value->id)->replicate();
             $newQuestion->quiz = $newQuiz;
 
             $newQuestion->save();

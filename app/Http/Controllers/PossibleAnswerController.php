@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PossibleAnswer;
-use App\Models\Question;
+use App\Models\possible_answer;
+use App\Models\question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -17,12 +17,12 @@ class PossibleAnswerController extends Controller
      */
     public function index($quiz, $question)
     {
-        Question::where([
+        question::where([
             'id' => $question,
             'quiz' => $quiz,
         ])->firstOrFail();
 
-        $answers = PossibleAnswer::where('question', $question)->get();
+        $answers = possible_answer::where('question', $question)->get();
 
         return ($answers);
     }
@@ -35,7 +35,7 @@ class PossibleAnswerController extends Controller
      */
     public function store($quiz, $question, Request $request)
     {
-        $varQuestion =  Question::where([
+        $varQuestion =  question::where([
             'id' => $question,
             'quiz' => $quiz,
         ])->firstOrFail();
@@ -51,7 +51,7 @@ class PossibleAnswerController extends Controller
             'is_correct' => 'boolean',
         ]);
 
-        $answer = new PossibleAnswer();
+        $answer = new possible_answer();
         $answer->question = $question;
         $answer->answer = $request->answer;
         $answer->is_correct = $request->is_correct;
@@ -63,10 +63,10 @@ class PossibleAnswerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PossibleAnswer  $possibleAnswer
+     * @param  \App\Models\possible_answer  $possible_answer
      * @return \Illuminate\Http\Response
      */
-    public function show(PossibleAnswer $possibleAnswer)
+    public function show(possible_answer $possible_answer)
     {
         //
     }
@@ -75,17 +75,17 @@ class PossibleAnswerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\PossibleAnswer  $possibleAnswer
+     * @param  \App\Models\possible_answer  $possible_answer
      * @return \Illuminate\Http\Response
      */
     public function update($quiz, $question, Request $request, $id)
     {
-        $varQuestion =  Question::where([
+        $varQuestion =  question::where([
             'id' => $question,
             'quiz' => $quiz,
         ])->firstOrFail();
 
-        $answer =  PossibleAnswer::where([
+        $answer =  possible_answer::where([
             'id' => $id,
             'question' => $question,
         ])->firstOrFail();
@@ -111,17 +111,17 @@ class PossibleAnswerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PossibleAnswer  $possibleAnswer
+     * @param  \App\Models\possible_answer  $possible_answer
      * @return \Illuminate\Http\Response
      */
     public function destroy($quiz, $question, $id)
     {
-        $varQuestion =  Question::where([
+        $varQuestion =  question::where([
             'id' => $question,
             'quiz' => $quiz,
         ])->firstOrFail();
 
-        $answer =  PossibleAnswer::where([
+        $answer =  possible_answer::where([
             'id' => $id,
             'question' => $question,
         ])->firstOrFail();
@@ -133,14 +133,14 @@ class PossibleAnswerController extends Controller
 
     public static function destroyAll($question)
     {
-        PossibleAnswer::where('question', $question)->delete();
+        possible_answer::where('question', $question)->delete();
     }
     public static function copyAllFrom($oldQuestion, $newQuestion)
     {
-        $oldAnswers = PossibleAnswer::where('question', $oldQuestion)->get();
+        $oldAnswers = possible_answer::where('question', $oldQuestion)->get();
 
         foreach ($oldAnswers as $key => $value) {
-            $newAnswer = PossibleAnswer::find($value->id)->replicate();
+            $newAnswer = possible_answer::find($value->id)->replicate();
             $newAnswer->question = $newQuestion;
 
             $newAnswer->save();
