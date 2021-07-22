@@ -17,9 +17,22 @@ class FormsValidator {
     checkForm() {
         let response = true;
         this.formElements.forEach(el => {
+            let alertInserted = el.parentNode.querySelector('.qme-alert-form');
+            if (alertInserted) {
+                alertInserted.parentNode.removeChild(alertInserted);
+            }
             if (!this.searchOption(el)) {
                 if (el.getAttribute('form-message')) {
-                    console.log(el.getAttribute('form-message'));
+
+                    var alert = document.createElement('div');
+                    alert.setAttribute('class', 'qme-alert-form');
+                    let message = el.getAttribute('form-message');
+                    message.trim() !== '' ?
+                        alert.innerText = message :
+                        alert.innerText = 'Este campo es requerido';
+
+                    el.parentNode.appendChild(alert);
+
                     return response = false;
                 }
             }

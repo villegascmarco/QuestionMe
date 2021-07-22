@@ -19,7 +19,7 @@
     @include('menu.menu')
     
     @yield('content')
-
+    <script src="{{ asset('js/config/API_KEYS.js')}}"></script>
     <script>
         let ASSETS_ROUTE = '{{ URL::asset('')}}'        
     </script>

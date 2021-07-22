@@ -13,10 +13,8 @@
                 <div class="filter-container">
                     <div class="qme-select margin-10">
                         <label class="label" for="">Rol</label>
-                        <select class="select" name="" id="" class="select">
-                            <option value="0">Seleccione una opcion</option>
-                            <option>Administrador</option>
-                            <option>Usuario</option>                
+                        <select class="select" name="" id="roleSelect" class="select">
+                            <option value="0">Seleccione una opcion</option>                                      
                         </select>
                     </div>
                 </div>
@@ -62,14 +60,37 @@
         <form class="adm-panel-body " name="main-form">
             <div class="qme-input simple margin-top-25 qme-required ">
                 <label class="label " for=" " >Nombre</label>
-                <input class="input " type="text " name="name" placeholder="Some text " form-message="Por favor, ingresa un nombre">
+                <input class="input " type="text " name="name" placeholder="Some text " autocomplete="off" form-message="Por favor, ingresa un nombre">
             </div>
             <div class="qme-input simple margin-top-25 qme-required ">
                 <label class="label " for=" " >Apellido</label>
-                <input class="input " type="text " name="last-name" placeholder="Some text " form-message="Por favor, ingresa un apellido">
+                <input class="input " type="text " name="last_name" placeholder="Some text " autocomplete="off" form-message="Por favor, ingresa un apellido">
             </div>
-
-            <div class="qme-select simple margin-top-25 margin-5 qme-required ">
+            <div class="qme-input simple margin-top-25 qme-required ">
+                <label class="label " for=" " >Fecha de nacimiento</label>
+                <input class="input " type="date" name="date_birth" id="testDate" placeholder="Some text " autocomplete="off" form-message="Por favor, selecciona una fecha de nacimiento">
+            </div>
+            <div class="qme-input simple file margin-top-25 qme-required ">
+                <label class="label " for=" " >Fotografía</label>
+                <input class="input " type="file" name="picture" id="picture" accept=".jpg,.png" autocomplete="off" form-message="Por favor, selecciona una fotografía">
+            </div>
+            <div class="qme-input simple margin-top-25 qme-required ">
+                <label class="label " for=" " >Correo electrónico</label>
+                <input class="input " type="email" name="email" placeholder="Some text " autocomplete="off" form-message="Por favor, ingresa un correo electrónico">
+            </div>
+            <div class="qme-input simple margin-top-25 qme-required ">
+                <label class="label " for=" " >Nombre de usuario</label>
+                <input class="input " type="text" name="nameUser" placeholder="Some text " autocomplete="off" form-message="Por favor, ingresa un correo electrónico">
+            </div>
+            <div class="qme-input simple margin-top-25 qme-required ">
+                <label class="label " for=" " >Contraseña</label>
+                <input class="input " type="password" name="password" placeholder="Some text " autocomplete="off" form-message="Por favor, ingresa una contraseña">
+            </div>
+            <div class="qme-input simple margin-top-25 qme-required ">
+                <label class="label " for=" " >Confirma la contraseña</label>
+                <input class="input " type="password" name="confirm-password" id="confirm-password" placeholder="Some text " autocomplete="off" form-message="Las contraseñas no coinciden">
+            </div>
+            <div class="qme-select simple margin-top-25 margin-5">
                 <label class="label " for=" ">Estado</label>
                 <select class="select " name="status" disabled form-message="Por favor, selecciona un estatus válido">                    
                     <option value="0">Selecciona un estado</option>

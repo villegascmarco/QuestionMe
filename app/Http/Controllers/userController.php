@@ -24,7 +24,7 @@ class userController extends Controller
       ->join('human', 'user.human', "=", "human.id")
       ->select('user.id as UserId','user.name as nameUser', 'user.password', 'user.status as statusUser', 'user.role', 'user.human',
               'human.id', 'human.name', 'human.last_name', 'human.picture', 'human.date_birth',
-              'human.email', 'human.status')->get();
+              'human.email', 'human.status','user.creado_en')->get();
      
       return response()->json($users);
                  
@@ -99,7 +99,10 @@ class userController extends Controller
                 DB::rollback();
                 return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Usuario o Humano.']);
             }
-            $response = ['status' => 'OK'];
+            $response = [
+                'status' => 'OK',
+                'user' => $User
+            ];
             return $response;
     }
 
