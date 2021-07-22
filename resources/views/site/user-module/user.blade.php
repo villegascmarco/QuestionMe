@@ -13,10 +13,8 @@
                 <div class="filter-container">
                     <div class="qme-select margin-10">
                         <label class="label" for="">Rol</label>
-                        <select class="select" name="" id="" class="select">
-                            <option value="0">Seleccione una opcion</option>
-                            <option>Administrador</option>
-                            <option>Usuario</option>                
+                        <select class="select" name="" id="roleSelect" class="select">
+                            <option value="0">Seleccione una opcion</option>                                      
                         </select>
                     </div>
                 </div>

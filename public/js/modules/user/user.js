@@ -7,6 +7,7 @@ let btnCancelar = document.getElementById('btn-cancelar');
 let form = document.querySelector('form[name="main-form"]');
 let confirmPassword = document.getElementById('confirm-password');
 let picture = document.getElementById('picture');
+let roleSelect = document.getElementById('roleSelect');
 let formHandler = null;
 let formOptions = {};
 let userList = [];
@@ -25,22 +26,27 @@ const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))
 
 window.onload = _ => {
 
-    let requestForUsers = fetch(`${ASSETS_ROUTE}users`);
+    getRoleList()
+        .then(resp => resp.json())
+        .then(data => {
+            data.forEach(el => {
+                let opt = document.createElement('option');
+                opt.setAttribute('value', el.id);
+                opt.innerText = el.name;
+
+                roleSelect.appendChild(opt);
+            })
+        })
 
     startFormHandler();
 
     confirmPassword.addEventListener('keyup', _ => checkingPassword(confirmPassword));
 
-    requestForUsers
-        .then(response => response.json())
-        .then((data) => {
-            console.log(data)
-            userList = data;
-            addDataToList(userList);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+    roleSelect.addEventListener('change', evt => {
+        console.log('test');
+        searchByRole(evt.target.value);
+    });
+
 
     btnShowPanel.addEventListener('click', _ => {
         gsap.to(admPanel, {
@@ -72,6 +78,9 @@ window.onload = _ => {
         if (!formHandler.checkForm()) {
             return;
         }
+
+        let newUser = formHandler.getAsObject();
+
         if (newUser['password'] !== newUser['confirm-password']) {
             return;
         }
@@ -93,7 +102,6 @@ window.onload = _ => {
         }
 
 
-        let newUser = formHandler.getAsObject();
         let picUrl = await uploadPic(picture.files[0]);
 
         newUser = {
@@ -107,16 +115,26 @@ window.onload = _ => {
             .then(resp => resp.json())
             .then(data => {
 
+                const RESULT = {
+                    'OK': data => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: TITLE_SUCCESS_ADD,
+                            text: DESCRIPTION_SUCCESS_ADD
+                        });
+                        formHandler.changeDisabledAll(false);
+                        formHandler.setFromObject(data.user);
+                    },
+                    'error': data => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: TITLE_ERROR,
+                            text: DESCRIPTION_ERROR
+                        });
+                    }
+                };
 
-                Swal.fire({
-                    icon: 'success',
-                    title: TITLE_SUCCESS_ADD,
-                    text: DESCRIPTION_SUCCESS_ADD
-                });
-
-                console.log(data);
-                formHandler.changeDisabledAll(false);
-                formHandler.setFromObject(data);
+                (RESULT[data.status] || RESULT['error'])(data);
 
             })
             .catch(err => {
@@ -145,9 +163,10 @@ let startTable = () => {
     tableController = new Table(document.getElementById('main-table'));
 }
 
-let addDataToList = () => {
+let addDataToList = (userList) => {
+
     if (!tableController) {
-        return;
+        startTable();
     }
 
     tableController.clear();
@@ -157,11 +176,17 @@ let addDataToList = () => {
         columns: [{
                 funct: (value) => {
                     let img = document.createElement('img');
-                    img.setAttribute('src', value['fotografia']);
+                    img.setAttribute('src', value['picture']);
                     return img;
                 },
             },
-            { column: 'nombre' },
+            {
+                funct: value => {
+                    let lbl = document.createElement('label');
+                    lbl.innerHTML = `${value['name']} ${value['last_name']}`
+                    return lbl;
+                }
+            },
             { column: 'registrado' },
             { column: 'rol' },
             { column: 'estado' },
@@ -199,7 +224,6 @@ let addDataToList = () => {
 }
 
 let add = newUser => {
-    console.log(newUser);
 
     return fetch(`${ASSETS_ROUTE}users`, {
         method: "POST",
@@ -249,6 +273,15 @@ let get = (id = 0) => {
             });
         })
 }
+
+let getListByRole = roleId => {
+    return fetch(`${ASSETS_ROUTE}users/roleFind/${roleId}`);
+}
+
+let getRoleList = _ => {
+    return fetch(`${ASSETS_ROUTE}user_role`);
+}
+
 
 let startFormHandler = _ => {
     var elList = Array.from(form.querySelectorAll('input, select, textarea'));
@@ -305,3 +338,20 @@ let uploadPic = async pic => {
         }
     });
 }
+
+let searchByRole = roleId => {
+    if (roleId === 0) {
+        return;
+    }
+
+    getListByRole(roleId)
+        .then(response => response.json())
+        .then((data) => {
+            userList = data;
+            addDataToList(userList);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+};
