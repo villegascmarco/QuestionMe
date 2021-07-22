@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use User;
 use App\Models\human;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class userController extends Controller
@@ -68,39 +69,35 @@ class userController extends Controller
             return $response;
             return Redirect::back()->withErrors(['msg', 'Ya Exite un usuario con el mismo nombre.']);
         }
-            // insercion de datos personales del humano
-            $Human = new human();
-            $Human->name =  $request->name;
-            $Human->last_name =  $request->last_name;
-            $Human->picture =  $request->picture;
-            $Human->date_birth =  $request->date_birth;
-            $Human->email =  $request->email;
-            $Human->status =  $request->status;
             try {
-                $Human->save();
+                DB::beginTransaction();
+                // insercion de datos personales del humano
+                $Human = new human();
+                $Human->name =  $request->name;
+                $Human->last_name =  $request->last_name;
+                $Human->picture =  $request->picture;
+                $Human->date_birth =  $request->date_birth;
+                $Human->email =  $request->email;
+                $Human->status =  $request->status;
+                $Human ->save(); 
+                //creaccion del usuario obteniendo la id del humano
+                $User = new userEloquent();
+                $User->name =  $request->nameUser;
+                $User->password = bcrypt($request->password);
+                $User->creado_en = $request->creado_en;
+                $User->status = $request->statusUser;
+                $User->role =  $request->role;
+                $User->human = $Human->id;
+                $User->save(); 
+    
+                DB::commit();
             } catch (\Throwable $th) {
                 $response = ['status' => 'error',
-                            'response' => 'Ocurrió un error al insertar Humano.',
-                            'error' => $th];
-                return $response;
-                return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Humano.']);
-            }
-            //creaccion del usuario obteniendo la id del humano
-            $User = new userEloquent();
-            $User->name =  $request->nameUser;
-            $User->password = bcrypt($request->password);
-            $User->creado_en = $request->creado_en;
-            $User->status = $request->statusUser;
-            $User->role =  $request->role;
-            $User->human = $Human->id;
-            try {
-                $User->save();
-            } catch (\Throwable $th) {
-                $response = ['status' => 'error',
-                             'response' => 'Ocurrió un error al insertar Usuario.',
+                             'response' => 'Ocurrió un error al insertar Usuario o Humano.',
                              'error' => $th];
                 return $response;
-                return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Usuario.']);
+                DB::rollback();
+                return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Usuario o Humano.']);
             }
             $response = ['status' => 'OK'];
             return $response;
@@ -148,9 +145,21 @@ class userController extends Controller
             'nameUser' => 'required',
             'password' => 'required',
         ]);
-        
-        $modelHuman = human::find($id);
         $modelUser =  userEloquent::find($id);
+        $modelHuman = human::find($id);
+
+        //validacion del si el nombre de ususario ya existe
+        $exists = userEloquent::where([
+            'name' => $request->nameUser,
+        ])->exists();
+
+        if ($exists) {
+            $response = ['status' => 'error',
+                         'response' => 'Ya existe un usuario con este nombre de usuario.'];
+            return $response;
+            return Redirect::back()->withErrors(['msg', 'Ya Exite un usuario con el mismo nombre.']);
+        }
+       
         //si el modelo humano no encuentra la id manda mensaje de error
         if (!isset($modelHuman)) {
              $response = ['status' => 'error',
@@ -166,38 +175,34 @@ class userController extends Controller
            return Redirect::back()->withErrors(['msg', 'No existe ese ID del Usuario']);
        }
 
-        $modelUser->name =  $request->nameUser;
-        if($request -> paswword){
-            $modelUser->password = bcrypt($request->password);
-        }
-        $modelUser->creado_en = $request->creado_en;
-        $modelUser->status = $request->statusUser;
-        $modelUser->role =  $request->role;
-        $modelUser->human = $modelHuman->id;
         try {
+            DB::beginTransaction();
+
+            $modelUser->name =  $request->nameUser;
+            if($request -> paswword){
+                $modelUser->password = bcrypt($request->password);
+            }
+            $modelUser->creado_en = $request->creado_en;
+            $modelUser->status = $request->statusUser;
+            $modelUser->role =  $request->role;
+            $modelUser->human = $modelHuman->id;
             $modelUser->save();
-        } catch (\Throwable $th) {
-            $response = ['status' => 'error',
-                         'response' => 'Ocurrió un error al Modificar Usuario.',
-                         'error' => $th];
-            return $response;
-            return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Usuario.']);
-        }
-      
-        $modelHuman->name =  $request->name;
-        $modelHuman->last_name =  $request->last_name;
-        $modelHuman->picture =  $request->picture;
-        $modelHuman->date_birth =  $request->date_birth;
-        $modelHuman->email =  $request->email;
-        $modelHuman->status =  $request->status;
-        try {
+
+            $modelHuman->name =  $request->name;
+            $modelHuman->last_name =  $request->last_name;
+            $modelHuman->picture =  $request->picture;
+            $modelHuman->date_birth =  $request->date_birth;
+            $modelHuman->email =  $request->email;
+            $modelHuman->status =  $request->status;
             $modelHuman->save();
+            DB::commit();
         } catch (\Throwable $th) {
             $response = ['status' => 'error',
-                         'response' => 'Ocurrió un error al Modificar El Humano.',
+                         'response' => 'Ocurrió un error al Modificar Usuario o Humano.',
                          'error' => $th];
+            DB::rollback();
             return $response;
-            return Redirect::back()->withErrors(['msg', 'Ocurrió un error al Modificar El humano.']);
+            return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Usuario o Humano.']);
         }
         $response = ['status' => 'OK'];
         return $response;
