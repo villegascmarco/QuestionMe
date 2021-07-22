@@ -46,7 +46,7 @@ class QuizController extends Controller
             'name' => 'required|min:10|max:255',
             'is_template' => 'boolean',
             'quality' => 'required|numeric|between:0,5.00',
-            'quiz_origin' => 'integer',
+            'quiz_origin' => 'integer|nullable',
             'status' => 'required|integer',
             'category' => 'required|integer',
             'user' => 'required|integer'
