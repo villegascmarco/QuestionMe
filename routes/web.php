@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\humanController;
+use App\Http\Controllers\user_roleController;
 
 /*
 |--------------------------------------------------------------------------
