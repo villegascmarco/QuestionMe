@@ -27,6 +27,7 @@ Route::resource('questions', 'questionController');
 
 //users
 Route::post('/users/desactivate/{id}', [userController::class, 'desactivate']);
+Route::post("/users/activate/{id}", [userController::class, 'activate']);
 Route::get('/users/roleFind/{role}',  [userController::class, 'roleFind']);
 Route::resource('users','userController',["except" => ['destroy']]);
 
@@ -36,6 +37,7 @@ Route::resource('human','humanController', ["except" => ['destroy']]);
 
 //user-role
 Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desactivate']);
+
 Route::resource('user_role','user_roleController', ["except" => ['destroy']]);
 
 Route::get('login/facebook', 'Auth\LoginFacebookController@redirect');
