@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\categoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,15 @@ Route::get('/', function () {
 });
 
 // Resource::
-
 Route::get('/login', 'SiteController@login')->name('login');
 Route::resource('questions', 'questionController');
+
+
+//Category
+Route::post('/categorys/desactivate/{id}', [categoryController::class, 'desactivate']);
+Route::post('/categorys/activate/{id}', [categoryController::class, 'activate']);
+Route::resource('categorys', 'categoryController', ["except" => ['destroy']]);
+
 
 
 Route::get('login/facebook', 'Auth\LoginFacebookController@redirect');
