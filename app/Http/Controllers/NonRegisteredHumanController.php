@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\answer_selected;
 use App\Models\non_registered_human;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class NonRegisteredHumanController extends Controller
      */
     public function index()
     {
-        //
+        return (non_registered_human::all());
     }
 
     /**
@@ -25,7 +26,32 @@ class NonRegisteredHumanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:3|max:255',
+            'last_name' => 'required|min:3|max:255',
+            'email' => 'required|email',
+        ]);
+
+        $nonHuman = new non_registered_human();
+
+        $nonHuman->name = $request->name;
+        $nonHuman->last_name = $request->last_name;
+        $nonHuman->email = $request->email;
+
+        $nonHuman->save();
+        if (isset($request->answers)) {
+
+            foreach ($request->answers as $value) {
+                $answer = new answer_selected();
+                $answer->possible_answer = $value;
+
+                $nonHuman->answers()->save($answer);
+            }
+        } else {
+            return ('nou');
+        }
+
+        return ($nonHuman);
     }
 
     /**
