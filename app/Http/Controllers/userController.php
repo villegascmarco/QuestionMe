@@ -20,11 +20,13 @@ class userController extends Controller
      */
     public function index()
     {
-      $users = DB::table('user')
-      ->join('human', 'user.human', "=", "human.id")
-      ->select('user.id as UserId','user.name as nameUser', 'user.password', 'user.status as statusUser', 'user.role', 'user.human',
-              'human.id', 'human.name', 'human.last_name', 'human.picture', 'human.date_birth',
-              'human.email', 'human.status','user.creado_en')->get();
+        $users = DB::table('user')
+        ->join('human', 'user.human', "=", "human.id")
+        ->join('user_role as role', 'user.role', "=", "role.id")
+        ->select('user.id as id','user.name as nameUser', 'user.password', 'user.status as statusUser', 'user.role', 'user.human',
+            'human.id as human', 'human.name as name', 'human.last_name', 'human.picture', 'human.date_birth',
+            'human.email', 'human.status as status','user.creado_en',
+            'role.id as role','role.name as roleName')->get();
      
       return response()->json($users);
                  
@@ -149,12 +151,14 @@ class userController extends Controller
             'password' => 'required',
         ]);
         $modelUser =  userEloquent::find($id);
-        $modelHuman = human::find($id);
+        $modelHuman = human::find($request->human);
 
         //validacion del si el nombre de ususario ya existe
         $exists = userEloquent::where([
             'name' => $request->nameUser,
-        ])->exists();
+        ])
+        ->where("id","!=", $request->id)
+        ->exists();
 
         if ($exists) {
             $response = ['status' => 'error',
@@ -222,6 +226,29 @@ class userController extends Controller
         //No se usa este metodo
     }
 
+    public function activate($id){
+        $response = [];
+        $model = userEloquent::find($id);
+         //si el modelo de usuario no encuentra la id manda mensaje de error
+         if (!isset($model)) {
+            $response = ['status' => 'error',
+                        'response' => 'No Existe la ID del Usuario'];
+            return $response;            
+        }
+        $model->status = 1;
+        
+        try {
+            $model->save();
+        } catch (\Throwable $th) {
+            $response = ['status' => 'error',
+                         'response' => 'Ocurrió un error al activar Usuario.',
+                         'error' => $th];
+            return $response;            
+        }
+        $response = ['status' => 'OK'];
+        return $response;
+    }
+
     public function desactivate($id){
         $response = [];
         $model = userEloquent::find($id);
@@ -229,9 +256,8 @@ class userController extends Controller
          if (!isset($model)) {
             $response = ['status' => 'error',
                         'response' => 'No Existe la ID del Usuario'];
-        return $response;
-        return Redirect::back()->withErrors(['msg', 'No existe ese ID del Usuario']);
-    }
+            return $response;            
+        }
         $model->status = 0;
         
         try {
@@ -240,15 +266,27 @@ class userController extends Controller
             $response = ['status' => 'error',
                          'response' => 'Ocurrió un error al desactivar Usuario.',
                          'error' => $th];
-            return $response;
-            return Redirect::back()->withErrors(['msg', 'Ocurrió un error al desactivar Usuario']);
+            return $response;            
         }
         $response = ['status' => 'OK'];
         return $response;
     }
 
     public function roleFind($role){
-        $model = userEloquent::where("role","=", $role)->get();
-        return $model;
+
+        $users = DB::table('user')
+        ->join('human', 'user.human', "=", "human.id")
+        ->join('user_role as role', 'user.role', "=", "role.id")
+        ->select('user.id as id','user.name as nameUser', 'user.password', 'user.status as statusUser', 'user.role', 'user.human',
+            'human.id as human', 'human.name as name', 'human.last_name', 'human.picture', 'human.date_birth',
+            'human.email', 'human.status as status','user.creado_en',
+            'role.id as role','role.name as roleName')
+        ->where("role","=", $role)
+        ->get();
+
+
+
+        // $model = userEloquent::->get();
+        return $users;
     }
 }
