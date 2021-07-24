@@ -40,7 +40,7 @@
                             <th>Rol</th>
                             <th>Estado</th>
                             <th>Detalle</th>
-                            <th>Desactivar</th>
+                            <th>Desactivar / Activar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,6 +73,9 @@
             <div class="qme-input simple file margin-top-25 qme-required ">
                 <label class="label " for=" " >Fotografía</label>
                 <input class="input " type="file" name="picture" id="picture" accept=".jpg,.png" autocomplete="off" form-message="Por favor, selecciona una fotografía">
+            </div>
+            <div class="img-form__prev">
+                <img id="img__prev" src="" alt="">
             </div>
             <div class="qme-input simple margin-top-25 qme-required ">
                 <label class="label " for=" " >Correo electrónico</label>

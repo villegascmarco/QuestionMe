@@ -159,12 +159,14 @@ body {
               transform: translateY(-50%);
               height: 60%;
               border-left: .5px solid #707070; }
-            .module-content .module-table-container .module-table tbody tr td.table-picture img {
+            .module-content .module-table-container .module-table tbody tr td .table-picture {
               height: 50px;
-              border-radius: 100%; }
-            .module-content .module-table-container .module-table tbody tr td.table-picture::before {
-              content: "";
-              border: none; }
+              width: 50px;
+              object-fit: cover;
+              border-radius: 50%; }
+              .module-content .module-table-container .module-table tbody tr td .table-picture::before {
+                content: "";
+                border: none; }
     .module-content .module-table-container .table-navigator {
       margin-top: 10px;
       margin-bottom: 15px;
