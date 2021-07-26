@@ -63,6 +63,7 @@ body {
         }
     }
     .module-filters {
+        background-color: white;
         margin: 15px 0;
         min-width: 500px;
         border: 1px solid #707070;
@@ -129,6 +130,7 @@ body {
     }
     .module-table-container {
         border: 1px solid #707070;
+        background-color: white;
         border-radius: 25px;
         padding: 15px 15px;
         .module-table-parent {
@@ -188,11 +190,11 @@ body {
                             height: 60%;
                             border-left: .5px solid #707070;
                         }
-                        &.table-picture {
-                            img {
-                                height: 50px;
-                                border-radius: 100%;
-                            }
+                        .table-picture {
+                            height: 50px;
+                            width: 50px;
+                            object-fit: cover;
+                            border-radius: 50%;
                             &::before {
                                 content: "";
                                 border: none;
@@ -236,14 +238,15 @@ body {
     margin: 20px;
     border-radius: 25px;
     border: 1px solid #707070;
-    // box-sizing: border-box;
+    background-color: white;
     padding: 15px 25px;
     padding-bottom: 50px;
     position: relative;
-    // position: sticky;
-    // stic
     /*DISPLAY*/
-    display: block;
+    display: none;
+    // &.active {
+    //     display: block;
+    // }
     header {
         font-size: $header-font-size;
         margin-bottom: 25px;
@@ -263,7 +266,7 @@ body {
         }
     }
     .qme-close {
-        background-image: url('../../assets/svg/icons/cancel.svg');
+        background-image: url('../img/svg/icons/cancel.svg');
         background-color: transparent;
         border: none;
         height: 20px;

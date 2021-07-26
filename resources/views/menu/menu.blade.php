@@ -14,7 +14,7 @@
             </a>
         </li>
         <li class="navbar-item ">
-            <a href="usuario.html">
+            <a href="{{url('/user')}}">
                 Usuarios
             </a>
         </li>
