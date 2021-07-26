@@ -200,6 +200,14 @@ window.onload = _ => {
             startFormHandler()
         }
         formHandler.clear();
+
+        if (editMode) {
+            btnGuardar.innerText = 'Guardar';
+            editMode = false;
+            userEdit = {};
+            btnClose.click();
+        }
+
     });
 
 }

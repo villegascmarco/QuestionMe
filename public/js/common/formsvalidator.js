@@ -32,6 +32,7 @@ class FormsValidator {
                         alert.innerText = 'Este campo es requerido';
 
                     el.parentNode.appendChild(alert);
+                    el.focus();
 
                     return response = false;
                 }
@@ -61,6 +62,7 @@ class FormsValidator {
                             alert.innerText = 'Este campo es requerido';
 
                         el.parentNode.appendChild(alert);
+                        el.focus();
 
                         return response = false;
                     }
