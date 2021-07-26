@@ -107,8 +107,10 @@ class categoryController extends Controller
         $modelCategory = category::find($id);
         //validacion del si el nombre de la categoria ya existe
         $exists = category::where([
-            'name' => $request->name,
-        ])->exists();
+            'name' => $request->name
+        ])        
+        ->where("id","!=", $request->id)
+        ->exists();
 
         if ($exists) {
             $response = ['status' => 'error',

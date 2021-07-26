@@ -5,6 +5,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\humanController;
 use App\Http\Controllers\user_roleController;
+use App\Http\Controllers\categoryController;
 
 
 /*
@@ -40,9 +41,9 @@ Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desacti
 Route::resource('user_role','user_roleController', ["except" => ['destroy']]);
 
 //Category
-Route::post('/categorys/desactivate/{id}', [categoryController::class, 'desactivate']);
-Route::post('/categorys/activate/{id}', [categoryController::class, 'activate']);
-Route::resource('categorys', 'categoryController', ["except" => ['destroy']]);
+Route::post('/categories/desactivate/{id}', [categoryController::class, 'desactivate']);
+Route::post('/categories/activate/{id}', [categoryController::class, 'activate']);
+Route::resource('categories', 'categoryController', ["except" => ['destroy']]);
 
 
 
@@ -51,6 +52,7 @@ Route::get('login/facebook/callback', 'Auth\LoginFacebookController@callback');
 
 
 Route::get('/user','SiteController@user');
+Route::get('/category','SiteController@category');
 // Route::group(['middleware'=>['auth']], function(){
 // });
 
