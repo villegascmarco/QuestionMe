@@ -47,7 +47,7 @@ class PossibleAnswerController extends Controller
         }
 
         $validateData = $request->validate([
-            'answer' => 'required|min:10|max:255',
+            'answer' => 'required|min:1|max:255',
             'is_correct' => 'boolean',
         ]);
 

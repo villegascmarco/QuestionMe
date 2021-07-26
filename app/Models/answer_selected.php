@@ -12,4 +12,9 @@ class answer_selected extends Model
     public $timestamps = false;
 
     protected $table = "answer_selected";
+
+    public function closed_ended_answers()
+    {
+        return $this->belongsTo(possible_answer::class, 'possible_answer');
+    }
 }

@@ -17,4 +17,8 @@ class question extends Model
     {
         return $this->hasMany(possible_answer::class, 'question');
     }
+    public function open_ended_answers()
+    {
+        return $this->hasMany(answer_selected::class, 'question');
+    }
 }

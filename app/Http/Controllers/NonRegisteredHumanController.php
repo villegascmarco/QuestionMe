@@ -15,7 +15,7 @@ class NonRegisteredHumanController extends Controller
      */
     public function index()
     {
-        return (non_registered_human::all());
+        return (non_registered_human::with('answers')->get());
     }
 
     /**
@@ -30,6 +30,8 @@ class NonRegisteredHumanController extends Controller
             'name' => 'required|min:3|max:255',
             'last_name' => 'required|min:3|max:255',
             'email' => 'required|email',
+            'open_ended' => 'required_without_all:closed_ended|array', //al menos uno de open_ended y closed_ended es necesario.
+            'closed_ended' => 'required_without_all:open_ended|array', //al menos uno de open_ended y closed_ended es necesario.
         ]);
 
         $nonHuman = new non_registered_human();
@@ -39,19 +41,23 @@ class NonRegisteredHumanController extends Controller
         $nonHuman->email = $request->email;
 
         $nonHuman->save();
-        if (isset($request->answers)) {
 
-            foreach ($request->answers as $value) {
-                $answer = new answer_selected();
-                $answer->possible_answer = $value;
+        foreach ($request->closed_ended as $value) {
+            $answer = new answer_selected();
+            $answer->possible_answer = $value;
 
-                $nonHuman->answers()->save($answer);
-            }
-        } else {
-            return ('nou');
+            $nonHuman->answers()->save($answer);
         }
 
-        return ($nonHuman);
+        foreach ($request->open_ended as $value) {
+            $answer = new answer_selected();
+            $answer->question = $value['question'];
+            $answer->given_answer = $value['answer'];
+
+            $nonHuman->answers()->save($answer);
+        }
+
+        return (non_registered_human::with('answers')->where('id', $nonHuman->id)->get());
     }
 
     /**

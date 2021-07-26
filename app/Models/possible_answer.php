@@ -12,4 +12,9 @@ class possible_answer extends Model
     protected $table = "possible_answer";
 
     public $timestamps = false;
+
+    public function questions()
+    {
+        return $this->belongsTo(question::class, 'question');
+    }
 }
