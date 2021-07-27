@@ -65,6 +65,11 @@ window.onload = _ => {
             display: 'none'
         });
         formHandler.clear();
+        if (editMode) {
+            btnGuardar.innerText = 'Guardar';
+            editMode = false;
+            categoryEdit = {};
+        }
     });
 
 
@@ -150,14 +155,15 @@ window.onload = _ => {
         if (!formHandler) {
             startFormHandler()
         }
+
         formHandler.clear();
 
         if (editMode) {
             btnGuardar.innerText = 'Guardar';
             editMode = false;
             categoryEdit = {};
-            btnClose.click();
         }
+        btnClose.click();
 
     });
 

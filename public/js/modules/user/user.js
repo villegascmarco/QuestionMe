@@ -103,6 +103,11 @@ window.onload = _ => {
         imgPrev.style.display = 'none';
         imgPrev.setAttribute('src', '');
         formHandler.clear();
+        if (editMode) {
+            btnGuardar.innerText = 'Guardar';
+            editMode = false;
+            userEdit = {};
+        }
     });
 
 
@@ -207,8 +212,8 @@ window.onload = _ => {
             btnGuardar.innerText = 'Guardar';
             editMode = false;
             userEdit = {};
-            btnClose.click();
         }
+        btnClose.click();
 
     });
 
