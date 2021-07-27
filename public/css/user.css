@@ -1,0 +1,12 @@
+.img-form__prev {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; }
+  .img-form__prev img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    display: none; }
+
+/*# sourceMappingURL=user.css.map */

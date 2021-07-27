@@ -46,7 +46,8 @@ class SiteController extends Controller
         $title = "Usuarios | Administracion";
         $styleSheets = [
             array('local'=>true,'route'=>'css/module.css'),
-            array('local'=>false,'route'=>'css/common/sweetalert2.min.css')
+            array('local'=>true,'route'=>'css/user.css'),
+            array('local'=>false,'route'=>'css/common/sweetalert2.min.css'),
         ];
         $jsDocs = [
             array('local'=>false,'route'=>'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js'),            

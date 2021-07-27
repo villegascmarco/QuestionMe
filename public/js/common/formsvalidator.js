@@ -17,13 +17,59 @@ class FormsValidator {
     checkForm() {
         let response = true;
         this.formElements.forEach(el => {
+            let alertInserted = el.parentNode.querySelector('.qme-alert-form');
+            if (alertInserted) {
+                alertInserted.parentNode.removeChild(alertInserted);
+            }
             if (!this.searchOption(el)) {
                 if (el.getAttribute('form-message')) {
-                    console.log(el.getAttribute('form-message'));
+
+                    var alert = document.createElement('div');
+                    alert.setAttribute('class', 'qme-alert-form');
+                    let message = el.getAttribute('form-message');
+                    message.trim() !== '' ?
+                        alert.innerText = message :
+                        alert.innerText = 'Este campo es requerido';
+
+                    el.parentNode.appendChild(alert);
+                    el.focus();
+
                     return response = false;
                 }
             }
         });
+        return response
+    }
+    check(values = []) {
+        let response = true;
+        values.forEach(key => {
+
+            let el = this.formElements.find(el => el.name === key);
+
+            if (el) {
+                let alertInserted = el.parentNode.querySelector('.qme-alert-form');
+                if (alertInserted) {
+                    alertInserted.parentNode.removeChild(alertInserted);
+                }
+                if (!this.searchOption(el)) {
+                    if (el.getAttribute('form-message')) {
+
+                        var alert = document.createElement('div');
+                        alert.setAttribute('class', 'qme-alert-form');
+                        let message = el.getAttribute('form-message');
+                        message.trim() !== '' ?
+                            alert.innerText = message :
+                            alert.innerText = 'Este campo es requerido';
+
+                        el.parentNode.appendChild(alert);
+                        el.focus();
+
+                        return response = false;
+                    }
+                }
+            }
+        });
+
         return response
     }
 
@@ -64,8 +110,12 @@ class FormsValidator {
 
     setFromObject(obj = {}) {
         Object.keys(obj).forEach(key => {
-            el = this.formElements.find(el.name === key);
-            el.value = obj[key];
+            let el = this.formElements.find(el => {
+                return el.name === key
+            });
+            if (el) {
+                el.value = obj[key];
+            }
         });
     }
 
@@ -74,6 +124,6 @@ class FormsValidator {
     }
 
     changeDisabledAll(disabled = true) {
-        this.formElements.forEach(el => el.disabled = disabled);
+        this.formElements.forEach(el => el.disabled = !disabled);
     }
 }

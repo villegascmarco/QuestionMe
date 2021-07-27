@@ -20,14 +20,13 @@ class Table {
     //DESIGN
     svgLoaderSearch;
     //DATA
-    data;
+    data = [];
     columns = []
     paginatedData = [];
 
     constructor(htmlTable) {
         this.htmlTable = htmlTable;
         this.tbody = this.htmlTable.querySelector('tbody');
-        this.createLoader();
         // this.setUpPages();
     }
 
@@ -74,9 +73,6 @@ class Table {
 
                 this.navigationButtons[this.currentPage].classList.add('active');
 
-                console.log(this.currentPage);
-                console.log(this.pages - 1);
-
                 if (this.currentPage === (this.pages - 1)) {
                     this.btnNext.disabled = true;
                     this.btnPrev.disabled = false;
@@ -105,7 +101,7 @@ class Table {
             data = this.searchData;
         }
 
-        if (data) {
+        if (data.length > 0) {
             let page = [];
             let counter = 0;
             this.paginatedData = []; // console.log(this.data.length)
@@ -199,7 +195,7 @@ class Table {
         let tr = document.createElement('tr');
         let td = document.createElement('td');
         td.setAttribute('colspan', colspan);
-        // debugger
+        this.createLoader();
         td.appendChild(this.svgLoaderSearch.documentElement);
         tr.appendChild(td);
         this.tbody.appendChild(tr);
@@ -234,58 +230,57 @@ class Table {
         });
     }
 
+    restartData() {
+        this.data = [];
+    }
 
     showData(options = {}) {
 
+        this.data = options['data'];
+        this.columns = options['columns'];
+        this.setUpPages();
 
-            this.data = options['data'];
-            this.columns = options['columns'];
-            this.setUpPages();
+        this.showPage();
 
-            this.showPage();
+    }
 
-        }
-        /**
-         * 
-         * @example
-         * ordering using column 'lastname' in descendent order
-         * sortBy('lastname','desc');
-         * 
-         * @example
-         * ordering using column 'lastname' in ascendent order
-         * sortBy('lastname','asc')
-         * 
-         * @param {string} columnName - name of the column used to sort data
-         * @param {string} direction  - direction of sorting (ascendent / descendent)
-         */
+
+
+    /**
+     * 
+     * @example
+     * ordering using column 'lastname' in descendent order
+     * sortBy('lastname','desc');
+     * 
+     * @example
+     * ordering using column 'lastname' in ascendent order
+     * sortBy('lastname','asc')
+     * 
+     * @param {string} columnName - name of the column used to sort data
+     * @param {string} direction  - direction of sorting (ascendent / descendent)
+     */
     sortBy(columnName, direction = 'asc') {
 
         const ORDER_CASE = {
             'asc': () => {
-
                 this.data = this.data.sort((a, b) => a[columnName] > b[columnName] ? 1 : -1);
-                console.log(this.data);
                 this.setUpPages();
             },
             'desc': () => {
                 this.data = this.data.sort((a, b) => a[columnName] > b[columnName] ? -1 : 1);
-                console.log(this.data);
                 this.setUpPages();
             },
-            'DEFAULT': () => {}
         };
-
-
 
         let onlyColumns = this.columns.filter(el => Object.keys(el).includes('column'));
         if (onlyColumns.some(el => el['column'] === columnName)) {
             console.log('encontrada');
 
-            ORDER_CASE[direction]() || ORDER_CASE['DEFAULT']();
+            (ORDER_CASE[direction]() || ORDER_CASE['asc'])();
 
         } else {
 
-            throw new NoColumnError('The provided column does not exists in the provided data. Please check.')
+            throw new NoColumnError('La columna no existe en los datos dados.')
         }
 
     }
@@ -293,11 +288,18 @@ class Table {
     setInputSearch(inputSearch) {
         this.inputSearch = inputSearch;
         this.inputSearch.addEventListener('keyup', () => {
+            if (this.data.length === 0) {
+                return;
+            }
             this.startSearch();
 
             let text = this.inputSearch.value;
             let onlyColumns = this.columns.filter(el => Object.keys(el).includes('column'));
+            let functions = this.columns.filter(el => Object.keys(el).includes('funct'));
+
             this.searchData = [];
+
+
             if (text.trim() === '') {
 
                 this.isSearching = false;
@@ -309,14 +311,15 @@ class Table {
 
             this.data.forEach(element => {
 
-                if (onlyColumns.some(el => element[el['column']].includes(text))) {
+                let isInFunct = functions.some(el => String((el['funct'](element).innerText || el['funct'](element).innerHTML)).toLowerCase().includes(String(text).toLowerCase()));
+
+                let isInColumn = onlyColumns.some(el => String(element[el['column']]).toLowerCase().includes(String(text).toLowerCase()))
+
+                if (isInColumn || isInFunct) {
                     this.searchData.push(element);
                 }
 
-
             });
-            // debugger
-            console.log(this.searchData);
             this.setUpPages();
             this.showPage();
         });
@@ -329,7 +332,6 @@ class Table {
         this.clear();
         // this.showLoader();
     }
-
 
 
 }
