@@ -53,7 +53,7 @@ class userController extends Controller
         $response = [];
         $validated = $request->validate([
             'name' => 'required',
-            'last_name' => 'required',
+            // 'last_name' => 'required',
             'date_birth' => 'required',
             'email' => 'required|email',
             'nameUser' => 'required',
@@ -144,7 +144,7 @@ class userController extends Controller
         $response = [];
         $validated = $request->validate([
             'name' => 'required',
-            'last_name' => 'required',
+            // 'last_name' => 'required',
             'date_birth' => 'required',
             'email' => 'required',
             'nameUser' => 'required',
