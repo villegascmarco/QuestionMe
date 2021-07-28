@@ -50,8 +50,18 @@
             <div class="card">
                 <header>
                     <h1>Selecciona una plantilla</h1>
+
+                    <span>¿Usar plantilla?</span>
+
+                    <br>
+                    
+                    <label class="switch">
+                        <input id="template-check" type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                    
                 </header>
-                <section class="step-section layout-container-grid">
+                <section id="template-section" class="step-section layout-container-grid">
                     <div class="layout-container">
                         <header>
                             <h3>Nombre plantilla</h3>
