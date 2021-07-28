@@ -15,13 +15,11 @@ class AnswerSelected extends Migration
     {
         Schema::create('answer_selected', function (Blueprint $table) {
             $table->id();
-            $table->string('given_answer');
-            $table->boolean('is_correct');
-            $table->unsignedBigInteger('non_registered_human');
-            $table->foreign('non_registered_human')->references('id')->on('non_registered_human');
-
-            $table->unsignedBigInteger('possible_answer');
-            $table->foreign('possible_answer')->references('id')->on('possible_answer');
+            $table->string('given_answer')->nullable();
+            $table->boolean('is_correct')->nullable();
+            $table->foreignId('non_registered_human')->constrained()->references('id')->on('non_registered_human');
+            $table->foreignId('question')->nullable()->nullable()->constrained()->references('id')->on('question');
+            $table->foreignId('possible_answer')->nullable()->constrained()->references('id')->on('possible_answer');
         }); //
     }
 
