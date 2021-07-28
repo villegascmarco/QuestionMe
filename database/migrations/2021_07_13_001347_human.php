@@ -16,9 +16,9 @@ class Human extends Migration
         Schema::create('human', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('last_name');
+            $table->string('last_name')->default('');
             $table->string('picture');
-            $table->string('date_birth');
+            $table->string('date_birth')->default('2000-01-01');
             $table->string('email')->unique();
             $table->integer('status')->default(0);
             $table->timestamps();
