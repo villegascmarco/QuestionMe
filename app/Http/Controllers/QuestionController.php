@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+
+use function PHPSTORM_META\type;
 
 class QuestionController extends Controller
 {
@@ -27,33 +31,41 @@ class QuestionController extends Controller
      */
     public function store($quiz, Request $request)
     {
-        $validateData = $request->validate([
-            'question' => 'required|min:10|max:255',
-            'question_type' => 'required|exists:question_type,id',
+        $request->validate([
+            "data"    => "required|array|min:1",
+            'data.*.question' => 'required|max:255',
+            'data.*.question_type' => 'required|integer'
         ]);
 
-        $exists = question::where([
-            'question' => $request->question,
-            'quiz' => $quiz,
-        ])->exists();
+        DB::beginTransaction();
+        foreach ($request->data as  $value) {
 
-        if ($exists) {
-            return ('Ya tienes una pregunta similar.');
-            return Redirect::back()->withErrors(['msg', 'Ya tienes una pregunta similar.']);
+            $exists = question::where([
+                'question' => $value['question'],
+                'quiz' => $quiz,
+            ])->exists();
+
+            if ($exists) {
+                return ('Ya tienes una pregunta similar.');
+                return Redirect::back()->withErrors(['msg', 'Ya tienes una pregunta similar.']);
+            }
+            $question = new question();
+            $question->question = $value['question'];
+            $question->question_type = $value['question_type'];
+            $question->quiz = $quiz;
+
+            try {
+                $question->save();
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                return ('Ocurrió un error.');
+                return Redirect::back()->withErrors(['msg', 'Ocurrió un error.']);
+            }
         }
 
-        $question = new question();
-        $question->question = $request->question;
-        $question->question_type = $request->question_type;
-        $question->quiz = $quiz;
+        DB::commit();
 
-        try {
-            $question->save();
-        } catch (\Throwable $th) {
-            return ('Ocurrió un error.');
-            return Redirect::back()->withErrors(['msg', 'Ocurrió un error.']);
-        }
-        return $question;
+        return $request;
     }
 
     /**
@@ -81,7 +93,7 @@ class QuestionController extends Controller
             'quiz' => $quiz,
         ])->firstOrFail();
 
-        $validateData = $request->validate([
+        $request->validate([
             'question' => 'required|min:10|max:255',
             'question_type' => 'required|exists:question_type,id',
         ]);
