@@ -38,8 +38,26 @@ class SiteController extends Controller
         $styleSheets = [
             array('local'=>true,'route'=>'css/login/login.css')
         ];
-        $jsDocs = [];
+        $jsDocs = [
+            array('local'=>true,'route'=>'js/modules/login/login.js'),            
+        ];
         return view('site.auth.login',compact("title","styleSheets","jsDocs"));
+    }
+    /*
+
+        SIGNIN
+
+    */
+
+    public function signin(){
+        $title = "Inicio de sesión";
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/login/login.css')
+        ];
+        $jsDocs = [
+            array('local'=>true,'route'=>'js/modules/login/login.js'),            
+        ];
+        return view('site.auth.signin',compact("title","styleSheets","jsDocs"));
     }
 
     public function user(){
