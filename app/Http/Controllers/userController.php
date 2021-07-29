@@ -289,4 +289,34 @@ class userController extends Controller
         // $model = userEloquent::->get();
         return $users;
     }
+
+    public function userNameTaken($name){
+        $exists = userEloquent::where([
+            'name' => $name,
+        ])
+        ->exists();
+        $response = ['status' => 'OK',
+        'response' => FALSE];
+        if ($exists) {
+            $response = ['status' => 'OK',
+            'response' => TRUE];
+        }
+        return $response;
+
+    }
+
+    public function emailUsed($email){
+        $exists = human::where([
+            'email' => $email,
+        ])
+        ->exists();
+        $response = ['status' => 'OK',
+        'response' => FALSE];
+        if ($exists) {
+            $response = ['status' => 'OK',
+            'response' => TRUE];
+
+        }
+        return $response;
+    }
 }
