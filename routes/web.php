@@ -23,6 +23,8 @@ Route::get('/','SiteController@frontpage');
 Route::resource('questions', 'questionController');
 
 //users
+Route::get('/users/userNameTaken/{name}',  [userController::class, 'userNameTaken']);
+Route::get('/users/emailUsed/{name}',  [userController::class, 'emailUsed']);
 Route::post('/users/desactivate/{id}', [userController::class, 'desactivate']);
 Route::post("/users/activate/{id}", [userController::class, 'activate']);
 Route::get('/users/roleFind/{role}',  [userController::class, 'roleFind']);
