@@ -38,7 +38,7 @@ Route::get('/user','SiteController@user');
 Route::post('/test', [LoginController::class, 'authenticate']);
 
 
-Route::group(['middleware'=>['auth']], function(){
+// Route::group(['middleware'=>['auth']], function(){
 
     //AUTH
     Route::get('/login', 'SiteController@login')->name('login');
@@ -57,7 +57,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desactivate']);
     Route::resource('user_role','user_roleController', ["except" => ['destroy']]);
 
-});
+// });
 
 
 // Route::group(['middleware'=>['auth']], function(){
