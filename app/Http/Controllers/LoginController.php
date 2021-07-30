@@ -18,6 +18,7 @@ class LoginController extends Controller
      */
     public function authenticate(Request $request)
     {
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -130,7 +131,6 @@ class LoginController extends Controller
             DB::rollback();
             return $response;            
         }
-
         $response = ['status' => 'error',
         'response' => 'No se ha podido autenticar, revisa las credenciales'];
         return $response;
