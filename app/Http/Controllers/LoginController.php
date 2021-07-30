@@ -16,9 +16,7 @@ class LoginController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function authenticate(Request $request)
-    {
-
-        
+    {   
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -26,7 +24,7 @@ class LoginController extends Controller
 
         $usuario = DB::table('user')
         ->join('human', 'user.human', "=", "human.id")
-        ->where('user.password', bcrypt($request->password))
+        //->where('user.password', bcrypt($request->password))
         ->where('human.email', $request->email)
         ->first();    
 
@@ -41,7 +39,9 @@ class LoginController extends Controller
 
         $response = ['status' => 'A',
         'response' => 'Macaco triste'];
-        return $usuario;
+
+        
+        return $response;
 
     //    return back()->withErrors([
     //        'email' => 'The provided credentials do not match our records.',
