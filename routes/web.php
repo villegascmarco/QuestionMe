@@ -40,9 +40,6 @@ Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desacti
 
 Route::resource('user_role','user_roleController', ["except" => ['destroy']]);
 
-Route::get('login/facebook', 'Auth\LoginFacebookController@redirect');
-Route::get('login/facebook/callback', 'Auth\LoginFacebookController@callback');
-
 //AUTH
 Route::get('/login', 'SiteController@login')->name('login');
 Route::get('/signin', 'SiteController@signin')->name('signin');
