@@ -96,9 +96,8 @@ class userController extends Controller
                 $response = ['status' => 'error',
                              'response' => 'Ocurrió un error al insertar Usuario o Humano.',
                              'error' => $th];
-                return $response;
                 DB::rollback();
-                return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Usuario o Humano.']);
+                return $response;                
             }
             $response = [
                 'status' => 'OK',
@@ -207,8 +206,7 @@ class userController extends Controller
                          'response' => 'Ocurrió un error al Modificar Usuario o Humano.',
                          'error' => $th];
             DB::rollback();
-            return $response;
-            return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Usuario o Humano.']);
+            return $response;            
         }
         $response = ['status' => 'OK'];
         return $response;
@@ -282,8 +280,6 @@ class userController extends Controller
             'role.id as role','role.name as roleName')
         ->where("role","=", $role)
         ->get();
-
-
 
         // $model = User::->get();
         return $users;

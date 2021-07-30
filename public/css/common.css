@@ -108,12 +108,23 @@ body {
 .qme-input {
   height: 35px;
   min-width: 250px;
+  width: 100%;
   border: 1px solid #707070;
   border-radius: 45px;
-  position: relative;
-  padding-top: 5px; }
+  position: relative; }
+  .qme-input.special-login {
+    border-radius: 7px; }
+    .qme-input.special-login .qme-alert-form {
+      position: absolute;
+      top: -1.5rem;
+      font-size: 0.8rem;
+      background-color: rgba(255, 0, 0, 0.6);
+      color: white;
+      padding: 0 10px;
+      border-radius: 0.8rem; }
   .qme-input .input {
     padding-left: 25px;
+    padding-top: 5px;
     border: none;
     box-sizing: border-box;
     height: 100%;
@@ -334,6 +345,11 @@ body {
   color: white;
   padding: 0 10px;
   border-radius: 0.8rem; }
+
+.error-login {
+  color: #fa4639;
+  text-align: center;
+  display: none; }
 
 .margin-5 {
   margin: 5px; }

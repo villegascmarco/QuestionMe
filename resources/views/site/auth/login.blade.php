@@ -1,26 +1,33 @@
 @extends('main')
 @section('content')
-<div class="loginContainer">
-      <h1 class="loginTitle">Iniciar sesion</h1>
-      <label class="inputTitle">Email </label>
-      <input class="inputLogin" type="text" required>
-      <label class="inputTitle">Contraseña </label>
-      <input class="inputLogin" type="password" required>
-      <button class="btnLogIn">Iniciar sesión</button>
+<div class="loginContainer" id="loginContainer">
+      <h1 class="loginTitle">Iniciar sesion</h1>      
+      <div class="qme-input special-login margin-top-25">
+        <label class="label">Email</label>
+        <input class="input" name="email" id="email" type="text" autocomplete="off" form-message="Por favor, ingresa un email válido">
+      </div>
+      
+      <div class="qme-input special-login margin-25">        
+        <label class="label">Contraseña </label>
+        <input class="input" name="password" id="password" type="password" autocomplete="off" form-message="Por favor, ingresa una contraseña">        
+      </div>
+      <p class="error-login" id="credentialError">Parece que los datos ingresados no son correctos, intenta de nuevo</p>      
+      <button class="btnLogIn" id='login'>Iniciar sesión</button>
       <br>
       <a href="#">¿Olvidaste tu contraseña?</a>
       <div class="line">
         <h3 class="alternative">Ingresa con</h3>
       </div>
       <div class="social-media">
-        <div id="loginGoogle" class="google-btn"> 
-          <div class="google-icon-wrapper"> <img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"></div>
+        <p class="error-login" id="socMedError">Parece que los datos ingresados no son correctos, intenta de nuevo</p>      
+        <button id="loginGoogle" class="social-btn"> 
+          <div class="social-icon-wrapper"> <img class="social-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"></div>
           <p class="btn-text"> <strong>Google</strong></p>
-        </div>
-        <div id="loginFacebook" class="facebook-btn"> 
+        </button>
+        <button id="loginFacebook" class="facebook-btn"> 
           <div class="facebook-icon-wrapper"> <img class="facebook-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/F_icon_reversed.svg/1024px-F_icon_reversed.svg.png"></div>
-          <p class="btn-text"><a href="login/facebook"><strong>Facebook</strong></a></p>
-        </div>
+          <p class="btn-text"><strong>Facebook</strong></p>
+        </button>
       </div>
 </div>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
