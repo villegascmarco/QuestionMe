@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
 
 class LoginFacebookController extends Controller
 {
@@ -19,4 +20,5 @@ class LoginFacebookController extends Controller
     dd($user);
     
     }
+
 }
