@@ -58,6 +58,7 @@ body {
   border: 1px solid #707070;
   position: relative;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
   display: inline-block;
@@ -117,6 +118,8 @@ body {
 }
 =======
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> origin/feature-category
   display: inline-block; }
   .qme-select .select {
     appearance: none;
@@ -165,9 +168,12 @@ body {
       border-radius: 40px;
       border: 1px solid #707070; }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> feature-user
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> origin/feature-category
 
 .qme-input {
   height: 35px;
@@ -175,6 +181,7 @@ body {
   border: 1px solid #707070;
   border-radius: 45px;
   position: relative;
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -226,6 +233,8 @@ body {
 }
 =======
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> origin/feature-category
   padding-top: 5px; }
   .qme-input .input {
     padding-left: 25px;
@@ -276,8 +285,11 @@ body {
     box-sizing: border-box;
     width: 100%;
     background-color: transparent; }
+<<<<<<< HEAD
 >>>>>>> feature-user
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> origin/feature-category
 
 .qme-button {
   height: 40px;

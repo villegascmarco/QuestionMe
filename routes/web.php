@@ -5,6 +5,8 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\humanController;
 use App\Http\Controllers\user_roleController;
+use App\Http\Controllers\categoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,13 @@ Route::resource('human', 'humanController', ["except" => ['destroy']]);
 Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desactivate']);
 
 Route::resource('user_role', 'user_roleController', ["except" => ['destroy']]);
+
+//Category
+Route::post('/categories/desactivate/{id}', [categoryController::class, 'desactivate']);
+Route::post('/categories/activate/{id}', [categoryController::class, 'activate']);
+Route::resource('categories', 'categoryController', ["except" => ['destroy']]);
+
+
 
 Route::get('login/facebook', 'Auth\LoginFacebookController@redirect');
 Route::get('login/facebook/callback', 'Auth\LoginFacebookController@callback');
