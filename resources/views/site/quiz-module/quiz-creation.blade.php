@@ -26,24 +26,20 @@
     </div>
     <div class="creation-content margin-top-25">
         <div class="carousel" id="carousel">
-            <div class="card">
+            <div class="card form-one">
                 <header>
                     <h1>Nombra tu nueva encuesta</h1>
                 </header>
                 <section class="step-section">
-                    <div class="qme-input width-550 simple qme-required">
+                    <div class="save-lbl">
                         <label class="label " for=" ">Título</label>
-                        <input class="input " type="text " placeholder="Some text ">
+                        <br>
+                        <input id="title" class="input news-input" type="text " placeholder="Some text ">
                     </div>
-                    <div class="qme-bubble-category width-550 simple margin-top-25 margin-5 qme-required ">
-                        <label class="label " for=" ">Categorias</label>
-                        <div class="bubble-categories-container">
-                            <label class="bubble">Ciencias</label>
-                            <label class="bubble">Política</label>
-                            <label class="bubble bubble-button">
-                                <img src="{{asset('img/svg/icons/plus-white.svg')}}" alt="">
-                            </label>
-                        </div>
+                    <div class="save-lbl">
+                        <label class="label " for=" ">Categoria</label>
+                        <br>
+                        <input id="category" class="input news-input" type="text " placeholder="Psicologia">
                     </div>
                 </section>
             </div>

@@ -108,11 +108,6 @@ window.onload = _ => {
         //Muestra loader en lo que se completa la request
         getSwalLoader();
 
-        newCategory = {
-            ...newCategory,
-            'status': 1
-        };
-
         add(newCategory)
             .then(resp => resp.json())
             .then(data => {

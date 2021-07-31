@@ -57,6 +57,15 @@ class CardCarousel {
     }
 
     updateProgress(forward = true) {
+        this.element.dispatchEvent(new CustomEvent("progress", {
+            detail: {
+                direction: forward ? "FORWARD" : "REVERSE",
+                position: this.currentPosition
+
+            }
+            
+        }))
+
         if (forward) {
             this.carouselCards[this.currentPosition - 1].classList.remove('current');
         } else {
@@ -65,11 +74,6 @@ class CardCarousel {
 
         this.carouselCards[this.currentPosition].classList.add('current');
 
-        this.element.dispatchEvent(new CustomEvent("progress", {
-            detail: {
-                direction: forward ? "FORWARD" : "REVERSE"
-            }
-        }))
     }
 
 
