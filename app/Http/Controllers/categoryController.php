@@ -66,7 +66,8 @@ class categoryController extends Controller
             return $response;
             return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Una nueva categoria']);
         }
-        $response = ['status' => 'OK'];
+        $response = ['status' => 'OK',
+                    'category' => $category];
         return $response;
     }
      /** Display the specified resource.
@@ -138,7 +139,8 @@ class categoryController extends Controller
             return $response;
             return Redirect::back()->withErrors(['msg', 'Ocurrió un error al Modificar la categoria']);
         }
-        $response = ['status' => 'OK'];
+        $response = ['status' => 'OK',
+                     'category' => $modelCategory];
         return $response;
     }
 
