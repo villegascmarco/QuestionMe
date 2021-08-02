@@ -17,6 +17,7 @@
 </head>
 <body>    
     @include('menu.menu')
+    {{-- @yield('menu')     --}}
     
     @yield('content')    
     <script>

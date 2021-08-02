@@ -13,7 +13,6 @@ class SiteController extends Controller
         FRONTPAGE
 
     */
-      
     public function frontpage(){
         $title = "QuestionnMe!";
         $styleSheets = [
