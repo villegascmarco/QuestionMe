@@ -286,10 +286,18 @@ class userController extends Controller
     }
 
     public function userNameTaken($name){
-        $exists = User::where([
-            'name' => $name,
-        ])
-        ->exists();
+        try {
+
+            $exists = User::where([
+                'name' => $name,
+            ])
+            ->exists();
+        } catch (\Throwable $th) {
+            $response = ['status' => 'error',
+                         'response' => 'Ocurrió un error al verificar el email.'];
+            return $response;
+        }
+
         $response = ['status' => 'OK',
         'response' => FALSE];
         if ($exists) {
@@ -297,14 +305,21 @@ class userController extends Controller
             'response' => TRUE];
         }
         return $response;
-
-    }
+}
 
     public function emailUsed($email){
-        $exists = human::where([
-            'email' => $email,
-        ])
-        ->exists();
+        try {
+            $exists = human::where([
+                'email' => $email,
+            ])
+            ->exists();
+
+        } catch (\Throwable $th) {
+            $response = ['status' => 'error',
+                         'response' => 'Ocurrió un error al verificar el email.'];
+            return $response;
+        }
+
         $response = ['status' => 'OK',
         'response' => FALSE];
         if ($exists) {

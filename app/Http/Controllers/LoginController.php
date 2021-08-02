@@ -33,7 +33,7 @@ class LoginController extends Controller
             Auth::loginUsingId($usuario->id);
             $response = ['status' => 'OK',
                 'response' => 'Login correcto'];            
-            return response()->json($response);            
+            return $response;
         }
 
         $response = ['status' => 'error',
@@ -61,16 +61,10 @@ class LoginController extends Controller
         //Usuario registrado, actualizar con los datos provenientes de facebook        
         if ($usuarioCheck) {           
             try {
+                
                 DB::beginTransaction();
-                $usuarioCheck->name =  $request->nameUser;            
-                $usuarioCheck->creado_en = $request->creado_en;
-                $usuarioCheck->status = $request->statusUser;
-                $usuarioCheck->role =  $request->role;
-                $usuarioCheck->human = $modelHuman->id;
-                $usuarioCheck->save();
-    
-                $human = Human::where('id',$usuarioCheck->human);
-    
+                $human = human::where('id',$usuarioCheck->human)->first();
+                // return $human;
                 $human->name = $request->name;
                 $human->last_name =  $request->last_name;
                 $human->picture =  $request->picture;
@@ -78,19 +72,29 @@ class LoginController extends Controller
                 $human->email =  $request->email;
                 $human->status =  $request->status;
                 $human->save();
+                
+
+                $usuarioCheck->name =  $request->nameUser;            
+                $usuarioCheck->creado_en = $request->creado_en;
+                $usuarioCheck->status = $request->statusUser;
+                $usuarioCheck->role =  $request->role;
+                $usuarioCheck->human = $human->id;
+                $usuarioCheck->save();
+    
+    
                 DB::commit();
 
                 Auth::loginUsingId($usuarioCheck->id);
                 $response = ['status' => 'OK',
                     'response' => 'Login correcto'];            
-                return response()->json($response);            
+                return $response;
                 
             } catch (\Throwable $th) {
                 $response = ['status' => 'error',
                          'response' => 'Ocurrió un error al autenticar.',
                          'error' => $th];
                 DB::rollback();
-                return response()->json($response);            
+                return $response;            
             } 
 
         }
@@ -104,7 +108,7 @@ class LoginController extends Controller
             $human->date_birth = $request->date_birth;
             $human->email = $request->email;
             $human->status = $request->status;
-            $human ->save(); 
+            $human->save(); 
             
             $usuario = new User();
             $usuario->social_id = $request->id;
@@ -120,9 +124,8 @@ class LoginController extends Controller
             Auth::loginUsingId($usuario->id);
     
             $response = ['status' => 'OK',
-                'response' => 'Login correcto'];   
-            var_dump($response);
-            return response()->json($response);            
+                'response' => 'Login correcto'];
+            return $response;            
 
         } catch (\Throwable $th) {
             $response = ['status' => 'error',
@@ -136,6 +139,71 @@ class LoginController extends Controller
         return $response;
 
     }
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function signUp(Request $request)
+    {
+        $response = [];
+        $validated = $request->validate([
+            'name' => 'required',            
+            'date_birth' => 'required',
+            'email' => 'required|email',
+            'nameUser' => 'required',
+            'password' => 'required',
+        ]);
+
+        //validacion del si el nombre de ususario ya existe
+        $exists = User::where([
+            'name' => $request->nameUser,
+        ])->exists();
+
+        if ($exists) {
+            $response = ['status' => 'error',
+                         'response' => 'Ya existe un usuario con este nombre de usuario.'];
+            return $response;
+            return Redirect::back()->withErrors(['msg', 'Ya Exite un usuario con el mismo nombre.']);
+        }
+            try {
+                DB::beginTransaction();
+                // insercion de datos personales del humano
+                $human = new human();
+                $human->name =  $request->name;
+                $human->last_name =  $request->last_name;
+                $human->picture =  $request->picture;
+                $human->date_birth =  $request->date_birth;
+                $human->email =  $request->email;
+                $human->status =  $request->status;
+                $human ->save(); 
+                //creaccion del usuario obteniendo la id del humano
+                $usuario = new User();
+                $usuario->name =  $request->nameUser;
+                $usuario->password = bcrypt($request->password);
+                $usuario->creado_en = $request->creado_en;
+                $usuario->status = $request->statusUser;
+                $usuario->role =  $request->role;
+                $usuario->human = $human->id;
+                $usuario->save();     
+                DB::commit();
+                
+                Auth::loginUsingId($usuario->id);
+    
+                $response = ['status' => 'OK',
+                    'response' => 'Login correcto'];
+                return $response;   
+            } catch (\Throwable $th) {
+                $response = ['status' => 'error',
+                             'response' => 'Ocurrió un error al insertar Usuario o Humano.',
+                             'error' => $th];
+                DB::rollback();
+                return $response;                
+            }
+            
+    }
+
     
     
     /**
@@ -155,5 +223,4 @@ class LoginController extends Controller
         return redirect('/');
     }
     
-
 }

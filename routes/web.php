@@ -27,14 +27,29 @@ use App\Http\Middleware\Role;
 
 //AUTH
 Route::get('/login', 'SiteController@login')->name('login');
-Route::get('/signin', 'SiteController@signin')->name('signin');
+Route::get('/signup', 'SiteController@signup')->name('signup');
 Route::post('/auth', [LoginController::class, 'authenticate']);
+Route::post('/registration', [LoginController::class, 'signUp'])->name('registration');
 Route::post('/authenticateWithSocialMedia', [LoginController::class, 'authenticateWithSocialMedia']);
 Route::get('/logout', [LoginController::class, 'logout']);
 //Main page
 Route::get('/','SiteController@frontpage');
 
-Route::group(['middleware'=>['auth']], function(){    
+Route::get('/users/userNameTaken/{name}',  [userController::class, 'userNameTaken']);
+Route::get('/users/emailUsed/{name}',  [userController::class, 'emailUsed']);
+
+Route::group(['middleware'=>['auth']], function(){
+    Route::group(['middleware' => ['is.admin']], function () {
+        //users
+        Route::post('/users/desactivate/{id}', [userController::class, 'desactivate']);
+        Route::post("/users/activate/{id}", [userController::class, 'activate']);
+        Route::get('/users/roleFind/{role}',  [userController::class, 'roleFind']);
+        Route::resource('users','userController',["except" => ['destroy']]);
+        Route::get('/user','SiteController@user');
+    });
+
+
+
     Route::resource('questions', 'questionController');
     //users
     Route::post('/users/desactivate/{id}', [userController::class, 'desactivate']);
@@ -51,22 +66,14 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get("/dashboard", 'SiteController@dashboard');
     // Resource::
     Route::resource('questions', 'questionController');
-    //users
-    Route::get('/users/userNameTaken/{name}',  [userController::class, 'userNameTaken']);
-    Route::get('/users/emailUsed/{name}',  [userController::class, 'emailUsed']);
-    Route::post('/users/desactivate/{id}', [userController::class, 'desactivate']);
-    Route::post("/users/activate/{id}", [userController::class, 'activate']);
-    Route::get('/users/roleFind/{role}',  [userController::class, 'roleFind']);
-    Route::resource('users','userController',["except" => ['destroy']]);
-    Route::get('/user','SiteController@user');
 });
 
 
 
 // Route::group(['middleware'=>['auth']], function(){
     // });
-    
-    
+
+
     //Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
-    
+
 //})->name('home');
