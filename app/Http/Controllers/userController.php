@@ -329,4 +329,24 @@ class userController extends Controller
         }
         return $response;
     }
+
+    public function sacarFoto(){
+        try {
+        $picture = DB::table('user')
+
+         ->join('human', 'user.human', "=", "human.id")
+         ->select('human.picture')->get();
+        
+       
+        
+        } catch (\Throwable $th) {
+             $response = ['status' => 'error',
+                        'response' => 'Ocurrió un error al consultar fotografias.'];
+        return $response;
+        }
+
+        $response = ['status' => 'OK',
+        'picture' => $picture];
+        return $response;
+    }
 }
