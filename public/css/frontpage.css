@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');
-
 :root {
     --padding-container: 100px 0;
     --width-container: 90%;
@@ -9,15 +8,15 @@
     --text-btn: #fff;
     --titles-color: #FF0000;
     ;
-
 }
 
 html {
     scroll-behavior: smooth;
 }
 
-body  {
+body {
     font-family: 'Hammersmith One', sans-serif;
+    margin: 0;
 }
 
 
@@ -31,6 +30,7 @@ body  {
     padding: 100px 0;
     /* --padding-container: 100px 0; */
 }
+
 
 /* -------------------------------------------------------- */
 
@@ -59,13 +59,10 @@ body  {
     margin-top: 50px;
 }
 
-.cta-btn:hover, .cta-btn-bottom:hover {
+.cta-btn:hover,
+.cta-btn-bottom:hover {
     opacity: 0.80;
 }
-
-
-
-
 
 .presentation-title {
     font-size: 5em;
@@ -152,7 +149,6 @@ hr {
 
 .wrapper {
     height: 2000px;
-
 }
 
 .slide {
@@ -161,13 +157,10 @@ hr {
     padding: 20px;
 }
 
-
 .continiue {
     height: 1200px;
     background-color: #ff7777;
 }
-
-
 
 .box {
     margin-top: 150px;
@@ -187,17 +180,13 @@ hr {
     float: left;
 }
 
-
-
 .pie-content {
-    
     display: grid;
     gap: 50px;
     grid-template-columns: 45% 50%;
     grid-template-rows: repeat(2, 1fr);
     height: 200px;
 }
-
 
 .pie-img {
     grid-column: 1;
@@ -226,6 +215,7 @@ hr {
     font-weight: 600;
 }
 
+
 /*
 
     TEMPLATES
@@ -237,7 +227,7 @@ hr {
     margin-bottom: 400px;
 }
 
-.template-container h1{
+.template-container h1 {
     text-align: center;
     font-size: 70px;
     font-weight: 600;
@@ -282,11 +272,9 @@ strong {
     margin-right: 20px;
     transition: 0.3s;
     margin-top: 50px;
-
     width: 350px;
     height: 40px;
 }
-
 
 
 /*

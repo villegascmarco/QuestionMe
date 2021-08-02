@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Auth;
 
 class IsAdmin
 {
@@ -16,10 +17,11 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->rol == 'admin'){
+        if (Auth::user() && Auth::user()->role == 2) {
             return $next($request);
         }
 
-        return view('main');
+        return redirect('/dashboard');
+
     }
 }

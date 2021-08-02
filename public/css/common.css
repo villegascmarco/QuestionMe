@@ -58,6 +58,7 @@ body {
   border: 1px solid #707070;
   position: relative;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
   display: inline-block;
@@ -117,6 +118,8 @@ body {
 }
 =======
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> feature-login
   display: inline-block; }
   .qme-select .select {
     appearance: none;
@@ -165,13 +168,17 @@ body {
       border-radius: 40px;
       border: 1px solid #707070; }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> feature-user
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> feature-login
 
 .qme-input {
   height: 35px;
   min-width: 250px;
+<<<<<<< HEAD
   border: 1px solid #707070;
   border-radius: 45px;
   position: relative;
@@ -185,50 +192,32 @@ body {
   border: none;
   box-sizing: border-box;
   height: 100%;
+=======
+>>>>>>> feature-login
   width: 100%;
-  background-color: transparent;
-}
-.qme-input .label {
-  position: absolute;
-  background-color: white;
-  top: -25%;
-  font-size: 0.9em;
-  height: 0.9em;
-  left: 25px;
-  text-align: left;
-}
-.qme-input.simple {
-  display: grid;
-  grid-template-columns: 2fr 5fr;
-  border: none;
-  border-radius: 0;
-}
-.qme-input.simple .input {
-  padding-left: 5px;
-  border: none;
-  border-bottom: 1px solid #707070;
-  box-sizing: border-box;
-  height: 100%;
-  width: 100%;
-  background-color: transparent;
-}
-.qme-input.simple .label {
-  height: auto;
-  position: relative;
-  top: 50%;
-  left: auto;
-  text-align-last: center;
-  background-color: transparent;
-}
-.qme-input.simple .select {
-  border-radius: 30px;
   border: 1px solid #707070;
+<<<<<<< HEAD
 }
 =======
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
   padding-top: 5px; }
+=======
+  border-radius: 45px;
+  position: relative; }
+  .qme-input.special-login {
+    border-radius: 7px; }
+    .qme-input.special-login .qme-alert-form {
+      position: absolute;
+      top: -1.5rem;
+      font-size: 0.8rem;
+      background-color: rgba(255, 0, 0, 0.6);
+      color: white;
+      padding: 0 10px;
+      border-radius: 0.8rem; }
+>>>>>>> feature-login
   .qme-input .input {
     padding-left: 25px;
+    padding-top: 5px;
     border: none;
     box-sizing: border-box;
     height: 100%;
@@ -276,8 +265,11 @@ body {
     box-sizing: border-box;
     width: 100%;
     background-color: transparent; }
+<<<<<<< HEAD
 >>>>>>> feature-user
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> feature-login
 
 .qme-button {
   height: 40px;
@@ -457,6 +449,11 @@ body {
   color: white;
   padding: 0 10px;
   border-radius: 0.8rem; }
+
+.error-login {
+  color: #fa4639;
+  text-align: center;
+  display: none; }
 
 .margin-5 {
   margin: 5px; }

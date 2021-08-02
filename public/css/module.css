@@ -41,6 +41,7 @@ body {
   .module-content .module-content-header {
     display: grid;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
     grid-template-columns: auto;
@@ -211,6 +212,8 @@ body {
 }
 =======
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> feature-login
     grid-template-columns: 70% 30%;
     box-sizing: border-box; }
     @media (min-width: 1200px) and (max-width: 1800) {
@@ -359,9 +362,12 @@ body {
           text-decoration: slategray;
           border: 1px solid #707070; }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> feature-user
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> feature-login
 
 .module-adm-panel {
   min-width: 30%;
@@ -374,6 +380,7 @@ body {
   padding-bottom: 50px;
   position: relative;
   /*DISPLAY*/
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -416,6 +423,8 @@ body {
 }
 =======
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> feature-login
   display: none; }
   .module-adm-panel header {
     font-size: 22px;
@@ -447,8 +456,11 @@ body {
     display: grid;
     grid-template-columns: auto auto; }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> feature-user
 >>>>>>> 23384baf736fd7693d911bfff05a61854292006b
+=======
+>>>>>>> feature-login
 
 /*# sourceMappingURL=module.css.map */
