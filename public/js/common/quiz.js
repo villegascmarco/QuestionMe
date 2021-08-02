@@ -3,6 +3,7 @@ let carousel = document.getElementById('carousel');
 let template = document.getElementById('template-section');
 let checkbox = document.getElementById('template-check');
 
+
 template.classList.add('disable-template')
 
 let categories
@@ -48,42 +49,46 @@ checkbox.addEventListener('change', function () {
     }
   });
 
-carousel.addEventListener('progress', (evt) => {
+carousel.addEventListener('progress', async(evt) => {
     let title = document.getElementById('title').value;
     let category = document.getElementById('category').value;
     let position = evt.detail.position;
     let direction = evt.detail.direction;
-
     
     if ( position == 2 && !localStorage.getItem('QUIZ') && direction === 'FORWARD' ) {
-        let slctCategory = "";
-        debugger
+        let idCategory
         const fount = (categories.find(el => el.name == category) || category);
-
-        let idCategory = fount.id
+        idCategory = fount.id
         
-        fount.constructor.name === "Object" ? null : addCategory(fount)
-
+        fount.constructor.name === "Object" ? null : idCategory = await addCategory(fount)
         
-
         newQuiz = {
-        name: title,
-        is_template: checkbox.checked,
-        quality:0.0,
-        quiz_origin:null,
-        status:1,
-        category: idCategory,
-        user:2
+            name: title,
+            is_template: checkbox.checked,
+            quality:0.0,
+            quiz_origin:null,
+            status:1,
+            category: idCategory,
+            user:2
     }
+        add(newQuiz)
 
-    // add(newQuiz)
-        
-    } else if ( position == 1 && direction === 'REVERSE'  ) {
-        
-        console.log("Consultar")
-    
     } else if ( position == 2 && localStorage.getItem('QUIZ') && direction === 'FORWARD') {
-        editQuiz();
+        let idCategory
+        const fount = (categories.find(el => el.name == category) || category);
+        idCategory = fount.id
+        fount.constructor.name === "Object" ? null : idCategory = await addCategory(fount)
+
+        editedQuiz = {
+            name: title,
+            is_template: checkbox.checked,
+            quality:0.0,
+            status:1,
+            category:idCategory,
+            user:2
+        }
+
+        edit( editedQuiz )
     } 
 
     else if ( position == 3) {
@@ -106,17 +111,9 @@ carousel.addEventListener('progress', (evt) => {
 //:::::::::::::::::::::::::::::::::::::::
 
 
-editQuiz = () => {
-    editedQuiz = {
-        "name":"Modificado",
-        "is_template":true,
-        "quality":0.0,
-        "status":1,
-        "category":1,
-        "user":2
-    }
-    edit(editedQuiz)
-}
+
+
+
 
 
 
@@ -125,7 +122,7 @@ editQuiz = () => {
 //:::::::::::::::::::::::::::::::::::::::
 
 
-let get = async (  ) => {
+let get = async () => {
     let response = await fetch(`${ASSETS_ROUTE}quizzes`, {
         method: "POST",
         headers: [
@@ -134,6 +131,20 @@ let get = async (  ) => {
         ],
         body: JSON.stringify(edtQuiz)
     });
+    return response
+}
+
+let getById = async () => {
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/q${obj.id}`, {
+        method: "GET",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+    });
+
+    localStorage.setItem('QUIZ', JSON.stringify(response))
     return response
 }
 
@@ -164,7 +175,12 @@ let edit = async ( edtQuiz ) => {
             ["Content-Type", "text/plain"]
         ],
         body: JSON.stringify(edtQuiz)
+    }).then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
     });
+    localStorage.setItem('QUIZ', JSON.stringify(response))
     return response
 }
 
@@ -180,14 +196,11 @@ let getListCategory = async () => {
             return response.json()
         }
     })
-
     return response
-    
 };
 
 
 let addCategory = async (newCategory) => {
-    
     let genCategory = {
         name: newCategory 
     }
@@ -198,7 +211,11 @@ let addCategory = async (newCategory) => {
             ["Content-Type", "text/plain"]
         ],
         body: JSON.stringify(genCategory)
-    });
-
-    return response
+    })
+    .then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    })
+    return response.category.id
 }

@@ -125,7 +125,6 @@ input:checked + .slider:before {
 }
 
 .news-input {
-    text-align: center;
     font-size: 25px;
     margin-top: 20px;
 }
@@ -141,5 +140,27 @@ input:checked + .slider:before {
 .save-lbl label {
     font-size: 30px;
 }
+
+.ui-widget-content {
+    list-style: none;
+    transition: 0.3s;
+    width: 30px;
+    margin: 0%;
+    padding: 0%;
+    overflow-y: auto;
+    max-height: 7em;
+}
+
+.ui-menu-item {
+    transition: 0.3s;
+    padding: 5px 0;
+    width: 100%;
+} 
+
+.ui-menu-item:hover {
+    background-color: #0000000c;
+    color: #FF6666;
+}
+
 
 

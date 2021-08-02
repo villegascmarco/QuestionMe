@@ -34,12 +34,13 @@
                     <div class="save-lbl">
                         <label class="label " for=" ">Título</label>
                         <br>
-                        <input id="title" class="input news-input" type="text " placeholder="Some text ">
+                        <div class="qme-alert-form">Ingresa un título</div>
+                        <input id="title" class="input news-input qme-input" type="text ">
                     </div>
                     <div class="save-lbl">
                         <label class="label " for=" ">Categoria</label>
                         <br>
-                        <input id="category" class="input news-input" type="text " placeholder="Psicologia">
+                        <input id="category" class="input news-input qme-input" type="text " placeholder="Psicologia">
                     </div>
                 </section>
             </div>
