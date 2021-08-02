@@ -1,23 +1,28 @@
 let btnGoogle = document.getElementById('loginGoogle');
 let btnFacebook = document.getElementById('loginFacebook');
-let btnLogin = document.getElementById('login');
+let btnSignUp = document.getElementById('btnSignUp');
 let email = document.getElementById('email');
 let password = document.getElementById('password');
+let nameUser = document.getElementById('nameUser');
+// let email = document.getElementById('email');
+let confirmPassword = document.getElementById('confirm-password');
 let inputContainer = document.getElementById('loginContainer');
 let formHandler = null;
-let credentialError = document.getElementById('credentialError');
 let socMedError = document.getElementById('socMedError');
+let validForm = true;
 
 const auth = firebase.auth();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
+const REGEX_DATE = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
 const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const BUTTON_TEXT = 'Iniciar sesión';
+const BUTTON_TEXT = 'Registrarme';
 const IMG_LOADER = `${ASSETS_ROUTE}img/svg/icons/loading-animated.svg`;
 const CRED_ERROR = 'Parece que los datos ingresados no son correctos, intenta de nuevo';
 const FACEBOOK_ERROR = 'Parece que hay un problema al ingresar con facebook, intenta de nuevo más tarde';
 const GOOGLE_ERROR = 'Parece que hay un problema al ingresar con google, intenta de nuevo más tarde';
 let LOADER = null;
+const IMG_DEFAULTS = ['https://i.imgur.com/sevGHor.png', 'https://i.imgur.com/IelBGCS.png'];
 
 window.onload = _ => {
 
@@ -25,10 +30,12 @@ window.onload = _ => {
     LOADER.setAttribute('src', IMG_LOADER);
     LOADER.setAttribute('height', '45px');
 
-
     startFormHandler();
-    btnLogin.addEventListener('click', _ => {
-        simpleLogin();
+
+    confirmPassword.addEventListener('keyup', _ => checkingPassword(confirmPassword));
+
+    btnSignUp.addEventListener('click', _ => {
+        signUp();
     })
     btnGoogle.addEventListener('click', _ => {
         loginGoogle();
@@ -36,40 +43,60 @@ window.onload = _ => {
     btnFacebook.addEventListener('click', _ => {
         loginFacebook();
     })
+
+    nameUser.addEventListener('keyup', async evt => {
+        userNameTaken(evt.target.value);
+    });
+
+    email.addEventListener('keyup', async evt => {
+        emailTaken(evt.target.value);
+    });
 }
 
-let simpleLogin = async _ => {
+let signUp = async _ => {
 
-    credentialError.style.display = 'none';
     socMedError.style.display = 'none';
 
-    if (!formHandler) {
-        startFormHandler();
-    }
+    if (!formHandler) startFormHandler();
+    userNameTaken(nameUser.value);
+    emailTaken(email.value);
+    if (!formHandler.checkForm()) return;
 
-    if (!formHandler.checkForm()) {
+
+
+    let user = formHandler.getAsObject();
+
+    if (user['password'] !== user['confirm-password']) {
+        confirmPassword.focus();
+        formHandler.showError('confirm-pasword', 'Las contraseñas no coinciden')
         return;
     }
 
     animateButton('loading');
     changeDisabled(true);
-    let credentials = formHandler.getAsObject();
+
+    user = {
+        ...user,
+        picture: IMG_DEFAULTS[Math.floor(Math.random() * 2)],
+        creado_en: 'QuestionMe!',
+        role: 1,
+        status: 1,
+        statusUser: 1
+    }
+
+    let responseAdd = await requestSignUp(user);
+    responseAdd = await responseAdd.json();
+
+    if (responseAdd.status === "OK") {
+        window.location = `${ASSETS_ROUTE}dashboard`;
+    }
+    if (responseAdd.status === 'error') {
+        changeDisabled(false);
+        socMedError.innerText = GOOGLE_ERROR;
+        socMedError.style.display = 'block';
+    }
 
     try {
-
-        let response = await requestLogin(credentials);
-        response = await response.json();
-
-
-        if (response.status === "OK") {
-            window.location = `${ASSETS_ROUTE}dashboard`;
-        }
-
-        if (response.status === 'error') {
-            credentialError.style.display = 'block';
-            animateButton('close');
-            changeDisabled(false);
-        }
 
     } catch (error) {
         console.log(error);
@@ -81,7 +108,6 @@ let simpleLogin = async _ => {
 
 let loginGoogle = async _ => {
     changeDisabled(true);
-    credentialError.style.display = 'none';
     socMedError.style.display = 'none';
     try {
         let response = await auth.signInWithPopup(googleProvider);
@@ -121,7 +147,7 @@ let loginGoogle = async _ => {
 
 let loginFacebook = async _ => {
     changeDisabled(true);
-    credentialError.style.display = 'none';
+
     socMedError.style.display = 'none';
     try {
         let response = await auth.signInWithPopup(facebookProvider);
@@ -161,15 +187,15 @@ let loginFacebook = async _ => {
 
 }
 
-let requestLogin = credentials => {
+let requestSignUp = newUser => {
 
-    return fetch(`${ASSETS_ROUTE}auth`, {
+    return fetch(`${ASSETS_ROUTE}registration`, {
         method: 'POST',
         headers: [
             ["Content-Type", "application/json"],
             ["Content-Type", "text/plain"]
         ],
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(newUser)
     })
 
 }
@@ -189,15 +215,43 @@ let requestLoginSocialMedia = requestUser => {
 
 let isUserNameTaken = async name => {
 
-    let response = await fetch(`${ASSETS_ROUTE}users/userNameTaken/${name}`);
+    return fetch(`${ASSETS_ROUTE}users/userNameTaken/${name}`);
+
+}
+
+let isEmailTaken = async email => {
+
+    return fetch(`${ASSETS_ROUTE}users/emailUsed/${email}`);
+
+}
+
+let userNameTaken = async name => {
+    let response = await isUserNameTaken(name);
     response = await response.json();
 
-    if (response['status'] === 'OK') {
-
-        return response['response'];
+    if (response.response) {
+        nameUser.focus();
+        formHandler.showError('nameUser', 'El nombre de usuario no está disponible ')
+        validForm = false;
+        return;
     }
+    formHandler.removeError('nameUser');
+    validForm = true;
+}
 
-    return false;
+let emailTaken = async mail => {
+    let response = await isEmailTaken(mail);
+
+    response = await response.json();
+
+    if (response.response) {
+        email.focus();
+        formHandler.showError('email', 'El correo ya está en uso')
+        validForm = false;
+        return;
+    }
+    formHandler.removeError('email');
+    validForm = true;
 }
 
 
@@ -221,8 +275,19 @@ let searchAvailableUser = async originName => {
 let startFormHandler = _ => {
     var elList = Array.from(inputContainer.querySelectorAll('input, select, textarea'));
     var validations = {
-        'email': val => REGEX_EMAIL.test(String(val).toLowerCase()),
-        'password': val => val.trim() !== '',
+        'name': val => val.trim() !== '',
+        'last_name': val => val.trim() !== '',
+        'date_birth': val => REGEX_DATE.test(val),
+        'email': val => {
+
+
+            return REGEX_EMAIL.test(String(val).toLowerCase())
+
+
+        },
+        'nameUser': val => val.trim() !== '',
+        'password': val => val !== '',
+        'confirm-pasword': val => val.trim() !== '',
     };
 
     formHandler = new FormsValidator(elList, validations);
@@ -231,9 +296,9 @@ let startFormHandler = _ => {
 
 let animateButton = (state = 'loading') => {
     if (state === 'loading') {
-        btnLogin.innerHTML = '';
-        btnLogin.appendChild(LOADER);
-        gsap.to(btnLogin, {
+        btnSignUp.innerHTML = '';
+        btnSignUp.appendChild(LOADER);
+        gsap.to(btnSignUp, {
             duration: 0.05,
             width: '60px',
             height: '60px',
@@ -242,9 +307,9 @@ let animateButton = (state = 'loading') => {
         return;
     }
 
-    btnLogin.innerHTML = '';
-    btnLogin.innerText = BUTTON_TEXT;
-    gsap.to(btnLogin, {
+    btnSignUp.innerHTML = '';
+    btnSignUp.innerText = BUTTON_TEXT;
+    gsap.to(btnSignUp, {
         duration: 0.05,
         width: '200px',
         height: 'auto',
@@ -256,5 +321,24 @@ let animateButton = (state = 'loading') => {
 let changeDisabled = disabled => {
     btnGoogle.disabled = disabled;
     btnFacebook.disabled = disabled;
-    btnLogin.disabled = disabled;
+    btnSignUp.disabled = disabled;
+}
+
+let checkingPassword = el => {
+
+    let user = formHandler.getAsObject();
+
+    let alertInserted = el.parentNode.querySelector('.qme-alert-form');
+    if (alertInserted) alertInserted.parentNode.removeChild(alertInserted);
+
+    if (user['password'] !== el.value) {
+        var alert = document.createElement('div');
+        alert.setAttribute('class', 'qme-alert-form');
+        let message = el.getAttribute('form-message');
+        message.trim() !== '' ?
+            alert.innerText = message :
+            alert.innerText = 'Este campo es requerido';
+        el.parentNode.appendChild(alert);
+    }
+
 }

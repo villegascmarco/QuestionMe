@@ -14,12 +14,12 @@
       <p class="error-login" id="credentialError">Parece que los datos ingresados no son correctos, intenta de nuevo</p>      
       <button class="btnLogIn" id='login'>Iniciar sesión</button>
       <br>
-      <a href="#">¿Olvidaste tu contraseña?</a>
+      <a href="{{url('/signup')}}">No tengo una cuenta</a>
       <div class="line">
         <h3 class="alternative">Ingresa con</h3>
       </div>
+      <p class="error-login" id="socMedError">Parece que los datos ingresados no son correctos, intenta de nuevo</p>      
       <div class="social-media">
-        <p class="error-login" id="socMedError">Parece que los datos ingresados no son correctos, intenta de nuevo</p>      
         <button id="loginGoogle" class="social-btn"> 
           <div class="social-icon-wrapper"> <img class="social-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"></div>
           <p class="btn-text"> <strong>Google</strong></p>
