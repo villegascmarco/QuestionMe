@@ -35,11 +35,17 @@
             <button class="qme-button red">Editar</button>
         </div>
     </section>
-    <section class="section user">  
+    <section class="section">  
         <header>
             <h2>Autenticación</h2>
         </header>
         <button class="qme-button blue">Cambiar contraseña</button>
+    </section>
+    <section class="section danger-zone">  
+        <header>
+            <h2>Zona peligrosa</h2>
+        </header>
+        <button class="qme-button simple red">Desactivar mi cuenta</button>
     </section>
 </main>
 

@@ -35,10 +35,14 @@
     }
     .section {
         padding: 2em;
-        border-radius: 25px;
         margin: 2em 0;
     }
+    .danger-zone {
+        border-radius: 25px;
+        border: 1px solid rgba($color: #ff0000, $alpha: .6);
+    }
     .user-info {
+        border-radius: 25px;
         border: 1px solid black;
         .user-attr {
             display: flex;

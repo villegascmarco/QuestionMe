@@ -27,9 +27,12 @@
     color: rgba(0, 0, 0, 0.7); }
   .main-content .section {
     padding: 2em;
-    border-radius: 25px;
     margin: 2em 0; }
+  .main-content .danger-zone {
+    border-radius: 25px;
+    border: 1px solid rgba(255, 0, 0, 0.6); }
   .main-content .user-info {
+    border-radius: 25px;
     border: 1px solid black; }
     .main-content .user-info .user-attr {
       display: flex;

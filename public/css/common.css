@@ -180,6 +180,10 @@ body {
   .qme-button.red {
     color: white;
     background-color: rgba(255, 0, 0, 0.4); }
+    .qme-button.red.simple {
+      color: rgba(255, 0, 0, 0.8);
+      background-color: transparent;
+      border: 1px solid rgba(255, 0, 0, 0.8); }
   .qme-button.blue {
     color: white;
     background-color: rgba(0, 0, 255, 0.4); }
@@ -200,6 +204,10 @@ body {
     .qme-button:hover.red {
       color: white;
       background-color: rgba(255, 0, 0, 0.6); }
+      .qme-button:hover.red.simple {
+        color: #ff0000;
+        background-color: transparent;
+        border: 1px solid rgba(255, 0, 0, 0.8); }
     .qme-button:hover.blue {
       color: white;
       background-color: rgba(0, 0, 255, 0.6); }
