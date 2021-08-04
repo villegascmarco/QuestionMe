@@ -17,8 +17,10 @@
 </head>
 <body>    
     @include('menu.menu')
+    {{-- @yield('menu')     --}}
     
     @yield('content')    
+    <script src="{{asset('js/common/navbar.js')}}"></script>
     <script>
         let ASSETS_ROUTE = '{{ URL::asset('')}}'
     </script>

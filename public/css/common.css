@@ -57,69 +57,6 @@ body {
   border-radius: 25px;
   border: 1px solid #707070;
   position: relative;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-  display: inline-block;
-}
-.qme-select .select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding: 0 25px;
-  border: none;
-  height: 45px;
-  width: 100%;
-  background-color: transparent;
-}
-.qme-select .select * {
-  padding: 25px;
-}
-.qme-select .label {
-  position: absolute;
-  top: -40%;
-  left: 25px;
-  background-color: white;
-  transform: translateY(50%);
-  font-size: 0.9em;
-  height: 0.9em;
-}
-.qme-select::after {
-  position: absolute;
-  content: "";
-  top: 50%;
-  transform: translateY(-50%);
-  right: 25px;
-  height: 15px;
-  width: 15px;
-  background-image: url("../../assets/svg/icons/down-arrow.svg");
-}
-.qme-select.simple {
-  display: grid;
-  grid-template-columns: 2fr 5fr;
-  border: none;
-  border-radius: 0;
-  height: 40px;
-}
-.qme-select.simple .label {
-  height: 0.9;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  left: auto;
-  text-align-last: center;
-  background-color: transparent;
-}
-.qme-select.simple .select {
-  height: 40px;
-  border-radius: 40px;
-  border: 1px solid #707070;
-}
-=======
->>>>>>> 23384baf736fd7693d911bfff05a61854292006b
-=======
->>>>>>> feature-login
   display: inline-block; }
   .qme-select .select {
     appearance: none;
@@ -167,41 +104,12 @@ body {
       height: 40px;
       border-radius: 40px;
       border: 1px solid #707070; }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> feature-user
->>>>>>> 23384baf736fd7693d911bfff05a61854292006b
-=======
->>>>>>> feature-login
 
 .qme-input {
   height: 35px;
   min-width: 250px;
-<<<<<<< HEAD
-  border: 1px solid #707070;
-  border-radius: 45px;
-  position: relative;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-  padding-top: 5px;
-}
-.qme-input .input {
-  padding-left: 25px;
-  border: none;
-  box-sizing: border-box;
-  height: 100%;
-=======
->>>>>>> feature-login
   width: 100%;
   border: 1px solid #707070;
-<<<<<<< HEAD
-}
-=======
->>>>>>> 23384baf736fd7693d911bfff05a61854292006b
-  padding-top: 5px; }
-=======
   border-radius: 45px;
   position: relative; }
   .qme-input.special-login {
@@ -214,7 +122,6 @@ body {
       color: white;
       padding: 0 10px;
       border-radius: 0.8rem; }
->>>>>>> feature-login
   .qme-input .input {
     padding-left: 25px;
     padding-top: 5px;
@@ -247,29 +154,18 @@ body {
     .qme-input.simple .label {
       height: auto;
       position: relative;
-<<<<<<< HEAD
-      top: 50%;
-=======
->>>>>>> 23384baf736fd7693d911bfff05a61854292006b
       left: auto;
       text-align-last: center;
       background-color: transparent; }
     .qme-input.simple .select {
       border-radius: 30px;
       border: 1px solid #707070; }
-<<<<<<< HEAD
-=======
   .qme-input.file .input {
     padding-left: 5px;
     border: none;
     box-sizing: border-box;
     width: 100%;
     background-color: transparent; }
-<<<<<<< HEAD
->>>>>>> feature-user
->>>>>>> 23384baf736fd7693d911bfff05a61854292006b
-=======
->>>>>>> feature-login
 
 .qme-button {
   height: 40px;
