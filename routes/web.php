@@ -59,6 +59,6 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('/quiz', 'SiteController@quiz');
     Route::get('/new-quiz', 'SiteController@quizCreation');
 
-    Route::get('/picture', [userController::class, 'sacarFoto']);
+    Route::get('/getUserPicture/{id}', [userController::class, 'getUserPicture']);
 });
 

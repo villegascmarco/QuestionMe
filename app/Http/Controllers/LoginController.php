@@ -27,10 +27,14 @@ class LoginController extends Controller
         $usuario = DB::table('user')
         ->join('human', 'user.human', "=", "human.id")
         ->where('human.email', $request->email)
-        ->first();    
-
+        ->first();
+        
+        
         if ($usuario && Hash::check($request->password,$usuario->password)) {            
             Auth::loginUsingId($usuario->id);
+            
+            session(['userPicture' => $usuario->picture]);
+
             $response = ['status' => 'OK',
                 'response' => 'Login correcto'];            
             return $response;
@@ -85,6 +89,9 @@ class LoginController extends Controller
                 DB::commit();
 
                 Auth::loginUsingId($usuarioCheck->id);
+                
+                session(['userPicture' => $human->picture]);
+
                 $response = ['status' => 'OK',
                     'response' => 'Login correcto'];            
                 return $response;
@@ -122,6 +129,8 @@ class LoginController extends Controller
             DB::commit();
 
             Auth::loginUsingId($usuario->id);
+            
+            session(['userPicture' => $human->picture]);
     
             $response = ['status' => 'OK',
                 'response' => 'Login correcto'];
@@ -190,7 +199,7 @@ class LoginController extends Controller
                 DB::commit();
                 
                 Auth::loginUsingId($usuario->id);
-    
+                session(['userPicture' => $human->picture]);
                 $response = ['status' => 'OK',
                     'response' => 'Login correcto'];
                 return $response;   
@@ -216,10 +225,12 @@ class LoginController extends Controller
     {
         Auth::logout();
     
+        $request->session()->forget('userPicture');
+
         $request->session()->invalidate();
     
         $request->session()->regenerateToken();
-    
+        
         return redirect('/');
     }
     

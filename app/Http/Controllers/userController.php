@@ -330,14 +330,16 @@ class userController extends Controller
         return $response;
     }
 
-    public function sacarFoto(){
+    public function getUserPicture($id){
         try {
         $picture = DB::table('user')
-
          ->join('human', 'user.human', "=", "human.id")
-         ->select('human.picture')->get();
+         ->select('human.picture')
+         ->where("user.id","=", $id)->first();
         
-       
+        $response = ['status' => 'OK',
+        'picture' => $picture];
+        return $response;
         
         } catch (\Throwable $th) {
              $response = ['status' => 'error',
@@ -345,8 +347,5 @@ class userController extends Controller
         return $response;
         }
 
-        $response = ['status' => 'OK',
-        'picture' => $picture];
-        return $response;
     }
 }
