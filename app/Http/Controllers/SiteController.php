@@ -115,7 +115,8 @@ class SiteController extends Controller
 
         $jsDocs = [
             array('local'=>false,'route'=>'https://code.jquery.com/jquery-3.6.0.js'),      
-            array('local'=>false,'route'=>'https://code.jquery.com/ui/1.12.1/jquery-ui.js'),      
+            array('local'=>false,'route'=>'https://code.jquery.com/ui/1.12.1/jquery-ui.js'),
+            array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),        
             array('local'=>true,'route'=>'js/common/carousel.js'),
             array('local'=>true,'route'=>'js/common/wizard.js'),                          
             array('local'=>true,'route'=>'js/common/quiz.js'),

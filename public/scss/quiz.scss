@@ -162,5 +162,15 @@ input:checked + .slider:before {
     color: #FF6666;
 }
 
+.answer-checkboxes {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.icon-answer {
+    width: 20px;
+}
+
 
 

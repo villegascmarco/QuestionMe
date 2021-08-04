@@ -90,19 +90,13 @@
                         <label class="radio-group-title" for="">Tipo de pregunta</label>
 
                         <div class="qme-radio">
-                            <input type="radio" id="rd-open" name="question-type">
+                            <input type="radio" value="1" onchange="getPosibleAnswers(this)" id="rd-open" name="question-type">
                             <label class="radio-text" for="rd-open">
                                 Abierta
                             </label>
                         </div>
                         <div class="qme-radio">
-                            <input type="radio" id="rd-single" name="question-type">
-                            <label class="radio-text" for="rd-single">
-                                Una opción correcta
-                            </label>
-                        </div>
-                        <div class="qme-radio">
-                            <input type="radio" id="rd-multiple" name="question-type">
+                            <input type="radio" value="2" onchange="getPosibleAnswers(this)" id="rd-multiple" name="question-type">
                             <label class="radio-text" for="rd-multiple">
                                 Opción múltiple
                             </label>
@@ -111,14 +105,14 @@
                     <div class="question-container">
                         <div class="qme-input width-550 margin-15 simple qme-required">
                             <label class="label " for=" ">Escribe tu pregunta</label>
-                            <input class="input " type="text " placeholder="Some text ">
+                            <input class="input " id="question" type="text " placeholder="Some text ">
                         </div>
-                        <div class="qme-input width-550 margin-15 simple qme-required">
+                        <div id="answer-section" class="qme-input width-550 margin-15 simple qme-required">
                             <label class="label " for=" ">Respuesta correcta</label>
-                            <input class="input " type="text " placeholder="Some text ">
+                            
                         </div>
-                        <div class="btn-container">
-                            <button class="qme-button red">Guardar</button>
+                        <div class="btn-container" id="btn-container">
+                            <button class="qme-button red" onclick="saveAnswer()">Guardar</button>
                         </div>
                     </div>
 

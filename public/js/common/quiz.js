@@ -1,8 +1,9 @@
-
 let carousel = document.getElementById('carousel');
 let template = document.getElementById('template-section');
 let checkbox = document.getElementById('template-check');
+let answerSection = document.getElementById('answer-section')
 
+let answersCheck = []
 
 template.classList.add('disable-template')
 
@@ -32,10 +33,144 @@ $('#category').autocomplete({
     },
     minLength: 1,
     delay: 20
-  });
+});
+
+function getPosibleAnswers(el) {
+    if (el.value == 1) {
+        let input = document.createElement("input")
+        input.className = "input"
+        input.id = "posible-answer"
+        answerSection.append(input);
+
+    } else if (el.value == 2) {
+        genMultiple()
+    }
+}
 
 
+
+
+const genMultiple = () => {
+    if( document.getElementById('posible-answer') ) {
+        document.getElementById('posible-answer').remove()
+    }
+
+    let divAllMulti = document.createElement("div")
+    divAllMulti.className = "answer-checkboxes"
     
+    let divCheck = document.createElement("div")
+    divCheck.className = "answer-checkboxes"
+
+    let divBtn = document.createElement("div")
+    divBtn.className = "answer-btn"
+
+    let radio = document.createElement("input")
+    radio.type = "radio"
+    radio.name = "posible-answer-radio"
+    
+
+    let input = document.createElement("input")
+    input.className = "input special-answer"
+    input.name = "posible-answer"
+
+    let button = document.createElement("button")
+    button.className = "qme-button round red"
+
+    let img = document.createElement('img');
+    img.className = "icon-answer"
+    img.setAttribute('src', `${ASSETS_ROUTE}img/svg/icons/plus-white.svg`);
+    button.appendChild(img);
+
+    answerSection.append(divAllMulti)
+    divAllMulti.append(divCheck)
+    divAllMulti.append(divBtn)
+    
+    divCheck.append(radio)
+    divCheck.append(input)
+    divBtn.append(button)
+
+    button.addEventListener('click', () => {
+        let answersCheck = document.getElementsByName('posible-answer-radio').length
+        if (answersCheck !== 4) {
+            addAnswer(divCheck)
+        }
+    })
+}
+const addAnswer = ( parent ) => {
+    let radio = document.createElement("input")
+    radio.type = "radio"
+    radio.name = "posible-answer-radio"
+    
+
+    let input = document.createElement("input")
+    input.className = "input special-answer"
+    input.name = "posible-answer"
+    
+
+    parent.append(radio)
+    parent.append(input)
+}
+const saveAnswer = async () => {
+    let openAnswer = document.getElementById('rd-open')
+
+    if (document.getElementsByClassName('answer-checkboxes')) {
+        let checkAnswers = document.getElementsByName('posible-answer-radio')
+        let inputAnswer = document.getElementsByName('posible-answer')
+        let questionstr = document.getElementById('question')
+
+        let answerSlct = 0
+        let arrAnswers = []
+        for(var x=0; x < checkAnswers.length; x++) {
+            checkAnswers[x].value = inputAnswer[x].value
+
+            if(!checkAnswers[x].checked)
+                answerSlct++ 
+             
+            arrAnswers.push({
+                answer: inputAnswer[x].value,
+                is_correct: checkAnswers[x].checked
+            })
+        }
+
+        if(checkAnswers.length == answerSlct)
+            console.log("No se selecciono ni uno")
+
+        let btnContainer = document.getElementById('btn-container');
+        let answers = document.createElement("div")
+        answers.className = "answers-waiting"
+        btnContainer.append(answers)
+
+
+        let question = {
+        data:[{
+            question: questionstr.value,
+            question_type: openAnswer.checked ? 1 : 2
+        }]
+        }
+
+        let quAnswer = {}
+
+        openAnswer.checked ? 
+        (quAnswer.data.push({
+
+        }))
+        :
+        (quAnswer.data = arrAnswers)
+
+        await setQuestionAnswer( question, quAnswer)
+
+        
+        
+    }   
+}
+
+const setQuestionAnswer = async ( question, quAnswer) => {
+
+    await addQuestion( question )
+
+    // let questioncmp = document.createElement("div")
+}
+
 
 
 new CardCarousel(carousel);
@@ -218,4 +353,29 @@ let addCategory = async (newCategory) => {
         }
     })
     return response.category.id
+}
+
+//:::::::::::::::::::::::::::::::::::::::
+//:::::::: QUESTION & ANSWERS :::::::::::
+//:::::::::::::::::::::::::::::::::::::::
+
+let addQuestion = async ( newQuestion ) => {
+    debugger
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions`, {
+        method: "POST",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+        body: JSON.stringify(newQuestion)
+    })
+    .then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    })
+    localStorage.setItem('QUST', JSON.stringify(response))
+    return response
+
 }
