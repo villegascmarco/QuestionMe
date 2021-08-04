@@ -26,6 +26,11 @@
         margin-right: 50px;
         .navbar-item {
             margin: auto 20px;
+            .qme-button {
+                a {
+                    color: white;
+                }
+            }
             a {
                 text-decoration: none;
                 color: black;
@@ -34,6 +39,147 @@
                 button {
                     background-color: rgba(255, 0, 0, 0.6);
                     border-radius: 15px;
+                }
+            }
+            .notification {
+                position: relative;
+                height: 25px;
+                width: 25px;
+                border: none;
+                background-color: transparent;
+                background-image: url('../img/svg/icons/bell.svg');
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 80%;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+            .notification-number {
+                position: absolute;
+                height: 1.2em;
+                font-size: 0.8em;
+                background-color: red;
+                color: white;
+                border-radius: 5px;
+                padding: 0.2em;
+                top: -0.6em;
+                opacity: 0;
+                &.active {
+                    opacity: 1;
+                }
+            }
+            .qme-menu-user {
+                height: 45px;
+                width: 45px;
+                border-radius: 50%;
+                position: relative;
+                overflow: hidden;
+                margin: 0;
+                transition: 0.2s ease-in-out;
+                img {
+                    object-fit: cover;
+                    height: 100%;
+                    width: 100%;
+                }
+                &:hover {
+                    cursor: pointer;
+                    box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        width: 45px;
+                        height: 45px;
+                        display: block;
+                        top: 0;
+                        // background-image: url('../img/svg/icons/settings.svg');
+                        // background-size: 75%;
+                        // background-position: center;
+                        // background-repeat: no-repeat;
+                        // background-color: rgba($color: #2e2e2e, $alpha: .2);
+                    }
+                }
+            }
+        }
+    }
+    .navbar-drop {
+        position: relative;
+        .navbar-drop-drop {
+            &.active {
+                display: block;
+            }
+            display: none;
+            position: absolute;
+            margin-top: 1rem;
+            right: 50%;
+            transform: translate(25%);
+            padding: 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            list-style: none;
+            background-color: white;
+            -webkit-box-shadow: 6px 5px 15px -3px rgba(0,
+            0,
+            0,
+            0.44);
+            box-shadow: 6px 5px 15px -3px rgba(0,
+            0,
+            0,
+            0.44);
+            &::before {
+                content: '';
+                background-color: white;
+                border-radius: 3px;
+                height: 1rem;
+                width: 1rem;
+                position: absolute;
+                transform: translateX(-50%) rotateZ(45deg);
+                top: -0.5rem;
+                right: 20%;
+                // z-index: -1;
+                // -webkit-box-shadow: 6px 5px 15px -3px rgba(0, 0, 0, 0.44);
+                // box-shadow: 6px 5px 15px -3px rgba(0, 0, 0, 0.44);
+            }
+            li {
+                position: relative;
+                min-width: 350px;
+                padding: 15px 0;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+                // border-top: 1px solid rgba(0, 0, 0, 0.2);
+                &.notification-body {
+                    height: 50px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-around;
+                    align-items: center;
+                    padding-left: 2em;
+                    position: relative;
+                    &.new {
+                        &::before {
+                            position: absolute;
+                            content: '';
+                            background-color: rgba(0, 0, 255, 0.6);
+                            height: 0.5em;
+                            width: 0.5em;
+                            border-radius: 50%;
+                            left: 1em;
+                        }
+                    }
+                    .closeNotification {
+                        background-image: url('../img/svg/icons/cancel.svg');
+                        background-color: transparent;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: 60%;
+                        border: none;
+                        display: flex;
+                        justify-self: flex-end;
+                        height: 2em;
+                        width: 2em;
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
                 }
             }
         }
