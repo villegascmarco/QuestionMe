@@ -45,7 +45,8 @@
         </li>
         <li class="navbar-item navbar-button navbar-drop">
             <figure class="qme-menu-user"  id="openMenu">
-                <img  src="{{'https://i.imgur.com/sevGHor.png'}}" alt="User picture">
+                {{-- <img  src="{{'https://i.imgur.com/sevGHor.png'}}" alt="User picture"> --}}
+                <img  src="{{session('userPicture')}}" alt="User picture">
             </figure>
             <ul class="navbar-drop-drop" id="dropMenu">
                 <li>
