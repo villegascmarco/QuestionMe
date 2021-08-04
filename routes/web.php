@@ -19,6 +19,8 @@ use App\Http\Middleware\Role;
 |
 */
 
+
+
 //MainPage
 Route::get('/', 'SiteController@frontpage');
 //AUTH
@@ -45,6 +47,8 @@ Route::group(['middleware'=>['auth']], function(){
         //user-role
         Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desactivate']);
         Route::resource('user_role','user_roleController', ["except" => ['destroy']]);
+
+        
     });
     Route::resource('questions', 'questionController');        
     //Dashboard
@@ -54,5 +58,7 @@ Route::group(['middleware'=>['auth']], function(){
     //Quiz
     Route::get('/quiz', 'SiteController@quiz');
     Route::get('/new-quiz', 'SiteController@quizCreation');
+
+    Route::get('/picture', [userController::class, 'sacarFoto']);
 });
 
