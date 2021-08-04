@@ -51,6 +51,7 @@ class SiteController extends Controller
     }
     /*
 
+
         SIGNUP
 
     */
@@ -86,6 +87,11 @@ class SiteController extends Controller
 
     }
 
+    /*
+    
+        USER 
+    
+    */
     public function user(){
         $title = "Usuarios | Administracion";
         $styleSheets = [
@@ -101,6 +107,27 @@ class SiteController extends Controller
             array('local'=>true,'route'=>'js/modules/user/user.js'),
         ];
         return view('site.user-module.user',compact("title","styleSheets","jsDocs"));
+    }
+    /*
+
+        CATEGORY
+
+    */
+    public function category(){
+        $title = "Categorías | Administracion";
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/module.css'),
+            // array('local'=>true,'route'=>'css/user.css'),
+            array('local'=>false,'route'=>'css/common/sweetalert2.min.css'),
+        ];
+        $jsDocs = [
+            array('local'=>false,'route'=>'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js'),            
+            array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),                          
+            array('local'=>true,'route'=>'js/common/table.js'),
+            array('local'=>true,'route'=>'js/common/formsvalidator.js'),
+            array('local'=>true,'route'=>'js/modules/category/category.js'),
+        ];
+        return view('site.category-module.category',compact("title","styleSheets","jsDocs"));
     }
 
     public function quiz(){

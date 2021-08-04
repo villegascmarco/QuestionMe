@@ -7,6 +7,8 @@ use App\Http\Controllers\humanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\user_roleController;
 use App\Http\Middleware\Role;
+use App\Http\Controllers\categoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,7 @@ Route::get('/','SiteController@frontpage');
 Route::get('/users/userNameTaken/{name}',  [userController::class, 'userNameTaken']);
 Route::get('/users/emailUsed/{name}',  [userController::class, 'emailUsed']);
 
+
 Route::group(['middleware'=>['auth']], function(){
     Route::group(['middleware' => ['is.admin']], function () {
         //users
@@ -47,8 +50,11 @@ Route::group(['middleware'=>['auth']], function(){
         //user-role
         Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desactivate']);
         Route::resource('user_role','user_roleController', ["except" => ['destroy']]);
-
-        
+        //Category
+        Route::post('/categories/desactivate/{id}', [categoryController::class, 'desactivate']);
+        Route::post('/categories/activate/{id}', [categoryController::class, 'activate']);
+        Route::resource('categories', 'categoryController', ["except" => ['destroy']]);
+        Route::get('/category','SiteController@category');
     });
     Route::resource('questions', 'questionController');        
     //Dashboard
@@ -59,6 +65,12 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('/quiz', 'SiteController@quiz');
     Route::get('/new-quiz', 'SiteController@quizCreation');
 
+
     Route::get('/getUserPicture/{id}', [userController::class, 'getUserPicture']);
 });
+
+
+// Route::group(['middleware'=>['auth']], function(){
+// });
+
 
