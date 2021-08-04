@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -42,6 +43,8 @@ class QuestionController extends Controller
             return Redirect::back()->withErrors(['msg', 'Ya tienes una pregunta similar.']);
         }
 
+        DB::beginTransaction();
+
         $question = new question();
         $question->question = $request->question;
         $question->question_type = $request->question_type;
@@ -50,9 +53,11 @@ class QuestionController extends Controller
         try {
             $question->save();
         } catch (\Throwable $th) {
+            DB::rollBack();
             return ('Ocurrió un error.');
             return Redirect::back()->withErrors(['msg', 'Ocurrió un error.']);
         }
+        DB::commit();
         return $question;
     }
 
