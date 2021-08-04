@@ -9,32 +9,134 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: white;
-}
-.qme-navbar .navbar-icon {
-  margin-left: 50px;
-}
-.qme-navbar .navbar-icon img {
-  height: 100%;
-  width: auto;
-}
-.qme-navbar .navbar-content {
-  display: flex;
-  flex-direction: row;
-  list-style: none;
-  margin: 0;
-  margin-right: 50px;
-}
-.qme-navbar .navbar-content .navbar-item {
-  margin: auto 20px;
-}
-.qme-navbar .navbar-content .navbar-item a {
-  text-decoration: none;
-  color: black;
-}
-.qme-navbar .navbar-content .navbar-item.navbar-button button {
-  background-color: rgba(255, 0, 0, 0.6);
-  border-radius: 15px;
-}
+  background-color: white; }
+  .qme-navbar .navbar-icon {
+    margin-left: 50px; }
+    .qme-navbar .navbar-icon img {
+      height: 100%;
+      width: auto; }
+  .qme-navbar .navbar-content {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    margin: 0;
+    margin-right: 50px; }
+    .qme-navbar .navbar-content .navbar-item {
+      margin: auto 20px; }
+      .qme-navbar .navbar-content .navbar-item .qme-button a {
+        color: white; }
+      .qme-navbar .navbar-content .navbar-item a {
+        text-decoration: none;
+        color: black; }
+      .qme-navbar .navbar-content .navbar-item.navbar-button button {
+        background-color: rgba(255, 0, 0, 0.6);
+        border-radius: 15px; }
+      .qme-navbar .navbar-content .navbar-item .notification {
+        position: relative;
+        height: 25px;
+        width: 25px;
+        border: none;
+        background-color: transparent;
+        background-image: url("../img/svg/icons/bell.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 80%; }
+        .qme-navbar .navbar-content .navbar-item .notification:hover {
+          cursor: pointer; }
+      .qme-navbar .navbar-content .navbar-item .notification-number {
+        position: absolute;
+        height: 1.2em;
+        font-size: 0.8em;
+        background-color: red;
+        color: white;
+        border-radius: 5px;
+        padding: 0.2em;
+        top: -0.6em;
+        opacity: 0; }
+        .qme-navbar .navbar-content .navbar-item .notification-number.active {
+          opacity: 1; }
+      .qme-navbar .navbar-content .navbar-item .qme-menu-user {
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        transition: 0.2s ease-in-out; }
+        .qme-navbar .navbar-content .navbar-item .qme-menu-user img {
+          object-fit: cover;
+          height: 100%;
+          width: 100%; }
+        .qme-navbar .navbar-content .navbar-item .qme-menu-user:hover {
+          cursor: pointer;
+          box-shadow: 5px 5px rgba(0, 0, 0, 0.2); }
+          .qme-navbar .navbar-content .navbar-item .qme-menu-user:hover::after {
+            content: '';
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            display: block;
+            top: 0; }
+  .qme-navbar .navbar-drop {
+    position: relative; }
+    .qme-navbar .navbar-drop .navbar-drop-drop {
+      display: none;
+      position: absolute;
+      margin-top: 1rem;
+      right: 50%;
+      transform: translate(25%);
+      padding: 1rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      list-style: none;
+      background-color: white;
+      -webkit-box-shadow: 6px 5px 15px -3px rgba(0, 0, 0, 0.44);
+      box-shadow: 6px 5px 15px -3px rgba(0, 0, 0, 0.44); }
+      .qme-navbar .navbar-drop .navbar-drop-drop.active {
+        display: block; }
+      .qme-navbar .navbar-drop .navbar-drop-drop::before {
+        content: '';
+        background-color: white;
+        border-radius: 3px;
+        height: 1rem;
+        width: 1rem;
+        position: absolute;
+        transform: translateX(-50%) rotateZ(45deg);
+        top: -0.5rem;
+        right: 20%; }
+      .qme-navbar .navbar-drop .navbar-drop-drop li {
+        position: relative;
+        min-width: 350px;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+        .qme-navbar .navbar-drop .navbar-drop-drop li.notification-body {
+          height: 50px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+          padding-left: 2em;
+          position: relative; }
+          .qme-navbar .navbar-drop .navbar-drop-drop li.notification-body.new::before {
+            position: absolute;
+            content: '';
+            background-color: rgba(0, 0, 255, 0.6);
+            height: 0.5em;
+            width: 0.5em;
+            border-radius: 50%;
+            left: 1em; }
+          .qme-navbar .navbar-drop .navbar-drop-drop li.notification-body .closeNotification {
+            background-image: url("../img/svg/icons/cancel.svg");
+            background-color: transparent;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 60%;
+            border: none;
+            display: flex;
+            justify-self: flex-end;
+            height: 2em;
+            width: 2em; }
+            .qme-navbar .navbar-drop .navbar-drop-drop li.notification-body .closeNotification:hover {
+              cursor: pointer; }
 
 /*# sourceMappingURL=navbar.css.map */

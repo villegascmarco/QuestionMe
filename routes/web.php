@@ -67,6 +67,8 @@ Route::group(['middleware'=>['auth']], function(){
 
 
     Route::get('/getUserPicture/{id}', [userController::class, 'getUserPicture']);
+
+    Route::get('/my-account', 'SiteController@userConfig');
 });
 
 

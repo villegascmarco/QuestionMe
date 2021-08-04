@@ -50,7 +50,7 @@
             </figure>
             <ul class="navbar-drop-drop" id="dropMenu">
                 <li>
-                    <a href="">Configurar mi perfil</a>
+                    <a href="{{url('my-account')}}">Configurar mi perfil</a>
                 </li>
                 <li>
                     <a href="{{url('logout')}}">Cerrar sesión</a>
