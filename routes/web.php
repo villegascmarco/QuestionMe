@@ -39,7 +39,12 @@ Route::get('/users/userNameTaken/{name}',  [userController::class, 'userNameTake
 Route::get('/users/emailUsed/{name}',  [userController::class, 'emailUsed']);
 
 
+
+
 Route::group(['middleware'=>['auth']], function(){
+    Route::post('/updateSelf', [userController::class, 'updateSelf']);
+    Route::get('/getSelfData', [userController::class, 'getSelfData']);
+    
     Route::group(['middleware' => ['is.admin']], function () {
         //users
         Route::post('/users/desactivate/{id}', [userController::class, 'desactivate']);
