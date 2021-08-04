@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\possible_answer;
 use App\Models\question;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -47,31 +46,18 @@ class PossibleAnswerController extends Controller
             return Redirect::back()->withErrors(['msg', 'La pregunta no soporta posibles respuestas.']);
         }
 
-        $request->validate([
-            "data"    => "required|array|min:1",
-            'data.*.answer' => 'required|min:1|max:255',
-            'data.*.is_correct' => 'boolean',
+        $validateData = $request->validate([
+            'answer' => 'required|min:1|max:255',
+            'is_correct' => 'boolean',
         ]);
 
-        DB::beginTransaction();
-        foreach ($request->data as  $value) {
-            $answer = new possible_answer();
-            $answer->question = $question;
-            $answer->answer = $value['answer'];
-            $answer->is_correct = $value['is_correct'];
+        $answer = new possible_answer();
+        $answer->question = $question;
+        $answer->answer = $request->answer;
+        $answer->is_correct = $request->is_correct;
 
-            try {
-                $answer->save();
-            } catch (\Throwable $th) {
-                DB::rollBack();
-                return ('Ocurrió un error.');
-                return Redirect::back()->withErrors(['msg', 'Ocurrió un error.']);
-            }
-        }
-
-        DB::commit();
-
-        return $request;
+        $answer->save();
+        return ($answer);
     }
 
     /**
