@@ -13,7 +13,7 @@ const facebookProvider = new firebase.auth.FacebookAuthProvider();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const BUTTON_TEXT = 'Iniciar sesión';
-const IMG_LOADER = ``;
+const IMG_LOADER = `${ASSETS_ROUTE}img/svg/icons/loading-animated.svg`;;
 const CRED_ERROR = 'Parece que los datos ingresados no son correctos, intenta de nuevo';
 const FACEBOOK_ERROR = 'Parece que hay un problema al ingresar con facebook, intenta de nuevo más tarde';
 const GOOGLE_ERROR = 'Parece que hay un problema al ingresar con google, intenta de nuevo más tarde';
@@ -24,7 +24,7 @@ window.onload = _ => {
     LOADER = document.createElement('img');
     LOADER.setAttribute('src', IMG_LOADER);
     LOADER.setAttribute('height', '45px');
-    IMG_LOADER = `${ASSETS_ROUTE}img/svg/icons/loading-animated.svg`;
+
 
     startFormHandler();
     btnLogin.addEventListener('click', _ => {
