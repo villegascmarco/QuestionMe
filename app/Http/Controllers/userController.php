@@ -281,8 +281,7 @@ class userController extends Controller
             'role.id as role','role.name as roleName')
         ->where("role","=", $role)
         ->get();
-
-        // $model = User::->get();
+        
         return $users;
     }
 
@@ -306,13 +305,60 @@ class userController extends Controller
             'response' => TRUE];
         }
         return $response;
-}
+    }
+    
+    public function userNameTakenExceptSelf($id,$name){
+        try {
+
+            $exists = User::where([
+                'name' => $name,
+            ])
+            ->where("id","!=", $id)
+            ->exists();
+        } catch (\Throwable $th) {
+            $response = ['status' => 'error',
+                         'response' => 'Ocurrió un error al verificar el email.'];
+            return $response;
+        }
+
+        $response = ['status' => 'OK',
+        'response' => FALSE];
+        if ($exists) {
+            $response = ['status' => 'OK',
+            'response' => TRUE];
+        }
+        return $response;
+    }
 
     public function emailUsed($email){
         try {
             $exists = human::where([
                 'email' => $email,
             ])
+            ->exists();
+
+        } catch (\Throwable $th) {
+            $response = ['status' => 'error',
+                         'response' => 'Ocurrió un error al verificar el email.'];
+            return $response;
+        }
+
+        $response = ['status' => 'OK',
+        'response' => FALSE];
+        if ($exists) {
+            $response = ['status' => 'OK',
+            'response' => TRUE];
+
+        }
+        return $response;
+    }
+    public function emailUsedExceptSelf($id,$email){
+        try {
+
+            $exists = DB::table('user')
+            ->join('human', 'user.human', "=", "human.id")            
+            ->where("human.email","=", $email)
+            ->where("user.id","!=", $id)
             ->exists();
 
         } catch (\Throwable $th) {
@@ -350,17 +396,16 @@ class userController extends Controller
 
     }
 
-    public function updateSelf(Request $request, $id){
+    public function updateSelf(Request $request){
         $response = [];
 
         $validated = $request->validate([
             'name' => 'required',
             'nameUser' => 'required',
             // 'last_name' => 'required',
-            'email' => 'required',
-            'password' => 'required'
+            'email' => 'required'            
         ]);
-        $modelUser =  User::find($id);
+        $modelUser =  User::find(Auth::user()->id);
         $modelHuman = human::find($modelUser->human);
 
         //validacion del si el nombre de ususario ya existe
@@ -424,7 +469,7 @@ class userController extends Controller
         try{
             $users = DB::table('user')
             ->join('human', 'user.human', "=", "human.id")
-            ->select('user.name as nameUser', 'user.status as statusUser', 'user.role',
+            ->select('user.id as id','user.name as nameUser', 'user.status as statusUser', 'user.role',
             'human.name as name', 'human.last_name', 'human.picture', 'human.date_birth',
             'human.email','user.creado_en')
             ->where("user.id","=", Auth::user()->id)

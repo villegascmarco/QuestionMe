@@ -19,7 +19,7 @@
     .main-content .user-profile-pic img {
       height: 6em;
       width: 6em;
-      border-radius: 50%; }
+      border-radius: 3em; }
   .main-content .user-name {
     font-size: 2em;
     margin: 0.8em; }
@@ -46,5 +46,31 @@
       .main-content .user-info .user-attr p {
         margin: 0;
         font-size: 1.5em; }
+
+.skeleton {
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  min-width: 150px;
+  min-height: 1.2em;
+  animation-name: skAnimation;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate; }
+
+.floating {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 25px;
+  border: 1px solid black;
+  width: 35%;
+  min-height: 35%; }
+
+@keyframes skAnimation {
+  to {
+    background-color: #9c9c9c; } }
 
 /*# sourceMappingURL=user-config.css.map */

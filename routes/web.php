@@ -36,10 +36,9 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/','SiteController@frontpage');
 //Users
 Route::get('/users/userNameTaken/{name}',  [userController::class, 'userNameTaken']);
+Route::get('/users/userNameTakenExceptSelf/{id}/{name}',  [userController::class, 'userNameTakenExceptSelf']);
 Route::get('/users/emailUsed/{name}',  [userController::class, 'emailUsed']);
-
-
-
+Route::get('/users/emailUsedExceptSelf/{id}/{email}',  [userController::class, 'emailUsed']);
 
 Route::group(['middleware'=>['auth']], function(){
     Route::post('/updateSelf', [userController::class, 'updateSelf']);
@@ -69,7 +68,6 @@ Route::group(['middleware'=>['auth']], function(){
     //Quiz
     Route::get('/quiz', 'SiteController@quiz');
     Route::get('/new-quiz', 'SiteController@quizCreation');
-
 
     Route::get('/getUserPicture/{id}', [userController::class, 'getUserPicture']);
 

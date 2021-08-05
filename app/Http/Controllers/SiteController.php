@@ -125,7 +125,7 @@ class SiteController extends Controller
             array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),                          
             array('local'=>true,'route'=>'js/common/table.js'),
             array('local'=>true,'route'=>'js/common/formsvalidator.js'),
-            // array('local'=>true,'route'=>'js/modules/user/user.js'),
+            array('local'=>true,'route'=>'js/modules/user/user-config.js'),
         ];
         return view('site.user-configuration.user-config',compact("title","styleSheets","jsDocs"));
     }

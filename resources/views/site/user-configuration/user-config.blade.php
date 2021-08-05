@@ -9,10 +9,10 @@
     <header class="main-header">
         <div class="main-info">
             <figure class="user-profile-pic">
-                <img src="{{session('userPicture')}}" alt="">
+                <img src="{{session('userPicture')}}" alt="" id="imgProfile">
             </figure>
-            <h3 class="user-name">Moises Morua</h3>
-            <label class="user-role">(Usuario regular)</label>
+            <h3 class="user-name skeleton" id="name"></h3>
+            <label class="user-role skeleton" id="role"></label>
         </div>
         <button class="qme-button simple">Editar fotografía</button>
     </header>
@@ -23,30 +23,32 @@
         <div class="user-attr">
             <div>
                 <label>Nombre de usuario</label>
-                <p>Moiiiiiiii</p>
+                <p id="user-name" class="skeleton"></p>
             </div>
-            <button class="qme-button red">Editar</button>
+            <button class="qme-button red" id="btnEditUserName">Editar</button>
         </div>
         <div class="user-attr">
             <div>
                 <label>Correo electrónico</label>
-                <p>aaaa@dominio.com</p>
+                <p id="email" class="skeleton"></p>
             </div>
-            <button class="qme-button red">Editar</button>
+            <button class="qme-button red" id="btnEditMail">Editar</button>
         </div>
     </section>
     <section class="section">  
         <header>
             <h2>Autenticación</h2>
         </header>
-        <button class="qme-button blue">Cambiar contraseña</button>
+        <button class="qme-button blue" id="btnEditPassword">Cambiar contraseña</button>
     </section>
     <section class="section danger-zone">  
         <header>
             <h2>Zona peligrosa</h2>
         </header>
-        <button class="qme-button simple red">Desactivar mi cuenta</button>
+        <button class="qme-button simple red" id="btnDeactivate">Desactivar mi cuenta</button>
     </section>
 </main>
+
+
 
 @endsection
