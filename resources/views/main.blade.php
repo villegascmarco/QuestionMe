@@ -19,6 +19,8 @@
     @include('menu.menu')
     
     @yield('content')    
+    <script src="https://js.pusher.com/7.0.3/pusher.min.js"></script>
+    <script src="{{asset('js/modules/notification/notification.js')}}"></script>
     <script>
         let ASSETS_ROUTE = '{{ URL::asset('')}}'
     </script>
