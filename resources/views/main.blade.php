@@ -24,10 +24,11 @@
     @yield('content')
     <script src="https://js.pusher.com/7.0.3/pusher.min.js"></script>
     <script src="{{asset('js/modules/notification/notification.js')}}"></script>
-    <script src="{{asset('js/common/navbar.js')}}"></script>
+    @if (Auth::check())        
+        <script src="{{asset('js/common/navbar.js')}}"></script>
+    @endif  
     <script>
-        let ASSETS_ROUTE = '{{ URL::asset('
-        ')}}'
+        let ASSETS_ROUTE = '{{ URL::asset('')}}'
     </script>
     @foreach ($jsDocs as $js)
     @if ($js['local'])
