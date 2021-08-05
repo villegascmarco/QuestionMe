@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\userEloquent;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use User;
 use App\Models\human;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -53,7 +52,7 @@ class userController extends Controller
         $response = [];
         $validated = $request->validate([
             'name' => 'required',
-            'last_name' => 'required',
+            // 'last_name' => 'required',
             'date_birth' => 'required',
             'email' => 'required|email',
             'nameUser' => 'required',
@@ -61,7 +60,7 @@ class userController extends Controller
         ]);
 
         //validacion del si el nombre de ususario ya existe
-        $exists = userEloquent::where([
+        $exists = User::where([
             'name' => $request->nameUser,
         ])->exists();
 
@@ -83,7 +82,7 @@ class userController extends Controller
                 $Human->status =  $request->status;
                 $Human ->save(); 
                 //creaccion del usuario obteniendo la id del humano
-                $User = new userEloquent();
+                $User = new User();
                 $User->name =  $request->nameUser;
                 $User->password = bcrypt($request->password);
                 $User->creado_en = $request->creado_en;
@@ -97,9 +96,8 @@ class userController extends Controller
                 $response = ['status' => 'error',
                              'response' => 'Ocurrió un error al insertar Usuario o Humano.',
                              'error' => $th];
-                return $response;
                 DB::rollback();
-                return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Usuario o Humano.']);
+                return $response;                
             }
             $response = [
                 'status' => 'OK',
@@ -116,7 +114,7 @@ class userController extends Controller
      */
     public function show($id)
     {
-        $model = userEloquent::find($id);
+        $model = User::find($id);
         return $model;
     }
 
@@ -128,7 +126,7 @@ class userController extends Controller
      */
     public function edit($id)
     {
-       $model = userEloquent::find($id);
+       $model = User::find($id);
        return($model);
     }
 
@@ -144,17 +142,17 @@ class userController extends Controller
         $response = [];
         $validated = $request->validate([
             'name' => 'required',
-            'last_name' => 'required',
+            // 'last_name' => 'required',
             'date_birth' => 'required',
             'email' => 'required',
             'nameUser' => 'required',
             'password' => 'required',
         ]);
-        $modelUser =  userEloquent::find($id);
+        $modelUser =  User::find($id);
         $modelHuman = human::find($request->human);
 
         //validacion del si el nombre de ususario ya existe
-        $exists = userEloquent::where([
+        $exists = User::where([
             'name' => $request->nameUser,
         ])
         ->where("id","!=", $request->id)
@@ -208,8 +206,7 @@ class userController extends Controller
                          'response' => 'Ocurrió un error al Modificar Usuario o Humano.',
                          'error' => $th];
             DB::rollback();
-            return $response;
-            return Redirect::back()->withErrors(['msg', 'Ocurrió un error al insertar Usuario o Humano.']);
+            return $response;            
         }
         $response = ['status' => 'OK'];
         return $response;
@@ -228,7 +225,7 @@ class userController extends Controller
 
     public function activate($id){
         $response = [];
-        $model = userEloquent::find($id);
+        $model = User::find($id);
          //si el modelo de usuario no encuentra la id manda mensaje de error
          if (!isset($model)) {
             $response = ['status' => 'error',
@@ -251,7 +248,7 @@ class userController extends Controller
 
     public function desactivate($id){
         $response = [];
-        $model = userEloquent::find($id);
+        $model = User::find($id);
          //si el modelo de usuario no encuentra la id manda mensaje de error
          if (!isset($model)) {
             $response = ['status' => 'error',
@@ -284,9 +281,71 @@ class userController extends Controller
         ->where("role","=", $role)
         ->get();
 
-
-
-        // $model = userEloquent::->get();
+        // $model = User::->get();
         return $users;
+    }
+
+    public function userNameTaken($name){
+        try {
+
+            $exists = User::where([
+                'name' => $name,
+            ])
+            ->exists();
+        } catch (\Throwable $th) {
+            $response = ['status' => 'error',
+                         'response' => 'Ocurrió un error al verificar el email.'];
+            return $response;
+        }
+
+        $response = ['status' => 'OK',
+        'response' => FALSE];
+        if ($exists) {
+            $response = ['status' => 'OK',
+            'response' => TRUE];
+        }
+        return $response;
+}
+
+    public function emailUsed($email){
+        try {
+            $exists = human::where([
+                'email' => $email,
+            ])
+            ->exists();
+
+        } catch (\Throwable $th) {
+            $response = ['status' => 'error',
+                         'response' => 'Ocurrió un error al verificar el email.'];
+            return $response;
+        }
+
+        $response = ['status' => 'OK',
+        'response' => FALSE];
+        if ($exists) {
+            $response = ['status' => 'OK',
+            'response' => TRUE];
+
+        }
+        return $response;
+    }
+
+    public function getUserPicture($id){
+        try {
+        $picture = DB::table('user')
+         ->join('human', 'user.human', "=", "human.id")
+         ->select('human.picture')
+         ->where("user.id","=", $id)->first();
+        
+        $response = ['status' => 'OK',
+        'picture' => $picture];
+        return $response;
+        
+        } catch (\Throwable $th) {
+             $response = ['status' => 'error',
+                        'response' => 'Ocurrió un error al consultar fotografias.'];
+        return $response;
+        }
+
     }
 }

@@ -126,4 +126,46 @@ class FormsValidator {
     changeDisabledAll(disabled = true) {
         this.formElements.forEach(el => el.disabled = !disabled);
     }
+
+    showError(name = '', message = 'Hay un error') {
+
+
+        let el = this.formElements.find(el => el.name === name);
+
+        if (!el) return;
+
+        let alertInserted = el.parentNode.querySelector('.qme-alert-form');
+
+        if (alertInserted) {
+            alertInserted.parentNode.removeChild(alertInserted);
+        }
+
+        var alert = document.createElement('div');
+        alert.setAttribute('class', 'qme-alert-form');
+        alert.innerText = message;
+        el.parentNode.appendChild(alert);
+        el.focus();
+
+
+    }
+
+    removeError(name = '') {
+        if (name === '') {
+            this.formElements.forEach(el => {
+                let alertInserted = el.parentNode.querySelector('.qme-alert-form');
+
+                if (alertInserted) alertInserted.parentNode.removeChild(alertInserted);
+
+            })
+            return;
+        }
+        let el = this.formElements.find(el => el.name === name);
+        if (!el) return;
+
+        let alertInserted = el.parentNode.querySelector('.qme-alert-form');
+
+        if (alertInserted) alertInserted.parentNode.removeChild(alertInserted);
+
+    }
+
 }
