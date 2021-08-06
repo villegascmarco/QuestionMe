@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\answer_selected;
 use App\Models\non_registered_human;
+use App\Models\possible_answer;
+use App\Models\question;
+use App\Models\quiz;
+use App\Models\User;
+use App\Notifications\NewResponseReceivedNotification;
 use Illuminate\Http\Request;
 
 class NonRegisteredHumanController extends Controller
@@ -34,6 +39,8 @@ class NonRegisteredHumanController extends Controller
             'closed_ended' => 'required_without_all:open_ended|array', //al menos uno de open_ended y closed_ended es necesario.
         ]);
 
+        $first = true;
+
         $nonHuman = new non_registered_human();
 
         $nonHuman->name = $request->name;
@@ -47,6 +54,14 @@ class NonRegisteredHumanController extends Controller
             $answer->possible_answer = $value;
 
             $nonHuman->answers()->save($answer);
+            if ($first) {
+                $first = false;
+                $possibleAnswer = possible_answer::find($value);
+                $question = question::find($possibleAnswer->question);
+                $quiz = quiz::find($question->quiz);
+                $user = User::find($quiz->user);
+                $user->notify(new NewResponseReceivedNotification($quiz->name));
+            }
         }
 
         foreach ($request->open_ended as $value) {
@@ -55,6 +70,13 @@ class NonRegisteredHumanController extends Controller
             $answer->given_answer = $value['answer'];
 
             $nonHuman->answers()->save($answer);
+            if ($first) {
+                $first = false;
+                $question = question::find($answer->question);
+                $quiz = quiz::find($question->quiz);
+                $user = User::find($quiz->user);
+                $user->notify(new NewResponseReceivedNotification($quiz->name));
+            }
         }
 
         return (non_registered_human::with('answers')->where('id', $nonHuman->id)->get());
