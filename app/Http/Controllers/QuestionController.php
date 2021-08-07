@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\answer_selected;
 use App\Models\question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -122,7 +123,11 @@ class QuestionController extends Controller
             'quiz' => $quiz,
         ])->firstOrFail();
 
+        DB::beginTransaction();
+
         $question->delete();
+
+        DB::commit();
         Session::flash('message', 'Pregunta eliminada correctamente.');
         return ('Pregunta eliminada correctamente');
     }
