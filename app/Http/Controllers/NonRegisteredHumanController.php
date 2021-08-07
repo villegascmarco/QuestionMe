@@ -98,9 +98,9 @@ class NonRegisteredHumanController extends Controller
      * @param  \App\Models\non_registered_human  $non_registered_human
      * @return \Illuminate\Http\Response
      */
-    public function show(non_registered_human $non_registered_human)
+    public function show($id)
     {
-        //
+        return (non_registered_human::with('answers')->where('id', $id)->get());
     }
 
     /**
