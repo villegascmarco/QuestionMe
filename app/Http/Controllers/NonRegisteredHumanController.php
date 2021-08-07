@@ -8,8 +8,10 @@ use App\Models\possible_answer;
 use App\Models\question;
 use App\Models\quiz;
 use App\Models\User;
+use App\Notifications\AnswersSendNotification;
 use App\Notifications\NewResponseReceivedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class NonRegisteredHumanController extends Controller
 {
@@ -78,6 +80,7 @@ class NonRegisteredHumanController extends Controller
                 $user->notify(new NewResponseReceivedNotification($quiz->name));
             }
         }
+        Notification::send($user, new AnswersSendNotification($quiz->name));
 
         return (non_registered_human::with('answers')->where('id', $nonHuman->id)->get());
     }
