@@ -17,7 +17,7 @@ class NonRegisteredHuman extends Migration
             $table->id();
             $table->string('name');
             $table->string('last_name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamps();
         });
     }

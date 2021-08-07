@@ -17,8 +17,8 @@ class User extends Migration
             $table->id();
             $table->string('name');
             $table->string('password');
+            $table->string('creado_en');
             $table->integer('status')->default(0);
-
             $table->unsignedBigInteger('role');
             $table->foreign('role')->references('id')->on('user_role');
 

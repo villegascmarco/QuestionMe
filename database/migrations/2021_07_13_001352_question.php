@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Question extends Migration
+class question extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,6 @@ class Question extends Migration
         Schema::create('question', function (Blueprint $table) {
             $table->id();
             $table->string('question');
-            $table->integer('order')->default(0);
 
             $table->unsignedBigInteger('question_type');
             $table->foreign('question_type')->references('id')->on('question_type');

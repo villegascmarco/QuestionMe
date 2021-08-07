@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500&display=swap');
+
+html {
+    scroll-behavior: smooth;
+}
+
+body  {
+    font-family: 'Jost', sans-serif;
+}
+
+
+/*
+
+Register Container
+
+*/
+
+
+.register-container {
+    margin: auto;
+    overflow: hidden;
+    max-width: 1500px;
+    /* 1200px; */
+    padding: 100px 0;
+    /* --padding-container: 100px 0; */
+}
+
+.register-form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.register-inputs {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+    margin: 30px 0;
+    font-size: 20px;
+    width: 280px;
+    transition: 0.3s ease;
+}
+
+.register-inputs:focus{
+    border-bottom: 2px solid #ff0000c9;
+}
+
+
+label {
+    display: block;
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.register-btn {
+    text-decoration: none;
+    color: #FF0000;
+    font-weight: bold;
+    background-color: var(--color-btn);
+    font-size: 25px;
+    border-radius: 20px;
+    padding: 10px 45px;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-right: 20px;
+    transition: 0.3s;
+    border: 3px solid #FF0000;
+    cursor: pointer;
+}
+
+.register-btn:hover {
+    background-color: #ff0000d5;
+    border: 3px solid #ff0000d5;
+    color: white;
+}
+
+.register-pass {
+    margin-top: 97%;
+    margin-left: -100px;
+}
+
+.register-button {
+    grid-row: 2;
+    margin-left: 40%;
+    margin-top: 50px;
+}
+
+.img-register {
+    width: 600px;
+}
+

@@ -9,25 +9,32 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: white; }
-  .qme-navbar .navbar-icon {
-    margin-left: 50px; }
-    .qme-navbar .navbar-icon img {
-      height: 100%;
-      width: auto; }
-  .qme-navbar .navbar-content {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-    margin: 0;
-    margin-right: 50px; }
-    .qme-navbar .navbar-content .navbar-item {
-      margin: auto 20px; }
-      .qme-navbar .navbar-content .navbar-item a {
-        text-decoration: none;
-        color: black; }
-      .qme-navbar .navbar-content .navbar-item.navbar-button button {
-        background-color: rgba(255, 0, 0, 0.6);
-        border-radius: 15px; }
+  background-color: white;
+}
+.qme-navbar .navbar-icon {
+  margin-left: 50px;
+}
+.qme-navbar .navbar-icon img {
+  height: 100%;
+  width: auto;
+}
+.qme-navbar .navbar-content {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin: 0;
+  margin-right: 50px;
+}
+.qme-navbar .navbar-content .navbar-item {
+  margin: auto 20px;
+}
+.qme-navbar .navbar-content .navbar-item a {
+  text-decoration: none;
+  color: black;
+}
+.qme-navbar .navbar-content .navbar-item.navbar-button button {
+  background-color: rgba(255, 0, 0, 0.6);
+  border-radius: 15px;
+}
 
 /*# sourceMappingURL=navbar.css.map */
