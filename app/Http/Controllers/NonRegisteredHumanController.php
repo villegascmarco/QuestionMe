@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\answer_selected;
 use App\Models\non_registered_human;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NonRegisteredHumanController extends Controller
 {
@@ -78,9 +79,30 @@ class NonRegisteredHumanController extends Controller
      * @param  \App\Models\non_registered_human  $non_registered_human
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, non_registered_human $non_registered_human)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'answers' => 'required|array|min:1',
+        ]);
+
+        DB::beginTransaction();
+
+        foreach ($request->answers as  $value) {
+
+            if (isset($value['question'])) {
+                $answer_selected =  answer_selected::where([
+                    'id' => $value['id'],
+                    'non_registered_human' => $id,
+                ])->firstOrFail();
+
+                $answer_selected->is_correct = $value['is_correct'];
+                $answer_selected->save();
+            }
+        }
+
+        DB::commit();
+
+        return ($request);
     }
 
     /**
