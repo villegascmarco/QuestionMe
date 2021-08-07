@@ -36,13 +36,18 @@ $('#category').autocomplete({
 });
 
 function getPosibleAnswers(el) {
-    if (el.value == 1) {
+    if (el.value == 2) {
+
+        if( document.getElementById('answer-checkboxes') ) {
+            document.getElementById('answer-checkboxes').remove()
+        }
+
         let input = document.createElement("input")
         input.className = "input"
         input.id = "posible-answer"
         answerSection.append(input);
 
-    } else if (el.value == 2) {
+    } else if (el.value == 1) {
         genMultiple()
     }
 }
@@ -57,6 +62,7 @@ const genMultiple = () => {
 
     let divAllMulti = document.createElement("div")
     divAllMulti.className = "answer-checkboxes"
+    divAllMulti.id = "answer-checkboxes"
     
     let divCheck = document.createElement("div")
     divCheck.className = "answer-checkboxes"
@@ -110,6 +116,12 @@ const addAnswer = ( parent ) => {
     parent.append(radio)
     parent.append(input)
 }
+
+let btnContainer = document.getElementById('btn-container');
+        let answers = document.createElement("div")
+        answers.className = "answers-waiting"
+        btnContainer.append(answers)
+
 const saveAnswer = async () => {
     let openAnswer = document.getElementById('rd-open')
 
@@ -135,40 +147,75 @@ const saveAnswer = async () => {
         if(checkAnswers.length == answerSlct)
             console.log("No se selecciono ni uno")
 
-        let btnContainer = document.getElementById('btn-container');
-        let answers = document.createElement("div")
-        answers.className = "answers-waiting"
-        btnContainer.append(answers)
+        
 
 
         let question = {
-        data:[{
             question: questionstr.value,
-            question_type: openAnswer.checked ? 1 : 2
-        }]
+            question_type: openAnswer.checked ? 2 : 1
         }
 
-        let quAnswer = {}
-
+        
+        let quAnswer
         openAnswer.checked ? 
         (quAnswer.data.push({
 
         }))
         :
-        (quAnswer.data = arrAnswers)
+        (quAnswer = arrAnswers)
 
-        await setQuestionAnswer( question, quAnswer)
+       
+      if( document.getElementById('answer-checkboxes') ) {
+            document.getElementById('answer-checkboxes').remove()
 
-        
-        
+        } else if (document.getElementById('posible-answer')) {
+            document.getElementById('posible-answer').remove()
+        }
+
+        questionstr.value=""
+        await setQuestionAnswer( answers, question, quAnswer)
+
     }   
 }
 
-const setQuestionAnswer = async ( question, quAnswer) => {
+const setQuestionAnswer = async ( parent, question, quAnswer ) => {
 
-    await addQuestion( question )
+    
+    let idQuestion = await addQuestion( question )
+    let questionsSave
+    let promises = []
+    
+    quAnswer.forEach( (answer) => {
+        promises.push(addAnswerRqst( answer, idQuestion ))
+    })
 
-    // let questioncmp = document.createElement("div")
+    await Promise.all(promises).then(async(values) => {
+        questionsSave = await getQuestionAns()
+    })
+    
+    debugger
+
+    let inners = ""
+    let listQu = questionsSave.forEach( (questionObj, index) => {
+        inners += "<div class='questions-wait'> <strong> Pregunta: </strong>" + questionObj.question +"<br>"
+        inners += "<h5>Respuestas: </h5>"
+        questionObj.possible_answers.forEach((answers) => {
+            answers.is_correct ? 
+            (inners += "<mark>" + answers.answer +"</mark> <br>") 
+            : 
+            (inners += "<label>" + answers.answer +"</label> <br>")
+        })
+        inners += "<button class='qme-button red' onclick='editQuestion("+index+")'>Editar</button> <button class='qme-button red' onclick='delQuestion("+index+")'>Borrar</button></div>"
+        return inners
+    })
+
+    parent.innerHTML = inners
+
+    // questionsSave ? (
+    // ) : (
+    //     null
+    // )
+    
 }
 
 
@@ -359,8 +406,25 @@ let addCategory = async (newCategory) => {
 //:::::::: QUESTION & ANSWERS :::::::::::
 //:::::::::::::::::::::::::::::::::::::::
 
+let getQuestionAns = async () => {
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions`, {
+        method: "GET",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+    })
+    .then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    })
+    
+    return response
+}
+
 let addQuestion = async ( newQuestion ) => {
-    debugger
     let obj = JSON.parse(localStorage.getItem('QUIZ'))
     let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions`, {
         method: "POST",
@@ -375,7 +439,30 @@ let addQuestion = async ( newQuestion ) => {
             return response.json()
         }
     })
-    localStorage.setItem('QUST', JSON.stringify(response))
+    
+    return response.id
+}
+
+let addAnswerRqst = async ( newAnswer, idQuestion) => {
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions/${idQuestion}/answers`, {
+        method: "POST",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+        body: JSON.stringify(newAnswer)
+    })
+    .then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    })
+    
     return response
+
+}
+
+let delQuestion = async () => {
 
 }

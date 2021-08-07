@@ -90,19 +90,19 @@
                         <label class="radio-group-title" for="">Tipo de pregunta</label>
 
                         <div class="qme-radio">
-                            <input type="radio" value="1" onchange="getPosibleAnswers(this)" id="rd-open" name="question-type">
+                            <input type="radio" value="2" onchange="getPosibleAnswers(this)" id="rd-open" name="question-type">
                             <label class="radio-text" for="rd-open">
                                 Abierta
                             </label>
                         </div>
                         <div class="qme-radio">
-                            <input type="radio" value="2" onchange="getPosibleAnswers(this)" id="rd-multiple" name="question-type">
+                            <input type="radio" value="1" onchange="getPosibleAnswers(this)" id="rd-multiple" name="question-type">
                             <label class="radio-text" for="rd-multiple">
                                 Opción múltiple
                             </label>
                         </div>
                     </fieldset>
-                    <div class="question-container">
+                    <div class="question-container" id="question-container">
                         <div class="qme-input width-550 margin-15 simple qme-required">
                             <label class="label " for=" ">Escribe tu pregunta</label>
                             <input class="input " id="question" type="text " placeholder="Some text ">

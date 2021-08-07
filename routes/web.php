@@ -53,14 +53,19 @@ Route::group(['middleware'=>['auth']], function(){
         //Category
         Route::post('/categories/desactivate/{id}', [categoryController::class, 'desactivate']);
         Route::post('/categories/activate/{id}', [categoryController::class, 'activate']);
-        Route::resource('categories', 'categoryController', ["except" => ['destroy']]);
         Route::get('/category','SiteController@category');
     });
-    Route::resource('questions', 'questionController');        
+
+    Route::resource('quizzes', 'QuizController');
+    Route::resource('quizzes.answers', 'AnswerSelectedController');
+    Route::resource('quizzes.questions', 'QuestionController');
+    Route::resource('quizzes.questions.answers', 'PossibleAnswerController');
+    Route::resource('categories', 'categoryController', ["except" => ['destroy']]);
+    // Route::resource('questions', 'questionController');        
     //Dashboard
     Route::get("/dashboard", 'SiteController@dashboard');
     // Resource::
-    Route::resource('questions', 'questionController');
+    // Route::resource('questions', 'questionController');
     //Quiz
     Route::get('/quiz', 'SiteController@quiz');
     Route::get('/new-quiz', 'SiteController@quizCreation');
