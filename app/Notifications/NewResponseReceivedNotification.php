@@ -32,7 +32,7 @@ class NewResponseReceivedNotification extends Notification implements ShouldBroa
      */
     public function via($notifiable)
     {
-        return ['broadcast'];
+        return ['broadcast', 'database'];
     }
 
     public function toBroadcast($notifiable): BroadcastMessage
@@ -51,7 +51,7 @@ class NewResponseReceivedNotification extends Notification implements ShouldBroa
     public function toArray($notifiable)
     {
         return [
-            //
+            'message' => "Recibiste una nueva respuesta en tu quiz {$this->quiz}"
         ];
     }
 }

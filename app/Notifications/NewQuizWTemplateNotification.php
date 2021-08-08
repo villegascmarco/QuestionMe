@@ -32,7 +32,7 @@ class NewQuizWTemplateNotification extends Notification implements ShouldBroadca
      */
     public function via($notifiable)
     {
-        return ['broadcast'];
+        return ['broadcast', 'database'];
     }
 
     public function toBroadcast($notifiable): BroadcastMessage
@@ -51,7 +51,7 @@ class NewQuizWTemplateNotification extends Notification implements ShouldBroadca
     public function toArray($notifiable)
     {
         return [
-            //
+            'message' => "Tu quiz {$this->quiz} fue usado por un nuevo usuario para crear otro quiz."
         ];
     }
 }
