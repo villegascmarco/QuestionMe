@@ -10,6 +10,7 @@ use App\Models\human;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Hash;
 
 class userController extends Controller
 {
@@ -185,7 +186,7 @@ class userController extends Controller
             DB::beginTransaction();
 
             $modelUser->name =  $request->nameUser;
-            if($request -> paswword){
+            if($request -> password){
                 $modelUser->password = bcrypt($request->password);
             }
             $modelUser->creado_en = $request->creado_en;
@@ -357,8 +358,10 @@ class userController extends Controller
 
             $exists = DB::table('user')
             ->join('human', 'user.human', "=", "human.id")            
-            ->where("human.email","=", $email)
-            ->where("user.id","!=", $id)
+            ->where([
+                ["human.email","=", $email],
+                ["user.id","!=", $id]
+            ])            
             ->exists();
 
         } catch (\Throwable $th) {
@@ -372,7 +375,6 @@ class userController extends Controller
         if ($exists) {
             $response = ['status' => 'OK',
             'response' => TRUE];
-
         }
         return $response;
     }
@@ -412,7 +414,7 @@ class userController extends Controller
         $exists = User::where([
             'name' => $request->nameUser,
         ])
-        ->where("id","=", Auth::user()->id)
+        ->where("id","!=", Auth::user()->id)
         ->exists();
 
         if ($exists) {
@@ -422,7 +424,18 @@ class userController extends Controller
 
             return Redirect::back()->withErrors(['msg', 'Ya Exite un usuario con el mismo nombre.']);
         }
-       
+        //si se envía contraseña en el request
+        if($request -> password && $request -> confirmPassword ){
+
+            if(!(Hash::check($request->confirmPassword,Auth::user()->password))){
+                $response = ['status' => 'error',
+                            'response' => 'La contraseña anterior no es correcta',
+                            'statusCode' => '001'];
+                return $response;
+            }
+            
+        }
+
         //si el modelo humano no encuentra la id manda mensaje de error
         if (!isset($modelHuman)) {
              $response = ['status' => 'error',
@@ -441,7 +454,7 @@ class userController extends Controller
             DB::beginTransaction();
 
             $modelUser->name =  $request->nameUser;
-            if($request -> paswword){
+            if($request -> password){
                 $modelUser->password = bcrypt($request->password);
             }
             $modelUser->status = $request->statusUser;

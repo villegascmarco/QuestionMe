@@ -38,7 +38,7 @@ Route::get('/','SiteController@frontpage');
 Route::get('/users/userNameTaken/{name}',  [userController::class, 'userNameTaken']);
 Route::get('/users/userNameTakenExceptSelf/{id}/{name}',  [userController::class, 'userNameTakenExceptSelf']);
 Route::get('/users/emailUsed/{name}',  [userController::class, 'emailUsed']);
-Route::get('/users/emailUsedExceptSelf/{id}/{email}',  [userController::class, 'emailUsed']);
+Route::get('/users/emailUsedExceptSelf/{id}/{email}',  [userController::class, 'emailUsedExceptSelf']);
 
 Route::group(['middleware'=>['auth']], function(){
     Route::post('/updateSelf', [userController::class, 'updateSelf']);

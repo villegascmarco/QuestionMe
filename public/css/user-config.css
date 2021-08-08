@@ -1,3 +1,56 @@
+.user-profile-pic {
+  margin: 2em; }
+  .user-profile-pic img {
+    height: 6em;
+    width: 6em;
+    border-radius: 3em; }
+  .user-profile-pic.edit {
+    margin: 0; }
+    .user-profile-pic.edit button {
+      padding: 0;
+      height: 8em;
+      width: 8em;
+      border-radius: 50%;
+      background-color: transparent;
+      border: none;
+      position: relative;
+      cursor: pointer; }
+      .user-profile-pic.edit button:hover label {
+        display: flex; }
+      .user-profile-pic.edit button::after {
+        content: '';
+        height: 2rem;
+        width: 2rem;
+        top: 0;
+        left: 75%;
+        border-radius: 50%;
+        position: absolute;
+        background-image: url("../img/svg/icons/add-file.svg");
+        background-size: 65%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #f0f0f0; }
+    .user-profile-pic.edit img {
+      height: 100%;
+      width: 100%;
+      border-radius: 50%; }
+    .user-profile-pic.edit label {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.2);
+      color: white;
+      cursor: pointer; }
+    .user-profile-pic.edit input[type=file] {
+      visibility: hidden;
+      position: absolute; }
+
 .main-content {
   box-sizing: border-box;
   border: 1px solid #707070;
@@ -14,12 +67,6 @@
       flex-direction: row;
       justify-content: start;
       align-items: center; }
-  .main-content .user-profile-pic {
-    margin: 2em; }
-    .main-content .user-profile-pic img {
-      height: 6em;
-      width: 6em;
-      border-radius: 3em; }
   .main-content .user-name {
     font-size: 2em;
     margin: 0.8em; }

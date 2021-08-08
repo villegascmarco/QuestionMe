@@ -14,7 +14,7 @@
             <h3 class="user-name skeleton" id="name"></h3>
             <label class="user-role skeleton" id="role"></label>
         </div>
-        <button class="qme-button simple">Editar fotografía</button>
+        <button class="qme-button simple" id="btnEditPicture">Editar fotografía</button>
     </header>
     <section class="section user-info">
         <header>
@@ -43,12 +43,17 @@
     </section>
     <section class="section danger-zone">  
         <header>
+            @if (Auth::user()->status)
             <h2>Zona peligrosa</h2>
+            @else
+            <h2>Zona de recuperación</h2>
+            @endif
         </header>
+        @if (Auth::user()->status)
         <button class="qme-button simple red" id="btnDeactivate">Desactivar mi cuenta</button>
+        @else
+        <button class="qme-button simple red" id="btnDeactivate">Reactivar mi cuenta</button>
+        @endif
     </section>
 </main>
-
-
-
 @endsection
