@@ -68,9 +68,12 @@ class QuestionController extends Controller
      * @param  int  $id from
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($quiz, $id)
     {
-        //
+        return (question::with('possible_answers')->where([
+            'quiz' => $quiz,
+            'id' => $id,
+        ])->firstOrFail());
     }
 
     /**
