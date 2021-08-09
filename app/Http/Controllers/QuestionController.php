@@ -30,7 +30,7 @@ class QuestionController extends Controller
     public function store($quiz, Request $request)
     {
         $validateData = $request->validate([
-            'question' => 'required|min:10|max:255',
+            'question' => 'required|min:3|max:255',
             'question_type' => 'required|exists:question_type,id',
         ]);
 
@@ -68,9 +68,12 @@ class QuestionController extends Controller
      * @param  int  $id from
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($quiz, $id)
     {
-        //
+        return (question::with('possible_answers')->where([
+            'quiz' => $quiz,
+            'id' => $id,
+        ])->firstOrFail());
     }
 
     /**
@@ -88,7 +91,7 @@ class QuestionController extends Controller
         ])->firstOrFail();
 
         $validateData = $request->validate([
-            'question' => 'required|min:10|max:255',
+            'question' => 'required|min:3|max:255',
             'question_type' => 'required|exists:question_type,id',
         ]);
 
