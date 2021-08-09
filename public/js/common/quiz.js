@@ -129,6 +129,8 @@ const saveAnswer = async () => {
         let checkAnswers = document.getElementsByName('posible-answer-radio')
         let inputAnswer = document.getElementsByName('posible-answer')
         let questionstr = document.getElementById('question')
+        let questionTypeOpen = document.getElementById('rd-open')
+        let questionTypeMulti = document.getElementById('rd-multiple')
 
         let answerSlct = 0
         let arrAnswers = []
@@ -173,6 +175,9 @@ const saveAnswer = async () => {
         }
 
         questionstr.value=""
+        questionTypeOpen.checked = false 
+        questionTypeMulti.checked = false
+
         await setQuestionAnswer( answers, question, quAnswer)
 
     }   
@@ -193,29 +198,22 @@ const setQuestionAnswer = async ( parent, question, quAnswer ) => {
         questionsSave = await getQuestionAns()
     })
     
-    debugger
-
     let inners = ""
     let listQu = questionsSave.forEach( (questionObj, index) => {
-        inners += "<div class='questions-wait'> <strong> Pregunta: </strong>" + questionObj.question +"<br>"
+        inners += "<div class='questions-wait'> <strong> Pregunta: </strong>" +parseInt(index+1)+". " + questionObj.question +"<br>"
         inners += "<h5>Respuestas: </h5>"
-        questionObj.possible_answers.forEach((answers) => {
+        questionObj.possible_answers.forEach((answers, index) => {
             answers.is_correct ? 
             (inners += "<mark>" + answers.answer +"</mark> <br>") 
             : 
             (inners += "<label>" + answers.answer +"</label> <br>")
         })
-        inners += "<button class='qme-button red' onclick='editQuestion("+index+")'>Editar</button> <button class='qme-button red' onclick='delQuestion("+index+")'>Borrar</button></div>"
+        inners += "<button class='qme-button red qu-btn' onclick='editQuestion("+index+")'>Editar</button> <button class='qme-button red qu-btn' onclick='delQuestion("+index+")'>Borrar</button></div>"
         return inners
     })
 
     parent.innerHTML = inners
 
-    // questionsSave ? (
-    // ) : (
-    //     null
-    // )
-    
 }
 
 

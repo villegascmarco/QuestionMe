@@ -36,14 +36,12 @@ body {
     padding-bottom: 50px;
     .carousel-button-container {
         position: absolute;
-        height: 50px;
         bottom: 0;
         right: 0;
         padding: 15px;
         box-sizing: border-box;
     }
     .card {
-        position: absolute;
         height: 100%;
         width: 100%;
         display: none;
@@ -173,8 +171,15 @@ input:checked + .slider:before {
 }
 
 .questions-wait {
-    padding: 10px 0;
+    padding: 30px 10px;
+    box-sizing: border-box;
+    border-radius: 25px;
+    width: 40%;
+    border: 1px solid #707070;
+    margin-top: 30px;
 }
+
+
 
 
 
