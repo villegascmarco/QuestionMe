@@ -1,0 +1,123 @@
+.user-profile-pic {
+  margin: 2em; }
+  .user-profile-pic img {
+    height: 6em;
+    width: 6em;
+    border-radius: 3em; }
+  .user-profile-pic.edit {
+    margin: 0; }
+    .user-profile-pic.edit button {
+      padding: 0;
+      height: 8em;
+      width: 8em;
+      border-radius: 50%;
+      background-color: transparent;
+      border: none;
+      position: relative;
+      cursor: pointer; }
+      .user-profile-pic.edit button:hover label {
+        display: flex; }
+      .user-profile-pic.edit button::after {
+        content: '';
+        height: 2rem;
+        width: 2rem;
+        top: 0;
+        left: 75%;
+        border-radius: 50%;
+        position: absolute;
+        background-image: url("../img/svg/icons/add-file.svg");
+        background-size: 65%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #f0f0f0; }
+    .user-profile-pic.edit img {
+      height: 100%;
+      width: 100%;
+      border-radius: 50%; }
+    .user-profile-pic.edit label {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.2);
+      color: white;
+      cursor: pointer; }
+    .user-profile-pic.edit input[type=file] {
+      visibility: hidden;
+      position: absolute; }
+
+.main-content {
+  box-sizing: border-box;
+  border: 1px solid #707070;
+  background-color: white;
+  border-radius: 25px;
+  padding: 15px 10em; }
+  .main-content .main-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; }
+    .main-content .main-header .main-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      align-items: center; }
+  .main-content .user-name {
+    font-size: 2em;
+    margin: 0.8em; }
+  .main-content .user-role {
+    color: rgba(0, 0, 0, 0.7); }
+  .main-content .section {
+    padding: 2em;
+    margin: 2em 0; }
+  .main-content .danger-zone {
+    border-radius: 25px;
+    border: 1px solid rgba(255, 0, 0, 0.6); }
+  .main-content .user-info {
+    border-radius: 25px;
+    border: 1px solid black; }
+    .main-content .user-info .user-attr {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin: 1em; }
+      .main-content .user-info .user-attr label {
+        font-size: 0.9em;
+        color: rgba(0, 0, 0, 0.8); }
+      .main-content .user-info .user-attr p {
+        margin: 0;
+        font-size: 1.5em; }
+
+.skeleton {
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  min-width: 150px;
+  min-height: 1.2em;
+  animation-name: skAnimation;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate; }
+
+.floating {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 25px;
+  border: 1px solid black;
+  width: 35%;
+  min-height: 35%; }
+
+@keyframes skAnimation {
+  to {
+    background-color: #9c9c9c; } }
+
+/*# sourceMappingURL=user-config.css.map */

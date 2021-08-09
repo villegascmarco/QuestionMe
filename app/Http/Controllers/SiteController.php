@@ -108,6 +108,27 @@ class SiteController extends Controller
         return view('site.user-module.user',compact("title","styleSheets","jsDocs"));
     }
     /*
+    
+        USER CONFIG 
+    
+    */
+    public function userConfig(){
+        $title = "Mi cuenta";
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/module.css'),
+            array('local'=>true,'route'=>'css/user-config.css'),
+            array('local'=>false,'route'=>'css/common/sweetalert2.min.css'),
+        ];
+        $jsDocs = [
+            array('local'=>false,'route'=>'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js'),            
+            array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),                          
+            array('local'=>true,'route'=>'js/common/table.js'),
+            array('local'=>true,'route'=>'js/common/formsvalidator.js'),
+            array('local'=>true,'route'=>'js/modules/user/user-config.js'),
+        ];
+        return view('site.user-configuration.user-config',compact("title","styleSheets","jsDocs"));
+    }
+    /*
 
         CATEGORY
 

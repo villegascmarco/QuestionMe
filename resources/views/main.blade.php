@@ -20,7 +20,9 @@
     {{-- @yield('menu')     --}}
     
     @yield('content')    
-    <script src="{{asset('js/common/navbar.js')}}"></script>
+    @if (Auth::check())
+        <script src="{{asset('js/common/navbar.js')}}"></script>
+    @endif
     <script>
         let ASSETS_ROUTE = '{{ URL::asset('')}}'
     </script>

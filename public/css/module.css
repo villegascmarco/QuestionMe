@@ -55,14 +55,6 @@ body {
 @media (min-width: 1200px) and (max-width: 1800) {
   .module-content .module-content-header {
     display: grid;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> upstream/development
     grid-template-columns: auto;
     grid-gap: 25px;
     box-sizing: border-box;
@@ -234,14 +226,7 @@ body {
   text-decoration: slategray;
   border: 1px solid #707070;
 }
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 23384baf736fd7693d911bfff05a61854292006b
-=======
->>>>>>> feature-login
-=======
->>>>>>> feature-category
+
     grid-template-columns: 70% 30%;
     box-sizing: border-box; }
     @media (min-width: 1200px) and (max-width: 1800) {
@@ -390,17 +375,7 @@ body {
         .module-content .module-table-container .table-navigator .navigator-btn.active {
           text-decoration: slategray;
           border: 1px solid #707070; }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> feature-user
->>>>>>> 23384baf736fd7693d911bfff05a61854292006b
-=======
->>>>>>> feature-login
-=======
->>>>>>> feature-category
->>>>>>> upstream/development
+
 
 .module-adm-panel {
   min-width: 30%;
@@ -413,16 +388,10 @@ body {
   padding-bottom: 50px;
   position: relative;
   /*DISPLAY*/
-<<<<<<< HEAD
+
   display: none;
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
   display: block;
->>>>>>> upstream/development
 }
 .module-adm-panel header {
   font-size: 22px;
@@ -459,14 +428,7 @@ body {
   display: grid;
   grid-template-columns: auto auto;
 }
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 23384baf736fd7693d911bfff05a61854292006b
-=======
->>>>>>> feature-login
-=======
->>>>>>> feature-category
+
   display: none; }
   .module-adm-panel header {
     font-size: 22px;
@@ -497,16 +459,5 @@ body {
   .module-adm-panel .adm-panel-controls {
     display: grid;
     grid-template-columns: auto auto; }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> feature-user
->>>>>>> 23384baf736fd7693d911bfff05a61854292006b
-=======
->>>>>>> feature-login
-=======
->>>>>>> feature-category
->>>>>>> upstream/development
 
 /*# sourceMappingURL=module.css.map */

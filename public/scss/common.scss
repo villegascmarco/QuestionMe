@@ -226,7 +226,21 @@ body {
     &.red {
         color: white;
         background-color: rgba(255, 0, 0, .4);
+        &.simple {
+            color: rgba($color: #ff0000, $alpha: .8);
+            background-color: transparent;
+            border: 1px solid rgba($color: #ff0000, $alpha: .8);
+        }
     }
+    // &.red {
+    //     color: white;
+    //     background-color: rgba($color: #ffae00, $alpha: .8);
+    //     &.simple {
+    //         color: rgba($color: #ffae00, $alpha: .8);
+    //         background-color: transparent;
+    //         border: 1px solid rgba($color: #ffae00, $alpha: .8);
+    //     }
+    // }
     &.blue {
         color: white;
         background-color: rgba(0, 0, 255, .4);
@@ -251,6 +265,11 @@ body {
         &.red {
             color: white;
             background-color: rgba(255, 0, 0, .6);
+            &.simple {
+                color: #ff0000;
+                background-color: transparent;
+                border: 1px solid rgba($color: #ff0000, $alpha: .8);
+            }
         }
         &.blue {
             color: white;

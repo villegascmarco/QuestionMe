@@ -4,11 +4,13 @@
     </div>
     <ul class="navbar-content">
         @if(Auth::check())        
+        @if(Auth::user()->status==1)
         <li class="navbar-item ">
             <a href="{{url('dashboard')}}">
                 Dashboard
             </a>
         </li>            
+
         @if (Auth::user()->role==2)
             <li class="navbar-item ">
                 <a href="{{url('categorias')}}">
@@ -43,6 +45,9 @@
                 </li>                
             </ul>
         </li>
+
+        @endif
+
         <li class="navbar-item navbar-button navbar-drop">
             <figure class="qme-menu-user"  id="openMenu">
                 {{-- <img  src="{{'https://i.imgur.com/sevGHor.png'}}" alt="User picture"> --}}
@@ -50,14 +55,15 @@
             </figure>
             <ul class="navbar-drop-drop" id="dropMenu">
                 <li>
-                    <a href="">Configurar mi perfil</a>
+                    <a href="{{url('my-account')}}">Configurar mi perfil</a>
                 </li>
                 <li>
                     <a href="{{url('logout')}}">Cerrar sesión</a>
                 </li>
             </ul>
-        </li>
+        </li>            
         @else
+        
         <li class="navbar-item ">
             <a href="{{url('signup')}}">
                 Registrarme
@@ -69,5 +75,6 @@
             </button>
         </li>  
         @endif
+
     </ul>
 </nav>

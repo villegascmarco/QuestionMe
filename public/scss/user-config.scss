@@ -1,0 +1,148 @@
+.user-profile-pic {
+    margin: 2em;
+    img {
+        height: 6em;
+        width: 6em;
+        border-radius: 3em;
+    }
+    &.edit {
+        margin: 0;
+        button {
+            padding: 0;
+            height: 8em;
+            width: 8em;
+            border-radius: 50%;
+            background-color: transparent;
+            border: none;
+            position: relative;
+            cursor: pointer;
+            &:hover label {
+                display: flex;
+            }
+            &::after {
+                content: '';
+                height: 2rem;
+                width: 2rem;
+                top: 0;
+                left: 75%;
+                border-radius: 50%;
+                position: absolute;
+                background-image: url('../img/svg/icons/add-file.svg');
+                background-size: 65%;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-color: rgba($color: #f0f0f0, $alpha: 1.0);
+                // box-shadow: 2px 2px rgba($color: #000000, $alpha: .6);
+            }
+        }
+        img {
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+        label {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba($color: #000000, $alpha: 0.2);
+            color: white;
+            cursor: pointer;
+        }
+        input[type=file] {
+            visibility: hidden;
+            position: absolute;
+        }
+    }
+}
+
+.main-content {
+    // background-color: white;
+    // padding: 5em;
+    box-sizing: border-box;
+    border: 1px solid #707070;
+    background-color: white;
+    border-radius: 25px;
+    padding: 15px 10em;
+    .main-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .main-info {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+        }
+    }
+    .user-name {
+        font-size: 2em;
+        margin: 0.8em;
+    }
+    .user-role {
+        color: rgba($color: #000000, $alpha: .7);
+    }
+    .section {
+        padding: 2em;
+        margin: 2em 0;
+    }
+    .danger-zone {
+        border-radius: 25px;
+        border: 1px solid rgba($color: #ff0000, $alpha: .6);
+    }
+    .user-info {
+        border-radius: 25px;
+        border: 1px solid black;
+        .user-attr {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1em;
+            label {
+                font-size: 0.9em;
+                color: rgba($color: #000000, $alpha: .8);
+            }
+            p {
+                margin: 0;
+                font-size: 1.5em;
+            }
+        }
+    }
+}
+
+.skeleton {
+    border-radius: 5px;
+    background-color: rgb(224, 224, 224);
+    min-width: 150px;
+    min-height: 1.2em;
+    animation-name: skAnimation;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.floating {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 25px;
+    border: 1px solid black;
+    width: 35%;
+    min-height: 35%;
+}
+
+@keyframes skAnimation {
+    to {
+        background-color: rgb(156, 156, 156);
+    }
+}
