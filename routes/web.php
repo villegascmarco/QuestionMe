@@ -42,6 +42,7 @@ Route::get('/users/emailUsedExceptSelf/{id}/{email}',  [userController::class, '
 
 Route::group(['middleware'=>['auth']], function(){
     Route::post('/updateSelf', [userController::class, 'updateSelf']);
+    Route::post('/updateSelfPicture', [userController::class, 'updateSelfPicture']);
     Route::get('/getSelfData', [userController::class, 'getSelfData']);
     
     Route::group(['middleware' => ['is.admin']], function () {
