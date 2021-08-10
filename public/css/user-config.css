@@ -3,7 +3,8 @@
   .user-profile-pic img {
     height: 6em;
     width: 6em;
-    border-radius: 3em; }
+    border-radius: 3em;
+    object-fit: cover; }
   .user-profile-pic.edit {
     margin: 0; }
     .user-profile-pic.edit button {
@@ -93,6 +94,19 @@
       .main-content .user-info .user-attr p {
         margin: 0;
         font-size: 1.5em; }
+      .main-content .user-info .user-attr .email-hidden {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center; }
+        .main-content .user-info .user-attr .email-hidden button {
+          margin: 1.5em;
+          height: 2em;
+          width: 2em;
+          background-color: transparent;
+          border: none;
+          background-image: url("../img/svg/icons/view.svg");
+          cursor: pointer; }
 
 .skeleton {
   border-radius: 5px;
