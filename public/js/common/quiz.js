@@ -2,8 +2,11 @@ let carousel = document.getElementById('carousel');
 let template = document.getElementById('template-section');
 let checkbox = document.getElementById('template-check');
 let answerSection = document.getElementById('answer-section')
+let saveBtn = document.getElementById('qu-save')
+let editMode = false
 
 let answersCheck = []
+
 
 template.classList.add('disable-template')
 
@@ -35,6 +38,10 @@ $('#category').autocomplete({
     delay: 20
 });
 
+saveBtn.addEventListener('click', async () => {
+        await saveAnswer()
+})
+
 function getPosibleAnswers(el) {
     if (el.value == 2) {
 
@@ -42,66 +49,108 @@ function getPosibleAnswers(el) {
             document.getElementById('answer-checkboxes').remove()
         }
 
-        let input = document.createElement("input")
-        input.className = "input"
-        input.id = "posible-answer"
-        answerSection.append(input);
+        let answerSection = document.getElementById('answer-section')
+        answerSection.style.display = "none"
+
 
     } else if (el.value == 1) {
         genMultiple()
     }
 }
 
-
-
-
 const genMultiple = () => {
     if( document.getElementById('posible-answer') ) {
         document.getElementById('posible-answer').remove()
     }
+
+    
+    let answerSection = document.getElementById('answer-section')
+    answerSection.style.display = "grid"
 
     let divAllMulti = document.createElement("div")
     divAllMulti.className = "answer-checkboxes"
     divAllMulti.id = "answer-checkboxes"
     
     let divCheck = document.createElement("div")
-    divCheck.className = "answer-checkboxes"
+    divCheck.id = "answers-pending"
 
     let divBtn = document.createElement("div")
     divBtn.className = "answer-btn"
+    divBtn.id = "answer-btn"
 
-    let radio = document.createElement("input")
-    radio.type = "radio"
-    radio.name = "posible-answer-radio"
+
+    let button
+    let removeBtn
+    if(!editMode){
+        let radio = document.createElement("input")
+        radio.type = "radio"
+        radio.name = "posible-answer-radio"
+        
+
+        let input = document.createElement("input")
+        input.className = "input special-answer"
+        input.name = "posible-answer"
+
+        button = document.createElement("button")
+        button.className = "qme-button round red"
+
+        
+        let img = document.createElement('img');
+        img.className = "icon-answer"
+        img.setAttribute('src', `${ASSETS_ROUTE}img/svg/icons/plus-white.svg`);
+        button.appendChild(img);
+
+        removeBtn = document.createElement("button")
+        removeBtn.className = "qme-button round red"
+
+        let imgMinus = document.createElement('img');
+        imgMinus.className = "icon-answer"
+        imgMinus.setAttribute('src', `${ASSETS_ROUTE}img/svg/icons/minus.svg`);
+        removeBtn.appendChild(imgMinus);
+
+        divCheck.append(radio)
+        divCheck.append(input)
+        divBtn.append(button)
+        divBtn.append(removeBtn)
+
+        
+    }
     
 
-    let input = document.createElement("input")
-    input.className = "input special-answer"
-    input.name = "posible-answer"
-
-    let button = document.createElement("button")
-    button.className = "qme-button round red"
-
-    let img = document.createElement('img');
-    img.className = "icon-answer"
-    img.setAttribute('src', `${ASSETS_ROUTE}img/svg/icons/plus-white.svg`);
-    button.appendChild(img);
+    
 
     answerSection.append(divAllMulti)
     divAllMulti.append(divCheck)
     divAllMulti.append(divBtn)
     
-    divCheck.append(radio)
-    divCheck.append(input)
-    divBtn.append(button)
+    if(!editMode){
+        button.addEventListener('click', () => {
+            let answersCheck = document.getElementsByName('posible-answer-radio').length
+            if (answersCheck !== 4) {
+                addAnswer(divCheck)
+            }
+        })
 
-    button.addEventListener('click', () => {
-        let answersCheck = document.getElementsByName('posible-answer-radio').length
-        if (answersCheck !== 4) {
-            addAnswer(divCheck)
-        }
-    })
+        removeBtn.addEventListener('click', () => {
+            let answersCheck = document.getElementsByName('posible-answer-radio').length
+            if (answersCheck > 1) {
+                delAnwer(divCheck)
+            }
+        })
+    }
+    
+
+
 }
+
+const delAnwer = ( parent ) => {
+    let answers = document.getElementsByName('posible-answer-radio')
+    let questions = document.getElementsByName('posible-answer')
+    answers[answers.length - 1].remove()
+    questions[questions.length - 1].remove()
+}
+
+
 const addAnswer = ( parent ) => {
     let radio = document.createElement("input")
     radio.type = "radio"
@@ -117,6 +166,24 @@ const addAnswer = ( parent ) => {
     parent.append(input)
 }
 
+const addAnswerDynamic = ( parent, answer, correct ) => {
+    let radio = document.createElement("input")
+    radio.type = "radio"
+    radio.name = "posible-answer-radio"
+
+    correct ? (radio.checked = true) : (null)
+    
+
+    let input = document.createElement("input")
+    input.className = "input special-answer"
+    input.name = "posible-answer"
+    input.value = answer
+    
+
+    parent.append(radio)
+    parent.append(input)
+}
+
 let btnContainer = document.getElementById('btn-container');
         let answers = document.createElement("div")
         answers.className = "answers-waiting"
@@ -124,26 +191,42 @@ let btnContainer = document.getElementById('btn-container');
 
 const saveAnswer = async () => {
     let openAnswer = document.getElementById('rd-open')
+    let questionstr = document.getElementById('question')
 
     if (document.getElementsByClassName('answer-checkboxes')) {
         let checkAnswers = document.getElementsByName('posible-answer-radio')
         let inputAnswer = document.getElementsByName('posible-answer')
-        let questionstr = document.getElementById('question')
-        let questionTypeOpen = document.getElementById('rd-open')
-        let questionTypeMulti = document.getElementById('rd-multiple')
+        let questionTypeOpen  = document.getElementById('rd-open')
+        let questionTypeMulti = document.getElementById('rd-multiple') 
 
         let answerSlct = 0
         let arrAnswers = []
+
+        let questionObj
+        if(editMode){
+            questionObj = JSON.parse(localStorage.getItem('QUESTION'))
+        }
+
         for(var x=0; x < checkAnswers.length; x++) {
             checkAnswers[x].value = inputAnswer[x].value
 
             if(!checkAnswers[x].checked)
                 answerSlct++ 
-             
-            arrAnswers.push({
-                answer: inputAnswer[x].value,
-                is_correct: checkAnswers[x].checked
-            })
+            
+            if(!editMode){ 
+                arrAnswers.push({
+                    answer: inputAnswer[x].value,
+                    is_correct: checkAnswers[x].checked
+                })
+            } else {
+                arrAnswers.push({
+                    idAnswer: questionObj.possible_answers[x].id,
+                    answer: inputAnswer[x].value,
+                    is_correct: checkAnswers[x].checked
+                })
+            }
+
+            
         }
 
         if(checkAnswers.length == answerSlct)
@@ -159,12 +242,7 @@ const saveAnswer = async () => {
 
         
         let quAnswer
-        openAnswer.checked ? 
-        (quAnswer.data.push({
-
-        }))
-        :
-        (quAnswer = arrAnswers)
+        quAnswer = arrAnswers
 
        
       if( document.getElementById('answer-checkboxes') ) {
@@ -178,44 +256,137 @@ const saveAnswer = async () => {
         questionTypeOpen.checked = false 
         questionTypeMulti.checked = false
 
-        await setQuestionAnswer( answers, question, quAnswer)
+        await setQuestionAnswer( question, quAnswer)
 
-    }   
+    } else {
+
+        let question = {
+            question: questionstr.value,
+            question_type: openAnswer.checked ? 2 : 1
+        }
+
+        setQuestion(question)
+    }  
 }
 
-const setQuestionAnswer = async ( parent, question, quAnswer ) => {
+const setQuestionAnswer = async ( question, quAnswer ) => {
 
-    
-    let idQuestion = await addQuestion( question )
-    let questionsSave
     let promises = []
-    
+
+    if (!editMode){
+    let idQuestion = await addQuestion( question )
+
     quAnswer.forEach( (answer) => {
         promises.push(addAnswerRqst( answer, idQuestion ))
     })
+    } else if (editMode) {
+        await edtQuestion( question )
+        quAnswer.forEach( (answer) => {
+            promises.push(edtAnswers( answer ))
+        })
+    }
 
     await Promise.all(promises).then(async(values) => {
-        questionsSave = await getQuestionAns()
+        await setQuestionsText()
     })
     
+}
+const setQuestion = async ( question ) => {
+
+    if (!editMode){
+        await addQuestion( question )
+
+    } else if (editMode) {
+        await edtQuestion( question )
+    }
+
+    
+    await setQuestionsText()
+    
+    
+}
+
+let setQuestionsText = async () => {
+    let questionsSave
+    questionsSave = await getQuestionAns()
+
     let inners = ""
     let listQu = questionsSave.forEach( (questionObj, index) => {
         inners += "<div class='questions-wait'> <strong> Pregunta: </strong>" +parseInt(index+1)+". " + questionObj.question +"<br>"
         inners += "<h5>Respuestas: </h5>"
-        questionObj.possible_answers.forEach((answers, index) => {
+        questionObj.possible_answers.forEach((answers) => {
             answers.is_correct ? 
             (inners += "<mark>" + answers.answer +"</mark> <br>") 
             : 
             (inners += "<label>" + answers.answer +"</label> <br>")
         })
-        inners += "<button class='qme-button red qu-btn' onclick='editQuestion("+index+")'>Editar</button> <button class='qme-button red qu-btn' onclick='delQuestion("+index+")'>Borrar</button></div>"
+        inners += "<button class='qme-button red qu-btn' onclick='getQuestion("+questionObj.id+")'>Editar</button> <button class='qme-button red qu-btn' onclick='delQuestion("+questionObj.id+")'>Borrar</button></div>"
         return inners
     })
 
-    parent.innerHTML = inners
-
+    answers.innerHTML = inners
 }
 
+let getQuestion = async (idQuestion) => {
+    
+    editMode = true
+
+    let question = document.getElementById('question')
+    let questionTypeOpen = document.getElementById('rd-open')
+    let questionTypeMulti = document.getElementById('rd-multiple')
+    let divBtn = document.getElementById('answer-btn')
+
+    question.value = ""
+    questionTypeOpen.checked = false
+    questionTypeMulti.checked = false
+    
+    let quObj = await getQustionObj(idQuestion)
+
+    if ( quObj.question_type == 2 ) {
+        questionTypeOpen.checked = true
+        question.value = quObj.question
+
+    } else if ( quObj.question_type == 1 ) {
+
+        questionTypeMulti.checked = true
+
+        let divAll = document.getElementById('answer-checkboxes')
+
+
+        if(divAll)
+            divAll.remove()
+
+        
+        genMultiple()
+
+        let divCheck = document.getElementById('answers-pending')
+        
+        question.value = quObj.question
+        
+        quObj.possible_answers.forEach( (answer) => {
+            addAnswerDynamic( divCheck, answer.answer, answer.is_correct)
+        })
+
+
+        button.addEventListener('click', () => {
+            let answersCheck = document.getElementsByName('posible-answer-radio').length
+            if (answersCheck !== 4) {
+                addAnswer(divCheck)
+            }
+        })
+
+        removeBtn.addEventListener('click', () => {
+            let answersCheck = document.getElementsByName('posible-answer-radio').length
+            if (answersCheck > 1) {
+                delAnwer(divCheck)
+            }
+        })
+
+    }
+
+
+    saveBtn.innerText = "Editar"
+}
 
 
 new CardCarousel(carousel);
@@ -285,16 +456,6 @@ carousel.addEventListener('progress', async(evt) => {
     }
 
 })
-
-//:::::::::::::::::::::::::::::::::::::::
-//:::::::::: BUILD ::::::::::::::::::::::
-//:::::::::::::::::::::::::::::::::::::::
-
-
-
-
-
-
 
 
 //:::::::::::::::::::::::::::::::::::::::
@@ -461,6 +622,84 @@ let addAnswerRqst = async ( newAnswer, idQuestion) => {
 
 }
 
-let delQuestion = async () => {
+let delQuestion = async (idQuestion) => {
+    debugger
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions/${idQuestion}`, {
+        method: "DELETE",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+    })
+    .then(async (response) => {
+        if (response.ok) {
+            saveBtn.innerText = "Añadir"
+            editMode = false
+            await setQuestionsText()
+            return response.json()
+        }
+    })
+    return response
+}
+
+let getQustionObj = async (idQuestion) => {
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions/${idQuestion}`, {
+        method: "GET",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+    })
+    .then(async (response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    })
+    localStorage.setItem('QUESTION', JSON.stringify(response))
+    return response
 
 }
+
+let edtQuestion = async ( question ) => {
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+    let quObj = JSON.parse(localStorage.getItem('QUESTION'))
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions/${quObj.id}`, {
+        method: "PUT",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+        body: JSON.stringify(question)
+    }).then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    });
+
+    saveBtn.innerText = "Añadir"
+    editMode = false
+    return response
+}
+
+let edtAnswers = async ( edtAnswer ) => {
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+    let quObj = JSON.parse(localStorage.getItem('QUESTION'))
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions/${quObj.id}/answers/${edtAnswer.idAnswer}`, {
+        method: "PUT",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+        body: JSON.stringify(edtAnswer)
+    }).then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    });
+
+    
+    return response
+}
+

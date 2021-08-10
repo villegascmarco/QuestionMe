@@ -60,10 +60,7 @@ Route::group(['middleware'=>['auth']], function(){
         Route::get('/category','SiteController@category');
     });
 
-    Route::resource('quizzes', 'QuizController');
-    Route::resource('quizzes.answers', 'AnswerSelectedController');
-    Route::resource('quizzes.questions', 'QuestionController');
-    Route::resource('quizzes.questions.answers', 'PossibleAnswerController');
+    
     Route::resource('categories', 'categoryController', ["except" => ['destroy']]);
     // Route::resource('questions', 'questionController');        
     //Dashboard
@@ -71,14 +68,20 @@ Route::group(['middleware'=>['auth']], function(){
     // Resource::
     // Route::resource('questions', 'questionController');
     //Quiz
-    Route::get('/quiz', 'SiteController@quiz');
-    Route::get('/new-quiz', 'SiteController@quizCreation');
+    
 
     Route::get('/getUserPicture/{id}', [userController::class, 'getUserPicture']);
 
     Route::get('/my-account', 'SiteController@userConfig');
 });
 
+    Route::resource('quizzes', 'QuizController');
+    Route::resource('quizzes.answers', 'AnswerSelectedController');
+    Route::resource('quizzes.questions', 'QuestionController');
+    Route::resource('quizzes.questions.answers', 'PossibleAnswerController');
+
+    Route::get('/quiz', 'SiteController@quiz');
+    Route::get('/new-quiz', 'SiteController@quizCreation');
 
 // Route::group(['middleware'=>['auth']], function(){
 // });

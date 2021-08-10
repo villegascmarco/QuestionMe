@@ -112,7 +112,7 @@
                             
                         </div>
                         <div class="btn-container" id="btn-container">
-                            <button class="qme-button red" onclick="saveAnswer()">Guardar</button>
+                            <button id="qu-save" class="qme-button red">Añadir</button>
                         </div>
                     </div>
 
