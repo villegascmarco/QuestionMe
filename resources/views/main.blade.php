@@ -20,13 +20,10 @@
 <body>
     @include('menu.menu')
     {{-- @yield('menu')     --}}
-
-    @yield('content')
-    <script src="https://js.pusher.com/7.0.3/pusher.min.js"></script>
-    <script src="{{asset('js/modules/notification/notification.js')}}"></script>
-    @if (Auth::check())        
+    @yield('content')    
+    @if (Auth::check())
         <script src="{{asset('js/common/navbar.js')}}"></script>
-    @endif  
+    @endif
     <script>
         let ASSETS_ROUTE = '{{ URL::asset('')}}'
     </script>
