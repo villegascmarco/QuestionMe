@@ -76,8 +76,7 @@ class LoginController extends Controller
 
                 $usuarioCheck->name =  $request->nameUser;            
                 $usuarioCheck->creado_en = $request->creado_en;
-                $usuarioCheck->status = $request->statusUser;
-                $usuarioCheck->role =  $request->role;
+                $usuarioCheck->status = $request->statusUser;                
                 $usuarioCheck->human = $human->id;
                 $usuarioCheck->save();
     
