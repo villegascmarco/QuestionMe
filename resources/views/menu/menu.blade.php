@@ -36,7 +36,7 @@
         <li class="navbar-item navbar-drop">
             <button class="notification" id="dropNotification">
                 {{-- <img src="{{ asset('img/svg/icons/bell.svg') }}" alt=""> --}}
-                <label class="notification-number active">+9</label>
+                <label class="notification-number" id="notificationCount">+9</label>
             </button>
             <ul class="navbar-drop-drop" id="dropMenuNotification">
                 <li class="notification-body new">
