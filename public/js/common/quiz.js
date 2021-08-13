@@ -4,6 +4,7 @@ let checkbox = document.getElementById('template-check');
 let answerSection = document.getElementById('answer-section')
 let saveBtn = document.getElementById('qu-save')
 let editMode = false
+let templateslct = null
 
 let answersCheck = []
 
@@ -13,6 +14,9 @@ template.classList.add('disable-template')
 let categories
 window.onload = async() => {
    categories = await getListCategory()    
+   genCategoriesOption()
+   haveLocalStorage()
+   await genTemplates()
 }
 
 $('#category').autocomplete({
@@ -149,7 +153,6 @@ const delAnwer = ( parent ) => {
     answers[answers.length - 1].remove()
     questions[questions.length - 1].remove()
 }
-
 
 const addAnswer = ( parent ) => {
     let radio = document.createElement("input")
@@ -291,6 +294,7 @@ const setQuestionAnswer = async ( question, quAnswer ) => {
     })
     
 }
+
 const setQuestion = async ( question ) => {
 
     if (!editMode){
@@ -367,27 +371,11 @@ let getQuestion = async (idQuestion) => {
             addAnswerDynamic( divCheck, answer.answer, answer.is_correct)
         })
 
-
-        button.addEventListener('click', () => {
-            let answersCheck = document.getElementsByName('posible-answer-radio').length
-            if (answersCheck !== 4) {
-                addAnswer(divCheck)
-            }
-        })
-
-        removeBtn.addEventListener('click', () => {
-            let answersCheck = document.getElementsByName('posible-answer-radio').length
-            if (answersCheck > 1) {
-                delAnwer(divCheck)
-            }
-        })
-
     }
 
 
     saveBtn.innerText = "Editar"
 }
-
 
 new CardCarousel(carousel);
 let wizard = new Wizard(document.getElementById('step-wizard'));
@@ -397,11 +385,14 @@ checkbox.addEventListener('change', function () {
         template.classList.remove('disable-template')
     } else {
         template.classList.add('disable-template')
+        $('.selected-template').removeClass('selected-template')
+        templateslct = null
     }
   });
 
 carousel.addEventListener('progress', async(evt) => {
-    let title = document.getElementById('title').value;
+    
+    let title = document.getElementById('title');
     let category = document.getElementById('category').value;
     let position = evt.detail.position;
     let direction = evt.detail.direction;
@@ -414,53 +405,328 @@ carousel.addEventListener('progress', async(evt) => {
         fount.constructor.name === "Object" ? null : idCategory = await addCategory(fount)
         
         newQuiz = {
-            name: title,
-            is_template: checkbox.checked,
+            name: title.value,
+            is_template: 0,
             quality:0.0,
-            quiz_origin:null,
+            quiz_origin: templateslct.id,
             status:1,
             category: idCategory,
             user:2
     }
-        add(newQuiz)
+        await add(newQuiz)
+
+        if(templateslct || localStorage.getItem('QUIZ')){
+           await setQuestionsText()
+        }
 
     } else if ( position == 2 && localStorage.getItem('QUIZ') && direction === 'FORWARD') {
         let idCategory
         const fount = (categories.find(el => el.name == category) || category);
         idCategory = fount.id
         fount.constructor.name === "Object" ? null : idCategory = await addCategory(fount)
-
         editedQuiz = {
-            name: title,
-            is_template: checkbox.checked,
+            name: title.value,
+            is_template: 0,
             quality:0.0,
+            quiz_origin: 0,
             status:1,
-            category:idCategory,
+            category: idCategory,
             user:2
         }
 
-        edit( editedQuiz )
-    } 
+        await edit( editedQuiz )
 
-    else if ( position == 3) {
-        localStorage.clear()
-    } 
+        if(templateslct || localStorage.getItem('QUIZ')){
+            await setQuestionsText()
+         }
+    
+    
+    } else if ( position == 3) {
+        lastStep()
+
+    } else if ( position == 4 && localStorage.getItem('QUIZ')) {
+        
+        editedQuiz = {
+            is_template: 1
+        }
+
+        await edit( editedQuiz )
+
+        window.location = `${ASSETS_ROUTE}`;
+    
+    } else if ( position == 1 ) {
+        debugger
+        if(title.value == ""){
+            let alert = genAlert('Ingresa un titulo')
+            title.appendChild(alert)
+            
+        }
+    }
+
+
     
 
-    if (direction === 'FORWARD') {
-        wizard.nextStep();
+    // if (direction === 'FORWARD' && position < 4) {
+    //     wizard.nextStep();
+    // } else {
+    //     wizard.previousStep();
         
-    } else {
-        wizard.previousStep();
-        
-    }
+    // }
 
 })
 
+let genTemplates = async (categoryID) => {
+    
+
+
+    let templatesCont = document.getElementsByClassName('layout-container')
+    let templatesCount = templatesCont.length
+    if(templatesCont) {
+        for(var i = 0; i < templatesCount; i++){
+            templatesCont[0].remove()
+        }
+    }
+    
+    let public_quizes = await getAllPublic()
+
+    let templates_section = document.getElementById('template-section')
+   
+    let typeCategory = typeof categoryID
+
+    if( typeCategory == "number"){
+        public_quizes = public_quizes.filter((quiz) => quiz.category == categoryID);
+    }
+    
+
+    public_quizes.map(() => {
+        let templateContainer = document.createElement("div")
+        templateContainer.className = 'layout-container'
+        templates_section.append(templateContainer)
+    })
+
+    let templatesContainer = document.getElementsByClassName('layout-container')
+
+    let quizesAll = []
+    let promises = []
+    let objQuiz = JSON.parse(localStorage.getItem('QUIZ'))
+
+    public_quizes.map( async (quiz, index) => {
+
+        if(objQuiz){
+            objQuiz.quiz_origin == quiz.id ? templatesContainer[index].classList.add('selected-template') : null
+        }
+        
+        let titleContainer = document.createElement("div")
+            titleContainer.className = "titleContainer"
+
+        let title = document.createElement("label")
+            title.className = "template-title"
+            title.innerText = quiz.name
+
+            
+            let getQuestion = getQuestionAnsID(quiz.id)
+            promises.push(getQuestion)
+            
+            
+        titleContainer.append(title)
+        
+        templatesContainer[index].append(titleContainer)
+        templatesContainer[index].onclick = (evt) => {
+            onTemplateChange(quiz, evt.target)
+        }
+    })
+
+    
+    let results = await Promise.all(promises)
+    let quizDiv
+
+    let titleContainerAll = document.getElementsByClassName('titleContainer')
+    
+
+    results.map((questions, index) => {
+
+        quizDiv = document.createElement("div")
+        quizDiv.className = "questions-quiz"
+        
+
+        
+
+        titleContainerAll[index].append(quizDiv)
+
+        questions.map((question, index) => {
+            let questionPut = document.createElement("label")
+                questionPut.className = "question-template"
+                questionPut.innerText = index+1+". "+ question.question
+                quizDiv.append(questionPut)
+        })
+        
+        
+            
+    })
+    
+}
+
+let genCategoriesOption = () => {
+
+    let listCategories = document.getElementById('list-categories-bubbles')
+
+
+    let categoryAll = document.createElement('div')
+        categoryAll.className = "bubble-space"
+
+
+    let labelAll = document.createElement('label')
+        labelAll.className = 'bubble'
+        labelAll.innerText = "Todas"
+        labelAll.htmlFor = "all"
+
+        categoryAll.append(labelAll)
+
+    let radioAll = document.createElement('input')
+        radioAll.type = 'radio'
+        radioAll.name = "category-select"
+        radioAll.id = "all"
+        radioAll.value = "all"
+        radioAll.className = "category-sel"
+        radioAll.onchange = () => {
+            onCategoryChange('all')
+        }
+
+        labelAll.append(radioAll)
+
+   
+        listCategories.append(categoryAll)
+
+    categories.map((category) => {
+
+        let categoryDiv = document.createElement("div")
+            categoryDiv.className = "bubble-space"
+
+        
+        let label = document.createElement('label')
+            label.className = 'bubble no-button'
+            label.innerText = category.name
+            label.htmlFor = category.name
+
+            categoryDiv.append(label)
+
+        let radio = document.createElement("input")
+            radio.type = "radio"
+            radio.className = "category-sel"
+            radio.name = "category-select"
+            radio.id = category.name
+            radio.value = category.id
+            radio.onchange = () => {
+                onCategoryChange(category.id)
+            }
+
+            label.append(radio)
+
+        listCategories.append(categoryDiv)
+
+    })
+}
+
+let onCategoryChange = (category) => {
+    let categoriesOpt = document.getElementsByClassName('category-sel')
+    let selected
+    for(var i = 0; i < categoriesOpt.length; i++){
+        if(categoriesOpt[i].checked) {
+            selected = categoriesOpt[i]
+        }
+    }
+   
+    $(selected).parent().parent().parent().find('.bubble-space').find('.bubble').not('.no-button').addClass('no-button')
+    $(selected).parent().removeClass('no-button')
+    
+
+    genTemplates(category)
+}
+
+let onTemplateChange = (template, el) => {
+    if(checkbox.checked){
+        if($('.selected-template')){
+            $('.selected-template').removeClass('selected-template')
+        }
+    
+        el.classList.add('selected-template')
+        templateslct = template
+    } else {
+        
+    }
+}
+
+let haveLocalStorage = () => {
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+
+    let title = document.getElementById('title')
+    let category = document.getElementById('category')
+    let switchTemplate = document.getElementById('switch-template')
+
+    if(obj){
+        const fount = (categories.find(el => el.id == obj.category));
+        title.value = obj.name
+        category.value = fount.name
+        switchTemplate.remove()
+    }
+}
+
+let lastStep = async () => {
+    let obj = JSON.parse(localStorage.getItem('QUIZ'))
+
+    const fount = (categories.find(el => el.id == obj.category));
+
+    let lastStep = document.getElementById("lastStep")
+
+    let questionsSave = await getQuestionAns()
+
+    let inners = ""
+        inners += "<div class='quiz-last'> <h2> Titulo: "+obj.name+"</h2> "
+        inners += "<h3> Categoria: "+fount.name+"</h3> </div>"
+    let listQu = questionsSave.forEach( (questionObj, index) => {
+        inners += "<div class='questions-final'> <strong> Pregunta: </strong>" +parseInt(index+1)+". " + questionObj.question +"<br>"
+        inners += "<h5>Respuestas: </h5>"
+        questionObj.possible_answers.forEach((answers) => {
+            answers.is_correct ? 
+            (inners += "<mark>" + answers.answer +"</mark> <br>") 
+            : 
+            (inners += "<label>" + answers.answer +"</label> <br>")
+        })
+        inners += "</div>"
+        return inners
+    })
+
+    lastStep.innerHTML = inners
+    
+}
+
+let genAlert = ( message ) => {
+    let alert = document.createElement('div')
+    alert.className = 'qme-alert-form'
+    alert.innerText = message
+
+    return alert
+}
 
 //:::::::::::::::::::::::::::::::::::::::
 //:::::::::: PETITION :::::::::::::::::::
 //:::::::::::::::::::::::::::::::::::::::
+
+let getAllPublic = async () => {
+    let response = await fetch(`${ASSETS_ROUTE}quizzes`, {
+        method: "GET",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+    }).then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    });
+
+    return response
+}
 
 
 let get = async () => {
@@ -583,6 +849,24 @@ let getQuestionAns = async () => {
     return response
 }
 
+let getQuestionAnsID = async (idQuiz) => {
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/${idQuiz}/questions`, {
+        method: "GET",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+    })
+    .then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    })
+    
+    return response
+}
+
+
 let addQuestion = async ( newQuestion ) => {
     let obj = JSON.parse(localStorage.getItem('QUIZ'))
     let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions`, {
@@ -623,7 +907,6 @@ let addAnswerRqst = async ( newAnswer, idQuestion) => {
 }
 
 let delQuestion = async (idQuestion) => {
-    debugger
     let obj = JSON.parse(localStorage.getItem('QUIZ'))
     let response = await fetch(`${ASSETS_ROUTE}quizzes/${obj.id}/questions/${idQuestion}`, {
         method: "DELETE",

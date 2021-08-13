@@ -388,7 +388,11 @@ body {
 }
 
 .bubble-categories-container {
-    width: fit-content;
+    height: 60px;
+    overflow-y: hidden;
+    white-space: nowrap;
+    width: 100%;
+    margin-bottom: 30px;
     .bubble {
         display: inline-flex;
         justify-content: center;
@@ -404,6 +408,7 @@ body {
         font-size: 0.8em;
         box-sizing: border-box;
         position: relative;
+        cursor: pointer;
         &.no-button {
             padding-right: 15px;
             background-color: transparent;
@@ -412,9 +417,6 @@ body {
             &::after {
                 content: "";
                 display: none;
-            }
-            &:hover {
-                cursor: auto;
             }
         }
         &::after {

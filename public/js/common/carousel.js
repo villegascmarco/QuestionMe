@@ -5,6 +5,7 @@ class CardCarousel {
     currentPosition = 0;
     btnNext;
     btnPrev;
+    callback = null;
 
     constructor(element) {
         this.element = element;
@@ -23,12 +24,17 @@ class CardCarousel {
         this.btnNext.setAttribute('class', 'qme-button btn-carousel red margin-left-25');
         this.btnNext.innerText = 'Siguiente';
         this.btnNext.addEventListener('click', () => {
+            
+            if(++this.currentPosition == 1){
+                
+            }
+            
             if (this.currentPosition < this.carouselCards.length) {
                 ++this.currentPosition;
             }
             // debugger
             if (this.currentPosition === (this.carouselCards.length - 1)) {
-                this.btnNext.disabled = true;
+                
             }
             if (this.currentPosition > 0) {
                 this.btnPrev.disabled = false;

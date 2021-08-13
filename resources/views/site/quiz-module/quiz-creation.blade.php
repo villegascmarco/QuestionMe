@@ -48,37 +48,23 @@
                 <header>
                     <h1>Selecciona una plantilla</h1>
 
-                    <span>¿Usar plantilla?</span>
-
-                    <br>
-                    
-                    <label class="switch">
-                        <input id="template-check" type="checkbox">
-                        <span class="slider"></span>
-                    </label>
+                    <div id="switch-template">
+                        <span>¿Usar plantilla?</span>
+                        <br>
+                        <label class="switch" >
+                            <input id="template-check" type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                        <br>
+                        <span class="accion" >*Esta acción no se puede deshacer</span>
+                    </div>
                     
                 </header>
+
+                <div id="list-categories-bubbles" class="bubble-categories-container">
+                </div>
                 <section id="template-section" class="step-section layout-container-grid">
-                    <div class="layout-container">
-                        <header>
-                            <h3>Nombre plantilla</h3>
-                        </header>
-                    </div>
-                    <div class="layout-container">
-                        <header>
-                            <h3>Nombre plantilla</h3>
-                        </header>
-                    </div>
-                    <div class="layout-container">
-                        <header>
-                            <h3>Nombre plantilla</h3>
-                        </header>
-                    </div>
-                    <div class="layout-container">
-                        <header>
-                            <h3>Nombre plantilla</h3>
-                        </header>
-                    </div>
+                    
                 </section>
             </div>
             <div class="card">
@@ -122,29 +108,26 @@
                 <header>
                     <h1>Últimos detalles</h1>
                 </header>
-                <section>
+                <section >
                     <fieldset class="qme-radio-group qme-required">
-                        <label class="radio-group-title" for="">Visibilidad de tu encuesta</label>
+                        <label class="radio-group-title" for="">Quieres que otros usuarios puedan utlizar tu encuesta/cuestionario</label>
 
                         <div class="qme-radio">
-                            <input type="radio" id="rd-open-now" name="question-type">
-                            <label class="radio-text" for="rd-open-now">
-                                Abrir ahora
+                            <input type="radio" id="rd-public" name="question-type">
+                            <label class="radio-text" for="rd-public">
+                                Si
                             </label>
                         </div>
                         <div class="qme-radio">
-                            <input type="radio" id="rd-program" name="question-type">
-                            <label class="radio-text" for="rd-program">
-                                Programar apertura
-                            </label>
-                        </div>
-                        <div class="qme-radio">
-                            <input type="radio" id="rd-ask-later" name="question-type">
-                            <label class="radio-text" for="rd-ask-later">
-                                Pregúntame luego
+                            <input type="radio" id="rd-close" name="question-type">
+                            <label class="radio-text" for="rd-close">
+                                No
                             </label>
                         </div>
                     </fieldset>
+                    <div id="lastStep">
+
+                    </div>
                 </section>
             </div>
         </div>
