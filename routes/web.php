@@ -36,10 +36,15 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/','SiteController@frontpage');
 //Users
 Route::get('/users/userNameTaken/{name}',  [userController::class, 'userNameTaken']);
+Route::get('/users/userNameTakenExceptSelf/{id}/{name}',  [userController::class, 'userNameTakenExceptSelf']);
 Route::get('/users/emailUsed/{name}',  [userController::class, 'emailUsed']);
-
+Route::get('/users/emailUsedExceptSelf/{id}/{email}',  [userController::class, 'emailUsedExceptSelf']);
 
 Route::group(['middleware'=>['auth']], function(){
+    Route::post('/updateSelf', [userController::class, 'updateSelf']);
+    Route::post('/updateSelfPicture', [userController::class, 'updateSelfPicture']);
+    Route::get('/getSelfData', [userController::class, 'getSelfData']);
+    
     Route::group(['middleware' => ['is.admin']], function () {
         //users
         Route::post('/users/desactivate/{id}', [userController::class, 'desactivate']);
@@ -65,10 +70,14 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('/quiz', 'SiteController@quiz');
     Route::get('/new-quiz', 'SiteController@quizCreation');
 
-
     Route::get('/getUserPicture/{id}', [userController::class, 'getUserPicture']);
+
+    Route::get('/my-account', 'SiteController@userConfig');
+    Route::get('/testForNotification', 'userController@testForNotification');
 });
 
+
+Route::resource('notifications', 'NotificationController');
 
 // Route::group(['middleware'=>['auth']], function(){
 // });
