@@ -129,13 +129,15 @@ class QuizController extends Controller
     {
         //No se debe poder modificar el campo quiz_origin
         $validateData = $request->validate([
-            'name' => 'required|min:10|max:255',
+            'name' => 'min:10|max:255',
             'is_template' => 'boolean',
-            'quality' => 'required|numeric|between:0,5.00',
-            'status' => 'required|integer',
-            'category' => 'required|integer',
-            'user' => 'required|integer'
+            'quality' => 'numeric|between:0,5.00',
+            'status' => 'integer',
+            'category' => 'integer',
+            'user' => 'integer'
         ]);
+
+        $userId = Auth::id();
 
         $quiz = Quiz::where([
             'id' => $id,
@@ -145,7 +147,7 @@ class QuizController extends Controller
 
         $other_quiz = quiz::where([
             'name' => $request->name,
-            'user' => $request->user,
+            'user' => $request->userId,
             'status' => 1,
         ])->first();
 
@@ -157,13 +159,21 @@ class QuizController extends Controller
             }
         }
 
-        $quiz->name = $request->name;
-        $quiz->is_template = $request->is_template;
-        $quiz->quality = $request->quality;
-        $quiz->status = $request->status;
-
-        $quiz->category = $request->category;
-        $quiz->user = $request->user;
+        if (isset($request->name)) {
+            $quiz->name = $request->name;
+        }
+        if (isset($request->is_template)) {
+            $quiz->is_template = $request->is_template;
+        }
+        if (isset($request->quality)) {
+            $quiz->quality = $request->quality;
+        }
+        if (isset($request->status)) {
+            $quiz->status = $request->status;
+        }
+        if (isset($request->category)) {
+            $quiz->category = $request->category;
+        }
 
         $quiz->save();
         return $quiz;
