@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -49,12 +50,13 @@ class QuizController extends Controller
             'quiz_origin' => 'integer|nullable',
             'status' => 'required|integer',
             'category' => 'required|integer',
-            'user' => 'required|integer'
         ]);
+
+        $userId = Auth::id();
 
         $exists = quiz::where([
             'name' => $request->name,
-            'user' => $request->user,
+            'user' => $userId,
             'status' => 1,
         ])->exists();
 
@@ -71,7 +73,7 @@ class QuizController extends Controller
         $quiz->quiz_origin = $request->quiz_origin;
 
         $quiz->category = $request->category;
-        $quiz->user = $request->user;
+        $quiz->user = $userId;
 
         $quiz->save();
 
