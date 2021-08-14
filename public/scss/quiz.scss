@@ -139,6 +139,19 @@ input:checked + .slider:before {
 
 .save-lbl {
     margin-top: 50px;
+    position: relative;
+    .qme-alert-form {
+        margin-top: 50px;
+        margin-left: 30px;
+    }
+}
+
+.is-public-step {
+    position: relative;
+    .qme-alert-form {
+        margin-top: 50px;
+        margin-left: 40%;
+    }
 }
 
 .save-lbl label {
@@ -222,5 +235,14 @@ input:checked + .slider:before {
 .accion {
     font-size: 15px;
 }
+
+.answers-pending {
+    display: flex;
+}
+
+#answer-section {
+    margin-top: 50px;
+}
+
 
 

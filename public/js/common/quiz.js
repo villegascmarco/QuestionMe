@@ -77,6 +77,7 @@ const genMultiple = () => {
 
     let divCheck = document.createElement("div")
     divCheck.id = "answers-pending"
+    divCheck.className = "answers-pending"
 
     let divBtn = document.createElement("div")
     divBtn.className = "answer-btn"
@@ -96,7 +97,7 @@ const genMultiple = () => {
         input.name = "posible-answer"
 
         button = document.createElement("button")
-        button.className = "qme-button round red"
+        button.className = "qme-button add-del red"
 
 
         let img = document.createElement('img');
@@ -105,7 +106,7 @@ const genMultiple = () => {
         button.appendChild(img);
 
         removeBtn = document.createElement("button")
-        removeBtn.className = "qme-button round red"
+        removeBtn.className = "qme-button add-del red"
 
         let imgMinus = document.createElement('img');
         imgMinus.className = "icon-answer"
@@ -195,15 +196,21 @@ btnContainer.append(answers)
 const saveAnswer = async() => {
     let openAnswer = document.getElementById('rd-open')
     let questionstr = document.getElementById('question')
+    let inputContainer = document.getElementById('qme-input')
 
     if (document.getElementsByClassName('answer-checkboxes')) {
         let checkAnswers = document.getElementsByName('posible-answer-radio')
         let inputAnswer = document.getElementsByName('posible-answer')
         let questionTypeOpen = document.getElementById('rd-open')
         let questionTypeMulti = document.getElementById('rd-multiple')
+        let answersPending = document.getElementById('answer-checkboxes')
+        let alertShow = document.getElementById('qme-alert-form')
 
         let answerSlct = 0
         let arrAnswers = []
+
+        if(alertShow)
+            alertShow.remove()
 
         let questionObj
         if (editMode) {
@@ -232,8 +239,18 @@ const saveAnswer = async() => {
 
         }
 
-        if (checkAnswers.length == answerSlct)
-            console.log("No se selecciono ni uno")
+        if(questionstr.value.trim() == '') {
+            let alert = genAlert('Selecciona una respuesta correcta')
+            answersPending.append(alert)
+            return false
+        }
+
+        if (checkAnswers.length == answerSlct){
+            let alert = genAlert('Selecciona una respuesta correcta')
+            answersPending.append(alert)
+            return false
+        }   
+            
 
 
 
@@ -392,18 +409,54 @@ checkbox.addEventListener('change', function() {
 // debugger
 carouselController.callbackNext = (position) => {
 
+
     if (position == 1) {
         let title = document.getElementById('title').value;
+        let category = document.getElementById('category').value;
+        let titleContainer = document.getElementById('save-title')
+        let categoryContainer = document.getElementById('save-category')
+       
+        
         if (title.trim() === '') {
-            //TODO
+            let alert = genAlert('Ingresa un titulo')
+            titleContainer.append(alert)
+            if (category.trim() == '') {
+                let alert = genAlert('Ingresa una categoria')
+                categoryContainer.append(alert)
+                return false;
+            }
             return false;
 
         }
+
+        if (category.trim() == '') {
+            
+            let alert = genAlert('Ingresa una categoria')
+            categoryContainer.append(alert)
+            return false;
+        }
         return true
+
+    } else if (position == 4) {
+        let radioPublic = document.getElementById('is-public-step')
+       
+        let publicCheck = document.getElementsByName('is-public')
+        let answerSlct = 0
+
+        for (var x = 0; x < publicCheck.length; x++) {
+
+            if (!publicCheck[x].checked)
+                answerSlct++
+
+        }
+        debugger
+        if (publicCheck.length == answerSlct) {
+            let alert = genAlert('Selecciona uno porfavor')
+            radioPublic.append(alert)
+            return false
+        }
     }
-
-
-    return false;
+    return true
 
 }
 
@@ -422,6 +475,11 @@ carousel.addEventListener('progress', async(evt) => {
         idCategory = fount.id
 
         fount.constructor.name === "Object" ? null : idCategory = await addCategory(fount)
+
+        if(!templateslct)  
+            templateslct = {
+                id: null 
+            }
 
         newQuiz = {
             name: title.value,
@@ -473,24 +531,17 @@ carousel.addEventListener('progress', async(evt) => {
 
         window.location = `${ASSETS_ROUTE}`;
 
-    } else if (position == 1) {
-        debugger
-        if (title.value == "") {
-            let alert = genAlert('Ingresa un titulo')
-            title.appendChild(alert)
+    } 
 
-        }
+
+
+
+    if (direction === 'FORWARD' && position < 4) {
+        wizard.nextStep();
+    } else {
+        wizard.previousStep();
+
     }
-
-
-
-
-    // if (direction === 'FORWARD' && position < 4) {
-    //     wizard.nextStep();
-    // } else {
-    //     wizard.previousStep();
-
-    // }
 
 })
 
@@ -691,6 +742,9 @@ let haveLocalStorage = () => {
 }
 
 let lastStep = async() => {
+
+    categories = await getListCategory()
+
     let obj = JSON.parse(localStorage.getItem('QUIZ'))
 
     const fount = (categories.find(el => el.id == obj.category));
@@ -721,6 +775,7 @@ let lastStep = async() => {
 let genAlert = (message) => {
     let alert = document.createElement('div')
     alert.className = 'qme-alert-form'
+    alert.id = 'qme-alert-form'
     alert.innerText = message
 
     return alert

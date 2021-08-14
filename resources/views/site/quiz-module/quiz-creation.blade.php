@@ -31,13 +31,12 @@
                     <h1>Nombra tu nueva encuesta</h1>
                 </header>
                 <section class="step-section">
-                    <div class="save-lbl">
-                        <label class="label " for=" ">Título</label>
+                    <div class="save-lbl" id="save-title">
+                        <label class="label " for=" ">Título </label>
                         <br>
-                        <div class="qme-alert-form">Ingresa un título</div>
                         <input id="title" class="input news-input qme-input" type="text ">
                     </div>
-                    <div class="save-lbl">
+                    <div class="save-lbl" id="save-category">
                         <label class="label " for=" ">Categoria</label>
                         <br>
                         <input id="category" class="input news-input qme-input" type="text " placeholder="Psicologia">
@@ -109,17 +108,17 @@
                     <h1>Últimos detalles</h1>
                 </header>
                 <section >
-                    <fieldset class="qme-radio-group qme-required">
+                    <fieldset class="qme-radio-group qme-required" id="is-public-step">
                         <label class="radio-group-title" for="">Quieres que otros usuarios puedan utlizar tu encuesta/cuestionario</label>
 
                         <div class="qme-radio">
-                            <input type="radio" id="rd-public" name="question-type">
+                            <input type="radio" id="rd-public" name="is-public">
                             <label class="radio-text" for="rd-public">
                                 Si
                             </label>
                         </div>
                         <div class="qme-radio">
-                            <input type="radio" id="rd-close" name="question-type">
+                            <input type="radio" id="rd-close" name="is-public">
                             <label class="radio-text" for="rd-close">
                                 No
                             </label>

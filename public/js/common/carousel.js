@@ -27,13 +27,7 @@ class CardCarousel {
         this.btnNext.innerText = 'Siguiente';
         this.btnNext.addEventListener('click', () => {
 
-            debugger
             if (!this.callbackNext(this.currentPosition + 1 > this.carouselCards.length ? this.carouselCards.length - 1 : this.currentPosition + 1)) return;
-
-
-            // if (++this.currentPosition == 1) {
-
-            // }
 
             if (this.currentPosition < this.carouselCards.length) {
                 ++this.currentPosition;

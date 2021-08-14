@@ -7,28 +7,7 @@
 </header>
 <section class="panel-container">
     <main class="module-content" id="content-panel">
-        <header class="module-content-header">
-            <div class="module-filters">
-                <h3 class="filters-title">filtros</h3>
-                <div class="filter-container">
-                    <div class="qme-bubble-category simple margin-top-25 margin-5 qme-required ">
-                        <label class="label " for=" ">Categorias</label>
-                        <div class="bubble-categories-container">
-                            <label class="bubble">Ciencias</label>
-                            <label class="bubble">Política</label>
-                            <label class="bubble bubble-button">
-                                <img src="{{asset('img/svg/icons/plus-white.svg')}}" alt="">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="module-buttons">
-                <button class="qme-button round red">
-                    <img class="icon" src="{{asset('img/svg/icons/plus-white.svg')}}" alt="">
-                </button>
-            </div>
-        </header>
+        
         <div class="module-table-container">
             <div class="table-search">
                 <img src="{{asset('img/svg/icons/search.svg')}}" class="table-search-icon" />
@@ -56,19 +35,18 @@
                             <td>
                                 <div class="bubble-categories-container">
                                     <label class="bubble no-button">Ciencias</label>
-                                    <label class="bubble no-button">Política</label>
                                 </div>
                             </td>
                             <td>No aplica</td>
                             <td>Activo</td>
                             <td>
                                 <button class="table-btn btn-detail" ">
-                                    <img src="./assets/svg/icons/view.svg " alt=" ">
+                                    <img src="{{asset('img/svg/icons/view.svg')}} " alt=" ">
                                 </button>
                             </td>
                             <td>
                                 <button class="table-btn btn-delete ">
-                                <img src="./assets/svg/icons/trash.svg " alt=" ">
+                                <img src="{{asset('img/svg/icons/trash.svg')}} " alt=" ">
                             </button>
                             </td>
                         </tr>                                                       
@@ -98,7 +76,6 @@
                 <label class="label " for=" ">Categorias</label>
                 <div class="bubble-categories-container ">
                     <label class="bubble ">Ciencias</label>
-                    <label class="bubble ">Política</label>
                     <label class="bubble bubble-button ">
                         <img src="./assets/svg/icons/plus-white.svg " alt=" ">
                     </label>

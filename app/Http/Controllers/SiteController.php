@@ -162,6 +162,7 @@ class SiteController extends Controller
 
         $jsDocs = [
             array('local'=>false,'route'=>'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js'),                      
+            array('local'=>true,'route'=>'js/modules/quiz/quiz-detail.js'),
             array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),                          
             array('local'=>true,'route'=>'js/common/module.js'),
             array('local'=>true,'route'=>'js/common/formsvalidator.js'),            
