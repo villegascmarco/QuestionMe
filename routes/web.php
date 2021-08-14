@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post("/users/activate/{id}", [userController::class, 'activate']);
         Route::get('/users/roleFind/{role}',  [userController::class, 'roleFind']);
         Route::resource('users', 'userController', ["except" => ['destroy']]);
+        Route::resource('users.notifications', 'NotificationController');
         Route::get('/user', 'SiteController@user');
         //user-role
         Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desactivate']);
@@ -77,7 +78,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-Route::resource('notifications', 'NotificationController');
+//Route::resource('notifications', 'NotificationController');
 
 // Route::group(['middleware'=>['auth']], function(){
 // });
