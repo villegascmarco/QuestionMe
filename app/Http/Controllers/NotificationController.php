@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -12,9 +13,11 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        //
+        $user = User::find($userId);
+
+        return ($user->unreadNotifications);
     }
 
     /**
@@ -46,9 +49,7 @@ class NotificationController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-
-        return ($user->unreadNotifications);
+        //
     }
 
     /**
@@ -69,11 +70,26 @@ class NotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update($user, $id)
     {
-        $user = User::find($id);
+        if ($id = '*') {
+            $u = User::find($user);
+            $u->unreadNotifications->markAsRead();
+        } else {
+            $notification = DatabaseNotification::where([
+                'id' => $id,
+                'notifiable_type' => 'App\\Models\\User',
+                'notifiable_id' => $user,
+            ])->firstOrFail();
 
-        $user->unreadNotifications->markAsRead();
+            $notification->markAsRead();
+        }
+
+        $response = [
+            'status' => 'OK',
+            'message' => 'Foi um sucesso'
+        ];
+        return $response;;
     }
 
     /**
