@@ -85,7 +85,7 @@ class NonRegisteredHumanController extends Controller
             'quiz' => $quiz->id
         ])->get();
 
-        return $quiz;
+        return view('site.quiz-module.quiz-reply', compact($quiz));
     }
 
     /**
