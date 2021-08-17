@@ -1,6 +1,23 @@
 let quiz_container = document.getElementById('quiz-container')
 
-
+let quiz = {
+    name: "Lenguajes de programación",
+    category: "Programación",
+    questions: [
+        {
+            question: "Mejor lenguaje de programación",
+            question_type: 1,
+            possible_answers: [
+                {
+                    answer: "python"
+                },
+                {
+                    answer: "java"
+                }
+            ]
+        }
+    ]
+}
 let genQuestionContainer = () => {
     let questionCont = document.createElement('div')
     questionCont.className = "question-container-reply"
