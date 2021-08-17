@@ -276,6 +276,9 @@ body {
     }
     &:hover {
         cursor: pointer;
+        &.disabled {
+            cursor: not-allowed;
+        }
         &.red {
             color: white;
             background-color: rgba(255, 0, 0, .6);
@@ -284,10 +287,18 @@ body {
                 background-color: transparent;
                 border: 1px solid rgba($color: #ff0000, $alpha: .8);
             }
+            &.disabled {
+                background-color: rgba(255, 0, 0, .4);
+                cursor: not-allowed;
+            }
         }
         &.blue {
             color: white;
             background-color: rgba(0, 0, 255, .6);
+            &.disabled {
+                background-color: rgba(0, 0, 255, .4);
+                cursor: not-allowed;
+            }
         }
         &.simple {
             border: 1px solid #707070;
