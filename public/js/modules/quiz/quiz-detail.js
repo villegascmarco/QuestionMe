@@ -2,8 +2,10 @@ let tableContent = document.getElementById('quizzes-table')
 let quizUser = null
 let questionsQuizes = null
 let categories = null
+let usuario = null
 
 window.onload = async() => {
+    usuario = await getSelfData()
     await getDataTable()
 }
 
@@ -11,7 +13,8 @@ let getDataTable = async() => {
     let promises = []
 
     categories = await getListCategory()
-    quizUser = await getQuizUser(2)
+    
+    quizUser = await getQuizUser(usuario.id)
 
     quizUser.map((quiz)=>{
         promises.push( getQuestionAnsID(quiz.id) ) 
@@ -161,4 +164,9 @@ let delQuizRqst = async(idQuiz) => {
             }
         })
     return response
+};
+
+let getSelfData = () => {
+    return fetch(`${ASSETS_ROUTE}getSelfData`)
+        .then(resp => resp.json())
 };
