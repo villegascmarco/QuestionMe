@@ -33,35 +33,36 @@ Route::post('/registration', [LoginController::class, 'signUp'])->name('registra
 Route::post('/authenticateWithSocialMedia', [LoginController::class, 'authenticateWithSocialMedia']);
 Route::get('/logout', [LoginController::class, 'logout']);
 //Main page
-Route::get('/','SiteController@frontpage');
+Route::get('/', 'SiteController@frontpage');
 //Users
 Route::get('/users/userNameTaken/{name}',  [userController::class, 'userNameTaken']);
 Route::get('/users/userNameTakenExceptSelf/{id}/{name}',  [userController::class, 'userNameTakenExceptSelf']);
 Route::get('/users/emailUsed/{name}',  [userController::class, 'emailUsed']);
 Route::get('/users/emailUsedExceptSelf/{id}/{email}',  [userController::class, 'emailUsedExceptSelf']);
 
-Route::group(['middleware'=>['auth']], function(){
+Route::group(['middleware' => ['auth']], function () {
     Route::post('/updateSelf', [userController::class, 'updateSelf']);
     Route::post('/updateSelfPicture', [userController::class, 'updateSelfPicture']);
     Route::get('/getSelfData', [userController::class, 'getSelfData']);
-    
+
     Route::group(['middleware' => ['is.admin']], function () {
         //users
         Route::post('/users/desactivate/{id}', [userController::class, 'desactivate']);
         Route::post("/users/activate/{id}", [userController::class, 'activate']);
         Route::get('/users/roleFind/{role}',  [userController::class, 'roleFind']);
-        Route::resource('users','userController',["except" => ['destroy']]);
-        Route::get('/user','SiteController@user');
+        Route::resource('users', 'userController', ["except" => ['destroy']]);
+        Route::resource('users.notifications', 'NotificationController');
+        Route::get('/user', 'SiteController@user');
         //user-role
         Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desactivate']);
-        Route::resource('user_role','user_roleController', ["except" => ['destroy']]);
+        Route::resource('user_role', 'user_roleController', ["except" => ['destroy']]);
         //Category
         Route::post('/categories/desactivate/{id}', [categoryController::class, 'desactivate']);
         Route::post('/categories/activate/{id}', [categoryController::class, 'activate']);
         Route::resource('categories', 'categoryController', ["except" => ['destroy']]);
-        Route::get('/category','SiteController@category');
+        Route::get('/category', 'SiteController@category');
     });
-    Route::resource('questions', 'questionController');        
+    Route::resource('questions', 'questionController');
     //Dashboard
     Route::get("/dashboard", 'SiteController@dashboard');
     // Resource::
@@ -78,9 +79,7 @@ Route::group(['middleware'=>['auth']], function(){
 });
 
 
-Route::resource('notifications', 'NotificationController');
+//Route::resource('notifications', 'NotificationController');
 
 // Route::group(['middleware'=>['auth']], function(){
 // });
-
-

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -12,9 +13,11 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        //
+        $user = User::find($userId);
+
+        return ($user->unreadNotifications);
     }
 
     /**
@@ -46,9 +49,7 @@ class NotificationController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-
-        return ($user->unreadNotifications);
+        //
     }
 
     /**
@@ -69,24 +70,26 @@ class NotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update($user, $id)
     {
-        try{
 
-            $user = User::find($id);
-    
-            $user->unreadNotifications->markAsRead();
-        } catch (\Throwable $th) {
+        if ($id = '*') {
+            $u = User::find($user);
+            $u->unreadNotifications->markAsRead();
+        } else {
+            $notification = DatabaseNotification::where([
+                'id' => $id,
+                'notifiable_type' => 'App\\Models\\User',
+                'notifiable_id' => $user,
+            ])->firstOrFail();
 
-            $response = ['status' => 'error',
-            'response' => 'Ocurrió un error al marcar como leido.'];
-
-            return $response;
+            $notification->markAsRead();
         }
-        
-        $response = ['status' => 'OK',
-            'response' => 'Se marcaron las notificaciones como leidas.'];
 
+        $response = [
+            'status' => 'OK',
+            'message' => 'Foi um sucesso'
+        ];
         return $response;
     }
 
