@@ -23,13 +23,7 @@
     @yield('content')    
     <script src="{{ asset('js/app.js') }}"></script>
     @if (Auth::check())
-        <script src="{{asset('js/common/navbar.js')}}"></script>
-        <script>
-            Echo.private('App.Models.User.{{Auth::user()->id}}')
-            .notification(notification => console.log(notification))
-
-            // .listen('RealTimeMessage', (e) => console.log('RealTimeMessage: ' + e.message));
-        </script>
+        <script src="{{asset('js/common/navbar.js')}}"></script>        
     @endif
     <script>
         let ASSETS_ROUTE = '{{ URL::asset('')}}'

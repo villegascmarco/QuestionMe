@@ -38,12 +38,16 @@
                 {{-- <img src="{{ asset('img/svg/icons/bell.svg') }}" alt=""> --}}
                 <label class="notification-number" id="notificationCount">+9</label>
             </button>
-            <ul class="navbar-drop-drop" id="dropMenuNotification">
-                <li class="notification-body new">
-                    <a href="">Han contestado a una de tus encuestas</a>
-                    <button class="closeNotification"></button>
-                </li>                
-            </ul>
+            <div class="navbar-drop-notification" id="dropMenuNotification">
+                <header class="header">
+                    <h3>Notificaciones</h3>
+                    {{-- <button class="button-noti-header" id="showMore"></button> --}}
+                    <button class="qme-button simple" id="markAsRead">
+                        Marcar todas como leidas
+                    </button>                                            
+                </header>
+                <ul class="notification-container" id="notificationsContainer"></ul>
+            </div>
         </li>
 
         @endif

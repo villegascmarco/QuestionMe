@@ -74,6 +74,7 @@ Route::group(['middleware'=>['auth']], function(){
 
     Route::get('/my-account', 'SiteController@userConfig');
     Route::get('/testForNotification', 'userController@testForNotification');
+    
 });
 
 

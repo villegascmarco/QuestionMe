@@ -71,9 +71,23 @@ class NotificationController extends Controller
      */
     public function update($id)
     {
-        $user = User::find($id);
+        try{
 
-        $user->unreadNotifications->markAsRead();
+            $user = User::find($id);
+    
+            $user->unreadNotifications->markAsRead();
+        } catch (\Throwable $th) {
+
+            $response = ['status' => 'error',
+            'response' => 'Ocurrió un error al marcar como leido.'];
+
+            return $response;
+        }
+        
+        $response = ['status' => 'OK',
+            'response' => 'Se marcaron las notificaciones como leidas.'];
+
+        return $response;
     }
 
     /**

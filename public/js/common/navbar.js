@@ -3,15 +3,37 @@ let dropMenu = document.getElementById('dropMenu')
 let notificationCount = document.getElementById('notificationCount')
 let dropNotification = document.getElementById('dropNotification')
 let dropMenuNotification = document.getElementById('dropMenuNotification')
+let markAsRead = document.getElementById('markAsRead')
 
-let userData = {}
+
+let user = {}
 let notifications = []
 
-window.onload = () => {
+
+window.addEventListener('load', async() => {
+
+    user = await getSelfData()
+
+    Echo.private(`App.Models.User.${user.id}`)
+        .notification(notification => {
+
+            var audio = new Audio('../../audio/notification.ogg');
+            audio.play();
+
+            getNotifications()
+
+        })
+
+    getNotifications()
+})
+
+markAsRead.addEventListener('click', async() => {
+
+    let response = await markNotificationsAsRead()
 
     getNotifications()
 
-}
+});
 
 openMenu.addEventListener('click', () => {
     // closeAll()
@@ -22,13 +44,17 @@ openMenu.addEventListener('click', () => {
     dropMenu.classList.add('active')
 })
 dropNotification.addEventListener('click', () => {
-    // closeAll()
+    // closeAll(
+
+
     if (dropMenuNotification.classList.contains('active')) {
         dropMenuNotification.classList.remove('active')
         return;
     }
     dropMenuNotification.classList.add('active')
 })
+
+
 
 
 let closeAll = () => {
@@ -38,37 +64,48 @@ let closeAll = () => {
 
 let getNotifications = async() => {
 
-    userData = await getSelfData()
-    if (!userData) return;
+    if (!user) return;
 
-    let response = await fetch(`${ASSETS_ROUTE}notifications/${userData.id}`)
+    let response = await fetch(`${ASSETS_ROUTE}notifications/${user.id}`)
     response = await response.json()
 
     notifications = response
-
-    console.log(notifications)
 
     if (notifications.length > 0) {
         notificationCount.classList.add('active')
         notificationCount.innerText = notifications.length < 10 ? notifications.length : '+9'
         fillNotifications()
+        return
     }
+    if (notificationCount.classList.contains('active')) notificationCount.classList.remove('active')
+    notificationCount.innerText = ''
+
+    dropMenuNotification.querySelector('#notificationsContainer').innerHTML = ""
+
+    let li = document.createElement('li')
+    li.classList.add('notification-body')
+    let a = document.createElement('a')
+    a.innerText = 'No hay notificaciones pendientes'
+
+    li.append(a)
+
+    dropMenuNotification.querySelector('#notificationsContainer').append(li)
+
+
+    markAsRead.disabled = true
+
 
 };
 
 let fillNotifications = () => {
 
-    dropMenuNotification
-
-
-
-
+    dropMenuNotification.querySelector('#notificationsContainer').innerHTML = ""
 
     notifications.forEach(notification => {
 
         let li = document.createElement('li')
         li.classList.add('notification-body')
-        li.classList.add('new')
+        if (!notification.read_at) li.classList.add('new')
         let a = document.createElement('a')
         a.innerText = notification.data.message
         let button = document.createElement('button')
@@ -76,15 +113,22 @@ let fillNotifications = () => {
 
         li.append(a)
         li.append(button)
-        dropMenuNotification.append(li)
+        dropMenuNotification.querySelector('#notificationsContainer').append(li)
 
     })
 
-
+    markAsRead.disabled = false
 }
+
 
 
 let getSelfData = () => {
     return fetch(`${ASSETS_ROUTE}getSelfData`)
         .then(resp => resp.json())
 };
+
+let markNotificationsAsRead = () => {
+    return fetch(`${ASSETS_ROUTE}notifications/${user.id}`, {
+        method: "PUT"
+    }).then(resp => resp.json())
+}
