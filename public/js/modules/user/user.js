@@ -33,6 +33,8 @@ const TITLE_ERROR = 'Ups!';
 const DESCRIPTION_ERROR = 'Ha ocurrido un problema interno, intenta de nuevo más tarde.';
 const REGEX_DATE = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
 const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const NO_DATA_TABLE_TEXT = 'No hay usuarios disponibles';
+
 
 const TITLE_LOADING = 'Por favor, espera...'
 
@@ -101,6 +103,11 @@ window.onload = _ => {
         imgPrev.style.display = 'none';
         imgPrev.setAttribute('src', '');
         formHandler.clear();
+        if (editMode) {
+            btnGuardar.innerText = 'Guardar';
+            editMode = false;
+            userEdit = {};
+        }
     });
 
 
@@ -205,8 +212,8 @@ window.onload = _ => {
             btnGuardar.innerText = 'Guardar';
             editMode = false;
             userEdit = {};
-            btnClose.click();
         }
+        btnClose.click();
 
     });
 
@@ -244,7 +251,7 @@ let addDataToList = (userList) => {
         let td = document.createElement('td');
         td.setAttribute('class', 'text-inactive');
         td.setAttribute('colspan', 7);
-        td.innerText = 'No hay usuarios disponibles';
+        td.innerText = NO_DATA_TABLE_TEXT;
         tr.appendChild(td);
         document.getElementById('main-table').querySelector('tbody').appendChild(tr);
         tableController.restartData();

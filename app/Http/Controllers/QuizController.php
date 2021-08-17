@@ -89,10 +89,18 @@ class QuizController extends Controller
      */
     public function show($id)
     {
-        $quiz = DB::Table('quiz')->where([
-            'user' => $id,
-            'status' => 1,
-        ])->get();
+        if (is_numeric($id)) {
+            $quiz = DB::Table('quiz')->where([
+                'user' => $id,
+                'status' => 1,
+            ])->get();
+        } else {
+            $quiz = DB::Table('quiz')->where([
+                'id' => preg_replace("/[^0-9]/", "", $id),
+                'status' => 1,
+            ])->get();
+        }
+
 
         return ($quiz);
     }

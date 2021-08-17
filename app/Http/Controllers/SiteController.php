@@ -13,7 +13,6 @@ class SiteController extends Controller
         FRONTPAGE
 
     */
-      
     public function frontpage(){
         $title = "QuestionnMe!";
         $styleSheets = [
@@ -34,14 +33,65 @@ class SiteController extends Controller
     */
 
     public function login(){
-        $title = "Inicio de sesión";
+        if(Auth::check()){
+            return redirect('dashboard');
+        }
+        $title = "Inicio de sesión | QuestionMe!";
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/module.css'),
+            array('local'=>true,'route'=>'css/login/login.css')
+        ];
+        $jsDocs = [
+            array('local'=>false,'route'=>'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js'),            
+            array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),                                      
+            array('local'=>true,'route'=>'js/common/formsvalidator.js'),
+            array('local'=>true,'route'=>'js/modules/login/login.js'),            
+        ];
+        return view('site.auth.login',compact("title","styleSheets","jsDocs"));
+    }
+    /*
+
+
+        SIGNUP
+
+    */
+
+    public function signup(){
+        if(Auth::check()){
+            return redirect('dashboard');
+        }
+        $title = "Registro | QuestionMe!";
         $styleSheets = [
             array('local'=>true,'route'=>'css/login/login.css')
         ];
-        $jsDocs = [];
-        return view('site.auth.login',compact("title","styleSheets","jsDocs"));
+        $jsDocs = [
+            array('local'=>false,'route'=>'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js'),            
+            array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),                                      
+            array('local'=>true,'route'=>'js/common/formsvalidator.js'),
+            array('local'=>true,'route'=>'js/modules/login/signup.js'),            
+        ];
+        return view('site.auth.signup',compact("title","styleSheets","jsDocs"));
     }
 
+    /*
+    
+        DASHBOARD
+
+    */
+
+    public function dashboard(){
+        $title = "Dashboard | QuestionMe!";
+        $styleSheets = [];
+        $jsDocs = [];
+        return view('dashboard',compact("title","styleSheets","jsDocs"));
+
+    }
+
+    /*
+    
+        USER 
+    
+    */
     public function user(){
         $title = "Usuarios | Administracion";
         $styleSheets = [
@@ -57,6 +107,48 @@ class SiteController extends Controller
             array('local'=>true,'route'=>'js/modules/user/user.js'),
         ];
         return view('site.user-module.user',compact("title","styleSheets","jsDocs"));
+    }
+    /*
+    
+        USER CONFIG 
+    
+    */
+    public function userConfig(){
+        $title = "Mi cuenta";
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/module.css'),
+            array('local'=>true,'route'=>'css/user-config.css'),
+            array('local'=>false,'route'=>'css/common/sweetalert2.min.css'),
+        ];
+        $jsDocs = [
+            array('local'=>false,'route'=>'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js'),            
+            array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),                          
+            array('local'=>true,'route'=>'js/common/table.js'),
+            array('local'=>true,'route'=>'js/common/formsvalidator.js'),
+            array('local'=>true,'route'=>'js/modules/user/user-config.js'),
+        ];
+        return view('site.user-configuration.user-config',compact("title","styleSheets","jsDocs"));
+    }
+    /*
+
+        CATEGORY
+
+    */
+    public function category(){
+        $title = "Categorías | Administracion";
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/module.css'),
+            // array('local'=>true,'route'=>'css/user.css'),
+            array('local'=>false,'route'=>'css/common/sweetalert2.min.css'),
+        ];
+        $jsDocs = [
+            array('local'=>false,'route'=>'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js'),            
+            array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),                          
+            array('local'=>true,'route'=>'js/common/table.js'),
+            array('local'=>true,'route'=>'js/common/formsvalidator.js'),
+            array('local'=>true,'route'=>'js/modules/category/category.js'),
+        ];
+        return view('site.category-module.category',compact("title","styleSheets","jsDocs"));
     }
 
     public function quiz(){

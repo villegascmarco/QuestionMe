@@ -134,12 +134,25 @@ body {
 .qme-input {
     height: 35px;
     min-width: 250px;
+    width: 100%;
     border: 1px solid #707070;
     border-radius: 45px;
     position: relative;
-    padding-top: 5px;
+    &.special-login {
+        border-radius: 7px;
+        .qme-alert-form {
+            position: absolute;
+            top: -1.5rem;
+            font-size: 0.8rem;
+            background-color: rgba(255, 0, 0, .6);
+            color: white;
+            padding: 0 10px;
+            border-radius: 0.8rem;
+        }
+    }
     .input {
         padding-left: 25px;
+        padding-top: 5px;
         border: none;
         box-sizing: border-box;
         height: 100%;
@@ -204,9 +217,17 @@ body {
     box-sizing: border-box;
     padding-left: 15px;
     padding-right: 15px;
+    a {
+        color: white;
+    }
     &.red {
         color: white;
         background-color: rgba(255, 0, 0, .4);
+        &.simple {
+            color: rgba($color: #ff0000, $alpha: .8);
+            background-color: transparent;
+            border: 1px solid rgba($color: #ff0000, $alpha: .8);
+        }
     }
     &.blue {
         color: white;
@@ -229,13 +250,29 @@ body {
     }
     &:hover {
         cursor: pointer;
+        &.disabled {
+            cursor: not-allowed;
+        }
         &.red {
             color: white;
             background-color: rgba(255, 0, 0, .6);
+            &.simple {
+                color: #ff0000;
+                background-color: transparent;
+                border: 1px solid rgba($color: #ff0000, $alpha: .8);
+            }
+            &.disabled {
+                background-color: rgba(255, 0, 0, .4);
+                cursor: not-allowed;
+            }
         }
         &.blue {
             color: white;
             background-color: rgba(0, 0, 255, .6);
+            &.disabled {
+                background-color: rgba(0, 0, 255, .4);
+                cursor: not-allowed;
+            }
         }
         &.simple {
             border: 1px solid #707070;
@@ -413,6 +450,12 @@ body {
     color: white;
     padding: 0 10px;
     border-radius: 0.8rem;
+}
+
+.error-login {
+    color: rgb(250, 70, 57);
+    text-align: center;
+    display: none;
 }
 
 @each $m in 5 10 15 20 25 30 35 40 45 50 {

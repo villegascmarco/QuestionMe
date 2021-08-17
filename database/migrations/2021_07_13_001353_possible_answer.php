@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class possibleAnswer extends Migration
+class PossibleAnswer extends Migration
+
 {
     /**
      * Run the migrations.

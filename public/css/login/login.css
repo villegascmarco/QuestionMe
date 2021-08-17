@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     border-radius: .3em;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     background-color: #fff;
     -webkit-box-shadow: -2px 0px 166px -29px rgba(0, 0, 0, 0.21);
@@ -71,34 +71,34 @@ input[type=password] {
 .alternative::after {
     content: "";
     position: absolute;
-    height: 2px;
+    height: 1px;
     top: 52%;
     right: 120%;
-    width: 6em;
-    background-color: #000000;
+    width: 3em;
+    border-bottom: 1px solid black;
     transform: translateY(-50%);
 }
 
 .alternative::before {
     content: "";
     position: absolute;
-    height: 2px;
+    height: 1px;
     top: 52%;
     left: 120%;
-    width: 6em;
-    background-color: #000000;
+    width: 3em;
+    border-bottom: 1px solid black;
     transform: translateY(-50%);
 }
 
 .social-media {
     display: flex;
-    margin-top: -40px;
 }
 
 
 /* Google sing-in */
 
-.google-btn {
+.social-btn {
+    border: none;
     margin: 25px;
     max-width: 184px;
     height: 42px;
@@ -111,10 +111,15 @@ input[type=password] {
     user-select: none;
     transition: all 400ms ease 0s;
     display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
-.google-btn .google-icon-wrapper {
-    position: absolute;
+.social-btn .social-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-top: 1px;
     margin-left: 1px;
     width: 40px;
@@ -123,34 +128,29 @@ input[type=password] {
     user-select: none
 }
 
-.google-btn .google-icon-svg {
+.social-btn .social-icon-svg {
     position: absolute;
-    margin-top: 11px;
-    margin-left: 11px;
+    /* margin-top: 11px;
+    margin-left: 11px; */
     width: 18px;
     height: 18px;
     user-select: none
 }
 
-.google-btn .btn-text {
+.social-btn .btn-text {
     float: right;
-    margin: 11px 14px 40px 40px;
     color: #757575;
     font-size: 14px;
     letter-spacing: .2px;
     user-select: none
 }
 
-.google-btn .btn-text a {
-    text-decoration: none;
-}
-
-.google-btn:hover {
+.social-btn:hover {
     box-shadow: 0 3px 8px rgba(117, 117, 117, .5);
     user-select: none
 }
 
-.google-btn:active {
+.social-btn:active {
     box-shadow: 0 1px 1px #757575;
     background: #F8F8F8;
     color: #fff;
@@ -204,6 +204,7 @@ input[type=password] {
 /* Facebook sing-in */
 
 .facebook-btn {
+    border: none;
     margin: 25px;
     max-width: 184px;
     height: 42px;
@@ -216,10 +217,14 @@ input[type=password] {
     user-select: none;
     transition: all 400ms ease 0s;
     display: flex;
+    flex-direction: row;
 }
 
 .facebook-btn .facebook-icon-wrapper {
-    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     margin-top: 1px;
     margin-left: 1px;
     width: 40px;
@@ -229,9 +234,6 @@ input[type=password] {
 }
 
 .facebook-btn .facebook-icon-svg {
-    position: absolute;
-    margin-top: 11px;
-    margin-left: 11px;
     width: 18px;
     height: 18px;
     user-select: none
@@ -239,7 +241,6 @@ input[type=password] {
 
 .facebook-btn .btn-text {
     float: right;
-    margin: 11px 14px 40px 40px;
     color: #ffffff;
     font-size: 14px;
     letter-spacing: .2px;

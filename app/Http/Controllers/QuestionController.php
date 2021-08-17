@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\answer_selected;
 use App\Models\question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -28,7 +30,7 @@ class QuestionController extends Controller
     public function store($quiz, Request $request)
     {
         $validateData = $request->validate([
-            'question' => 'required|min:10|max:255',
+            'question' => 'required|min:3|max:255',
             'question_type' => 'required|exists:question_type,id',
         ]);
 
@@ -42,6 +44,8 @@ class QuestionController extends Controller
             return Redirect::back()->withErrors(['msg', 'Ya tienes una pregunta similar.']);
         }
 
+        DB::beginTransaction();
+
         $question = new question();
         $question->question = $request->question;
         $question->question_type = $request->question_type;
@@ -50,9 +54,11 @@ class QuestionController extends Controller
         try {
             $question->save();
         } catch (\Throwable $th) {
+            DB::rollBack();
             return ('Ocurrió un error.');
             return Redirect::back()->withErrors(['msg', 'Ocurrió un error.']);
         }
+        DB::commit();
         return $question;
     }
 
@@ -62,9 +68,12 @@ class QuestionController extends Controller
      * @param  int  $id from
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($quiz, $id)
     {
-        //
+        return (question::with('possible_answers')->where([
+            'quiz' => $quiz,
+            'id' => $id,
+        ])->firstOrFail());
     }
 
     /**
@@ -82,7 +91,7 @@ class QuestionController extends Controller
         ])->firstOrFail();
 
         $validateData = $request->validate([
-            'question' => 'required|min:10|max:255',
+            'question' => 'required|min:3|max:255',
             'question_type' => 'required|exists:question_type,id',
         ]);
 
@@ -117,7 +126,11 @@ class QuestionController extends Controller
             'quiz' => $quiz,
         ])->firstOrFail();
 
+        DB::beginTransaction();
+
         $question->delete();
+
+        DB::commit();
         Session::flash('message', 'Pregunta eliminada correctamente.');
         return ('Pregunta eliminada correctamente');
     }
