@@ -64,6 +64,10 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('quizzes.answers', 'AnswerSelectedController');
     Route::resource('quizzes.questions', 'QuestionController');
     Route::resource('quizzes.questions.answers', 'PossibleAnswerController');
+
+    Route::resource('nonHuman', 'NonRegisteredHumanController');
+    Route::get('quizzesE/{id}', 'QuizController@encryptID');
+
     Route::resource('categories', 'categoryController', ["except" => ['destroy']]);
     // Route::resource('questions', 'questionController');        
     //Dashboard

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\answer_selected;
+use App\Models\category;
 use App\Models\non_registered_human;
+use App\Models\question;
+use App\Models\quiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -67,9 +70,22 @@ class NonRegisteredHumanController extends Controller
      * @param  \App\Models\non_registered_human  $non_registered_human
      * @return \Illuminate\Http\Response
      */
-    public function show(non_registered_human $non_registered_human)
+    public function show($id)
     {
-        //
+        $id_dec = QuizController::encrypt_decrypt($id, 'decrypt');
+
+        $quiz = quiz::where([
+            'id' => preg_replace("/[^0-9]/", "", $id_dec),
+            'status' => 1,
+        ])->firstOrFail();
+
+        $quiz->category = category::where('id', $quiz->category)->first()->name;
+
+        $quiz->questions = question::with('possible_answers')->where([
+            'quiz' => $quiz->id
+        ])->get();
+
+        return $quiz;
     }
 
     /**
