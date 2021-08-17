@@ -4,7 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\answer_selected;
 use App\Models\non_registered_human;
+use App\Models\possible_answer;
+use App\Models\question;
+use App\Models\quiz;
+use App\Models\User;
+use App\Notifications\AnswersGradedNotification;
+use App\Notifications\AnswersSendNotification;
+use App\Notifications\NewResponseReceivedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\DB;
 
 class NonRegisteredHumanController extends Controller
@@ -35,6 +43,9 @@ class NonRegisteredHumanController extends Controller
             'closed_ended' => 'required_without_all:open_ended|array', //al menos uno de open_ended y closed_ended es necesario.
         ]);
 
+        $first = true;
+        DB::beginTransaction();
+
         $nonHuman = new non_registered_human();
 
         $nonHuman->name = $request->name;
@@ -43,21 +54,41 @@ class NonRegisteredHumanController extends Controller
 
         $nonHuman->save();
 
-        foreach ($request->closed_ended as $value) {
-            $answer = new answer_selected();
-            $answer->possible_answer = $value;
+        if (isset($request->closed_ended)) {
+            foreach ($request->closed_ended as $value) {
+                $answer = new answer_selected();
+                $answer->possible_answer = $value;
 
-            $nonHuman->answers()->save($answer);
+                $nonHuman->answers()->save($answer);
+                if ($first) {
+                    $first = false;
+                    $possibleAnswer = possible_answer::find($value);
+                    $question = question::find($possibleAnswer->question);
+                    $quiz = quiz::find($question->quiz);
+                    $user = User::find($quiz->user);
+                    $user->notify(new NewResponseReceivedNotification($quiz->name));
+                }
+            }
         }
 
-        foreach ($request->open_ended as $value) {
-            $answer = new answer_selected();
-            $answer->question = $value['question'];
-            $answer->given_answer = $value['answer'];
+        if (isset($request->open_ended)) {
+            foreach ($request->open_ended as $value) {
+                $answer = new answer_selected();
+                $answer->question = $value['question'];
+                $answer->given_answer = $value['answer'];
 
-            $nonHuman->answers()->save($answer);
+                $nonHuman->answers()->save($answer);
+                if ($first) {
+                    $first = false;
+                    $question = question::find($answer->question);
+                    $quiz = quiz::find($question->quiz);
+                    $user = User::find($quiz->user);
+                    $user->notify(new NewResponseReceivedNotification($quiz->name));
+                }
+            }
         }
-
+        Notification::send($nonHuman, new AnswersSendNotification($quiz->name));
+        DB::commit();
         return (non_registered_human::with('answers')->where('id', $nonHuman->id)->get());
     }
 
@@ -67,9 +98,9 @@ class NonRegisteredHumanController extends Controller
      * @param  \App\Models\non_registered_human  $non_registered_human
      * @return \Illuminate\Http\Response
      */
-    public function show(non_registered_human $non_registered_human)
+    public function show($id)
     {
-        //
+        return (non_registered_human::with('answers')->where('id', $id)->get());
     }
 
     /**
@@ -97,9 +128,16 @@ class NonRegisteredHumanController extends Controller
 
                 $answer_selected->is_correct = $value['is_correct'];
                 $answer_selected->save();
+
+                $question = question::find($value['question']);
+                $quiz = quiz::find($question->quiz);
+                $non_human = non_registered_human::find($value['non_registered_human']);
             }
         }
 
+        if (isset($answer_selected)) {
+            Notification::send($non_human, new AnswersGradedNotification($quiz->name, $non_human->id));
+        }
         DB::commit();
 
         return ($request);

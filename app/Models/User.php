@@ -10,6 +10,14 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory;
-    
+    use Notifiable;
+
     protected $table = 'user';
+
+    public function routeNotificationForMail($notification)
+    {
+        //Para resolver las jaladas del @MoiMorua
+        $human = human::find($this->human);
+        return $human->email;
+    }
 }
