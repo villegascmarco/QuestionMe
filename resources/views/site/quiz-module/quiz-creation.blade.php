@@ -112,13 +112,13 @@
                         <label class="radio-group-title" for="">Quieres que otros usuarios puedan utlizar tu encuesta/cuestionario</label>
 
                         <div class="qme-radio">
-                            <input type="radio" id="rd-public" name="is-public">
+                            <input type="radio" id="rd-public" value="1" name="is-public">
                             <label class="radio-text" for="rd-public">
                                 Si
                             </label>
                         </div>
                         <div class="qme-radio">
-                            <input type="radio" id="rd-close" name="is-public">
+                            <input type="radio" id="rd-close" value="0" name="is-public">
                             <label class="radio-text" for="rd-close">
                                 No
                             </label>

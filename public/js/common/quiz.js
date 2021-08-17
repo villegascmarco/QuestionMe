@@ -449,7 +449,6 @@ carouselController.callbackNext = (position) => {
                 answerSlct++
 
         }
-        debugger
         if (publicCheck.length == answerSlct) {
             let alert = genAlert('Selecciona uno porfavor')
             radioPublic.append(alert)
@@ -487,8 +486,7 @@ carousel.addEventListener('progress', async(evt) => {
             quality: 0.0,
             quiz_origin: templateslct.id,
             status: 1,
-            category: idCategory,
-            user: 2
+            category: idCategory
         }
         await add(newQuiz)
 
@@ -507,8 +505,7 @@ carousel.addEventListener('progress', async(evt) => {
             quality: 0.0,
             quiz_origin: 0,
             status: 1,
-            category: idCategory,
-            user: 2
+            category: idCategory
         }
 
         await edit(editedQuiz)
@@ -522,14 +519,24 @@ carousel.addEventListener('progress', async(evt) => {
         lastStep()
 
     } else if (position == 4 && localStorage.getItem('QUIZ')) {
+        
+        let publicCheck = document.getElementsByName('is-public')
+
+        let selected
+        for (var i = 0; i < publicCheck.length; i++) {
+            if (publicCheck[i].checked) {
+                selected = publicCheck[i]
+            }
+        }
 
         editedQuiz = {
-            is_template: 1
+            is_template: selected.value
         }
 
         await edit(editedQuiz)
 
-        window.location = `${ASSETS_ROUTE}`;
+        localStorage.clear()
+        window.location = `${ASSETS_ROUTE}quiz`;
 
     } 
 
@@ -728,16 +735,23 @@ let onTemplateChange = (template, el) => {
 
 let haveLocalStorage = () => {
     let obj = JSON.parse(localStorage.getItem('QUIZ'))
-
     let title = document.getElementById('title')
     let category = document.getElementById('category')
     let switchTemplate = document.getElementById('switch-template')
+
+    let publicCheck = document.getElementsByName('is-public')
 
     if (obj) {
         const fount = (categories.find(el => el.id == obj.category));
         title.value = obj.name
         category.value = fount.name
         switchTemplate.remove()
+
+        if (obj.is_template == 1) {
+            publicCheck[0].checked = true
+        } else {
+            publicCheck[1].checked = true
+        }
     }
 }
 
