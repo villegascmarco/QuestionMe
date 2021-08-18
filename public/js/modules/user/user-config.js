@@ -10,6 +10,7 @@ let btnEditMail = document.getElementById('btnEditMail')
 let btnEditPassword = document.getElementById('btnEditPassword')
 let btnEditPicture = document.getElementById('btnEditPicture')
 let btnDeactivate = document.getElementById('btnDeactivate')
+let btnShowEmail = document.getElementById('btnShowEmail')
 
 const ROLE_USER = 'Usuario regular';
 const ROLE_ADMIN = 'Administrador 😎';
@@ -21,35 +22,89 @@ const TITLE_ERROR = 'Ups!';
 const DESCRIPTION_ERROR = 'Ha ocurrido un problema interno, intenta de nuevo más tarde.';
 const DESCRIPTION_SUCCESS = 'Se ha modificado';
 const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const REGEX_EMAIL_USER = /([^@]+)/g;
 let userData = {};
+let isEmailVisible = false;
 
 window.onload = async _ => {
     addSkeletons();
 
     userData = await getData();
-    console.log(userData);
+
     putData(userData);
 
-    btnEditUserName.onclick = editUserName;
-    btnEditMail.onclick = editMail;
+    btnShowEmail.onclick = showEmail;
+    btnDeactivate.onclick = () => deactivateAccount();
+
+    if (userData.creado_en !== 'QuestionMe!') {
+        btnEditUserName.classList.add('disabled')
+        btnEditMail.classList.add('disabled')
+        btnEditPassword.classList.add('disabled')
+        btnEditPicture.classList.add('disabled')
+            // btnDeactivate.classList.add('disabled')
+
+        btnEditUserName.setAttribute('disabled', true)
+        btnEditMail.setAttribute('disabled', true)
+        btnEditPassword.setAttribute('disabled', true)
+        btnEditPicture.setAttribute('disabled', true)
+            // btnDeactivate.setAttribute('disabled', true)
+        return;
+    }
+
+    btnEditUserName.onclick = () => editUserName();
+    btnEditMail.onclick = () => editMail();
     btnEditPassword.onclick = () => editPassword();
     btnEditPicture.onclick = editPicture;
-    btnDeactivate.onclick = deactivateAccount;
+
+
+
+
 
 }
 
-let editUserName = async _ => {
-    let result = await Swal.fire({
-        title: 'Cambia el nombre de usuario',
-        html: `<div class="qme-input special-login margin-top-25">            
-                    <label class="label">Nuevo nombre de usuario</label>      
-                    <input class="input" name="nameUser" id="swalNameUser" type="text" autocomplete="off" form-message="Por favor, ingresa el nombre" value="${userData.nameUser}">
-                </div>`,
+let showEmail = () => {
+
+    if (isEmailVisible) {
+
+        let shownEmail = userData.email;
+
+        shownEmailA = shownEmail.split('@')[0]
+        shownEmailA = Array.from(shownEmailA.split('')).map(() => '*').join('');
+
+        emailTxt.innerText = `${shownEmailA}@${shownEmail.split('@')[1]}`;
+        isEmailVisible = false;
+        return
+    }
+
+    emailTxt.innerText = userData.email;
+    isEmailVisible = true
+
+}
+
+let editUserName = async(error = "", typedValue = "") => {
+        let result = await Swal.fire({
+                    title: 'Cambia el nombre de usuario',
+                    html: `<div class="qme-input special-login margin-top-25">            
+                <label class="label">Contraseña actual</label>      
+                <input class="input" name="confirmPassword" id="swalConfirmPassword" type="password" autocomplete="off" form-message="Por favor, ingresa la contraseña actual">
+                ${error !== ''?`<div class="qme-alert-form">${error}</div>`:''}
+            </div>
+            <div class="qme-input special-login margin-top-25">            
+                <label class="label">Nuevo nombre de usuario</label>      
+                <input class="input" name="nameUser" id="swalNameUser" type="text" autocomplete="off" form-message="Por favor, ingresa el nombre de usuario" 
+                value="${typedValue!==""?typedValue:""}">
+            </div>`,
         confirmButtonText: 'Guardar',
         confirmButtonColor: 'rgba(255,0,0,0.6)',
         focusConfirm: false,
         preConfirm: async() => {
             const nameUser = Swal.getPopup().querySelector('#swalNameUser').value
+            const confirmPassword = Swal.getPopup().querySelector('#swalConfirmPassword').value
+
+            if (confirmPassword === '') {
+                addWarn(Swal.getPopup().querySelector('#swalConfirmPassword'));
+                return false;
+            }
 
             if (nameUser === '') {
                 addWarn(Swal.getPopup().querySelector('#swalNameUser'));
@@ -61,7 +116,10 @@ let editUserName = async _ => {
                 return false;
             }
 
-            return nameUser;
+            return {
+                confirmPassword: confirmPassword,
+                nameUser:nameUser
+            };
         }
     })
 
@@ -79,10 +137,16 @@ let editUserName = async _ => {
 
     let modifiedUser = {
         ...userData,
-        nameUser: result.value
+        ...result.value
     }
 
     let response = await edit(modifiedUser);
+
+    if (response.status === 'error' && response.statusCode == '001') {            
+        editUserName('La contraseña ingresada no es correcta',result.value.nameUser);            
+        return;
+    }
+
     if (response.status === 'OK') {
         userData = modifiedUser;
         putData(userData);
@@ -114,8 +178,8 @@ let editPassword = async(error = '') => {
         confirmButtonColor: 'rgba(255,0,0,0.6)',
         focusConfirm: false,
         preConfirm: async() => {
-            const confirmPassword = Swal.getPopup().querySelector('#swalConfirmPassword').value
             const password = Swal.getPopup().querySelector('#swalPassword').value
+            const confirmPassword = Swal.getPopup().querySelector('#swalConfirmPassword').value
 
             if (confirmPassword === '') {
                 addWarn(Swal.getPopup().querySelector('#swalConfirmPassword'));
@@ -172,18 +236,30 @@ let editPassword = async(error = '') => {
     });
 }
 
-let editMail = async _ => {
+let editMail = async (error="",typedValue = "") => {
     let result = await Swal.fire({
         title: 'Cambia el email',
         html: `<div class="qme-input special-login margin-top-25">            
+                <label class="label">Contraseña actual</label>      
+                <input class="input" name="confirmPassword" id="swalConfirmPassword" type="password" autocomplete="off" form-message="Por favor, ingresa la contraseña actual">
+                ${error !== ''?`<div class="qme-alert-form">${error}</div>`:''}
+            </div>
+            <div class="qme-input special-login margin-top-25">            
                     <label class="label">Nuevo email</label>      
-                    <input class="input" name="email" id="swalEmail" type="email" autocomplete="off" form-message="Por favor, ingresa un mail válido" value="${userData.email}">
+                    <input class="input" name="email" id="swalEmail" type="email" autocomplete="off" form-message="Por favor, ingresa un mail válido"
+                    value="${typedValue!==''?typedValue:''}">
                 </div>`,
         confirmButtonText: 'Guardar',
         confirmButtonColor: 'rgba(255,0,0,0.6)',
         focusConfirm: false,
         preConfirm: async() => {
             const email = Swal.getPopup().querySelector('#swalEmail').value
+            const confirmPassword = Swal.getPopup().querySelector('#swalConfirmPassword').value
+
+            if (confirmPassword === '') {
+                addWarn(Swal.getPopup().querySelector('#swalConfirmPassword'));
+                return false;
+            }
 
             if (email === '' || !REGEX_EMAIL.test(String(email).toLowerCase())) {
                 addWarn(Swal.getPopup().querySelector('#swalEmail'));
@@ -193,9 +269,12 @@ let editMail = async _ => {
             if (await emailTaken(email)) {
                 addWarn(Swal.getPopup().querySelector('#swalEmail'), 'Ese correo electrónico ya está en uso');
                 return false;
-            }
+            }            
 
-            return email;
+            return {
+                confirmPassword: confirmPassword,
+                email:email
+            };
         }
     });
      
@@ -212,10 +291,16 @@ let editMail = async _ => {
 
     let modifiedUser = {
         ...userData,
-        email: result.value
+        ...result.value
     }
 
     let response = await edit(modifiedUser);
+
+    if (response.status === 'error' && response.statusCode == '001') {            
+        editMail('La contraseña ingresada no es correcta',result.value.email);
+        return;
+    }
+
     if (response.status === 'OK') {
         userData = modifiedUser;
         putData(userData);
@@ -250,7 +335,7 @@ let callSwalSelectFile = ()=>{
 
 };
 
-let editPicture = async _ => {
+let editPicture = async () => {
     let result = await Swal.fire({
         title: 'Cambia tu foto',
         html: `<figure class="user-profile-pic edit">
@@ -265,16 +350,17 @@ let editPicture = async _ => {
         focusConfirm: false,
         preConfirm: async() => {
             const file = Swal.getPopup().querySelector('#swalFileSelect').files[0]
-
+            
             if (!file) {                
-                return false;
+                return null;
             }
 
             return file;
         }
     });
-     
+    
     if (!result.isConfirmed) return;
+
     Swal.fire({
         title: TITLE_LOADING,
         allowOutsideClick: false,
@@ -284,15 +370,18 @@ let editPicture = async _ => {
             swal.showLoading();
         }
     });
-    debugger
-    let picture = await uploadPic(result.value);
+    let picture = null
+
+    if(result.value) 
+        picture = await uploadPic(result.value);
+
 
     let modifiedUser = {
         ...userData,
-        picture: picture.url
+        picture: picture?picture.url:userData.picture
     }
     
-    let response = await edit(modifiedUser);
+    let response = await editPictureRequest(modifiedUser);
 
     if (response.status === 'OK') {
         userData = modifiedUser;
@@ -307,16 +396,46 @@ let editPicture = async _ => {
     });
 }
 
-let deactivateAccount = async _ =>{
-    let result = await Swal.fire({
-        title: userData.statusUser===1 ? TITLE_CONFIRM_DEACTIVATE: TITLE_CONFIRM_ACTIVATE,
-        html: userData.statusUser===1? `Esta acción es irreversible, ¿Deseas continuar?`: 'Deseas reactivar tu cuenta',
-        confirmButtonText: userData.statusUser ? 'Desactivar mi cuenta':'Reactivar mi cuenta',
+let deactivateAccount = async (error="") =>{
+    let result = {};
+    if(error===''){
+        result = await Swal.fire({
+            title: userData.statusUser===1 ? TITLE_CONFIRM_DEACTIVATE: TITLE_CONFIRM_ACTIVATE,
+            html: userData.statusUser===1? `Con la cuenta desactivada no podrás usar ninguna función de la app, ¿Deseas continuar?`: 'Deseas reactivar tu cuenta',
+            confirmButtonText: userData.statusUser ? 'Desactivar mi cuenta':'Reactivar mi cuenta',
+            confirmButtonColor: 'rgba(255,0,0,0.6)',
+            focusConfirm: false,        
+        });
+    
+        if (!result.isConfirmed) return;
+    }
+
+    result = await Swal.fire({
+        title: 'Ingresa tu contraseña para confirmar',
+        html: `<div class="qme-input special-login margin-top-25">            
+                <label class="label">Contraseña actual</label>      
+                <input class="input" name="confirmPassword" id="swalConfirmPassword" type="password" autocomplete="off" form-message="Por favor, ingresa la contraseña actual">
+                ${error !== ''?`<div class="qme-alert-form">${error}</div>`:''}
+            </div>`,
+        confirmButtonText: 'Confirmar',
         confirmButtonColor: 'rgba(255,0,0,0.6)',
-        focusConfirm: false,        
+        focusConfirm: false,
+        preConfirm: async() => {            
+            const confirmPassword = Swal.getPopup().querySelector('#swalConfirmPassword').value
+
+            if (confirmPassword === '') {
+                addWarn(Swal.getPopup().querySelector('#swalConfirmPassword'));
+                return false;
+            }            
+
+            return {
+                confirmPassword: confirmPassword,             
+            };
+        }
     });
 
     if (!result.isConfirmed) return;
+
     Swal.fire({
         title: TITLE_LOADING,
         allowOutsideClick: false,
@@ -329,10 +448,16 @@ let deactivateAccount = async _ =>{
 
     let modifiedUser = {
         ...userData,
+        ...result.value,
         statusUser: userData.statusUser ? 0:1
     }
 
     let response = await edit(modifiedUser);
+
+    if (response.status === 'error' && response.statusCode == '001') {            
+        deactivateAccount('La contraseña ingresada no es correcta');
+        return;
+    }
 
     if (response.status === 'OK') {
         userData = modifiedUser;
@@ -357,13 +482,21 @@ let deactivateAccount = async _ =>{
 
 
 
-let putData = (data) => {
+let putData = async (data) => {
     removeSkeletons();
     imgProfile.src = data.picture;
     nameTxt.innerText = `${data.name} ${data.last_name}`;
     roleTxt.innerText = data.role === 1 ? ROLE_USER : ROLE_ADMIN;
     userNameTxt.innerText = data.nameUser;
-    emailTxt.innerText = data.email;
+
+
+    let shownEmail = data.email;
+
+    shownEmailA = shownEmail.split('@')[0]  
+    shownEmailA = Array.from(shownEmailA.split('')).map(() => '*').join('');    
+    
+    emailTxt.innerText = `${shownEmailA}@${shownEmail.split('@')[1]}`;
+
 };
 
 let addSkeletons = () => {
@@ -409,6 +542,18 @@ let edit = (user) => {
                 ["Content-Type", "text/plain"]
             ],
             body: JSON.stringify(user)
+        })
+        .then(resp => resp.json());
+};
+
+let editPictureRequest = (data) => {
+    return fetch(`${ASSETS_ROUTE}updateSelfPicture`, {
+            method: "POST",
+            headers: [
+                ["Content-Type", "application/json"],
+                ["Content-Type", "text/plain"]
+            ],
+            body: JSON.stringify(data)
         })
         .then(resp => resp.json());
 };

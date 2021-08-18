@@ -16,6 +16,11 @@
         </div>
         <button class="qme-button simple" id="btnEditPicture">Editar fotografía</button>
     </header>
+    @if (Auth::user()->creado_en!='QuestionMe!')
+        <div>
+            <p>Tu cuenta ha sido creada con {{Auth::user()->creado_en}}, para modificar la información puedes hacerlo desde esa aplicación.</p>
+        </div>
+    @endif
     <section class="section user-info">
         <header>
             <h2>Datos del usuario</h2>
@@ -30,7 +35,9 @@
         <div class="user-attr">
             <div>
                 <label>Correo electrónico</label>
-                <p id="email" class="skeleton"></p>
+                <div class="email-hidden">
+                    <p id="email" class="skeleton"></p><button id="btnShowEmail" title="Mostrar email"></button>
+                </div>
             </div>
             <button class="qme-button red" id="btnEditMail">Editar</button>
         </div>

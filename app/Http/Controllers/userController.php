@@ -476,6 +476,38 @@ class userController extends Controller
         }
     }
 
+    public function updateSelfPicture(Request $request)
+    {
+        $response = [];
+        $validated = $request->validate([
+            'picture' => 'required'
+        ]);
+
+        $human = human::find(Auth::user()->human);
+
+        try {
+            DB::beginTransaction();
+
+            $human->picture =  $request->picture;
+            $human->save();
+
+            DB::commit();
+
+            session(['userPicture' => $human->picture]);
+        } catch (\Throwable $th) {
+            $response = [
+                'status' => 'error',
+                'response' => 'Ocurrió un error al actualizar la fotografía.',
+                'error' => $th
+            ];
+            DB::rollback();
+            return $response;
+        }
+        $response = ['status' => 'OK'];
+        return $response;
+    }
+
+
     public function updateSelf(Request $request)
     {
         $response = [];
@@ -502,20 +534,24 @@ class userController extends Controller
                 'response' => 'Ya existe un usuario con este nombre de usuario.'
             ];
             return $response;
-
-            return Redirect::back()->withErrors(['msg', 'Ya Exite un usuario con el mismo nombre.']);
         }
-        //si se envía contraseña en el request
-        if ($request->password && $request->confirmPassword) {
-
-            if (!(Hash::check($request->confirmPassword, Auth::user()->password))) {
-                $response = [
-                    'status' => 'error',
-                    'response' => 'La contraseña anterior no es correcta',
-                    'statusCode' => '001'
-                ];
-                return $response;
-            }
+        //si no se envía contraseña en el request
+        if (!$request->confirmPassword) {
+            $response = [
+                'status' => 'error',
+                'response' => 'Proporciona la contraseña para continuar',
+                'statusCode' => '001'
+            ];
+            return $response;
+        }
+        //Si la contraseña enviada es incorrecta
+        if (!(Hash::check($request->confirmPassword, Auth::user()->password))) {
+            $response = [
+                'status' => 'error',
+                'response' => 'La contraseña anterior no es correcta',
+                'statusCode' => '001'
+            ];
+            return $response;
         }
 
         //si el modelo humano no encuentra la id manda mensaje de error
@@ -551,6 +587,7 @@ class userController extends Controller
             $modelHuman->email =  $request->email;
             $modelHuman->save();
             DB::commit();
+            Auth::setUser($modelUser);
         } catch (\Throwable $th) {
             $response = [
                 'status' => 'error',

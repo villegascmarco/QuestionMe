@@ -4,6 +4,7 @@
         height: 6em;
         width: 6em;
         border-radius: 3em;
+        object-fit: cover;
     }
     &.edit {
         margin: 0;
@@ -112,6 +113,21 @@
             p {
                 margin: 0;
                 font-size: 1.5em;
+            }
+            .email-hidden {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+                button {
+                    margin: 1.5em;
+                    height: 2em;
+                    width: 2em;
+                    background-color: transparent;
+                    border: none;
+                    background-image: url('../img/svg/icons/view.svg');
+                    cursor: pointer;
+                }
             }
         }
     }
