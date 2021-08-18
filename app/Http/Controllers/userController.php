@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Notifications\NewQuizWTemplateNotification;
+use App\Notifications\NewResponseReceivedNotification;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\human;
 use Illuminate\Database\Eloquent\Model;
@@ -531,7 +531,7 @@ class userController extends Controller
     }
 
     public function testForNotification(){
-        Auth::user()->notify(new NewQuizWTemplateNotification("Eu macaco"));
+        Auth::user()->notify(new NewResponseReceivedNotification("Yo no fui we"));
         return [];
     }
 

@@ -66,10 +66,9 @@ let getNotifications = async() => {
 
     if (!user) return;
 
-    let response = await fetch(`${ASSETS_ROUTE}notifications/${user.id}`)
-    response = await response.json()
+    let response = await fetch(`${ASSETS_ROUTE}users/${user.id}/notifications`);
 
-    notifications = response
+    notifications = await response.json()
 
     if (notifications.length > 0) {
         notificationCount.classList.add('active')
@@ -111,6 +110,8 @@ let fillNotifications = () => {
         let button = document.createElement('button')
         button.classList.add('closeNotification')
 
+        button.onclick = removeNotification(notification.id);
+
         li.append(a)
         li.append(button)
         dropMenuNotification.querySelector('#notificationsContainer').append(li)
@@ -121,6 +122,16 @@ let fillNotifications = () => {
 }
 
 
+let removeNotification = async id => {
+    let response = fetch(`${ASSETS_ROUTE}users/${user.id}/notifications/${id}`, {
+        method: "PUT"
+    }).then(resp => resp.json())
+
+    if (response.status === 'OK') {
+        getNotifications()
+    }
+};
+
 
 let getSelfData = () => {
     return fetch(`${ASSETS_ROUTE}getSelfData`)
@@ -128,7 +139,7 @@ let getSelfData = () => {
 };
 
 let markNotificationsAsRead = () => {
-    return fetch(`${ASSETS_ROUTE}notifications/${user.id}`, {
+    return fetch(`${ASSETS_ROUTE}users/${user.id}/notifications/*`, {
         method: "PUT"
     }).then(resp => resp.json())
 }
