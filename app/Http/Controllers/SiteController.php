@@ -81,8 +81,13 @@ class SiteController extends Controller
 
     public function dashboard(){
         $title = "Dashboard | QuestionMe!";
-        $styleSheets = [];
-        $jsDocs = [];
+        $styleSheets = [
+            array('local'=>true,'route'=>'css/dashboard.css'),
+            array('local'=>true,'route'=>'css/module.css')
+        ];
+        $jsDocs = [
+            array('local'=>true,'route'=>'js/modules/dashboard/dashboard.js')
+        ];
         return view('dashboard',compact("title","styleSheets","jsDocs"));
 
     }

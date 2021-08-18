@@ -1,0 +1,11 @@
+body {
+  padding: 100px; }
+
+.main-container {
+  width: 100%;
+  min-height: 600px;
+  background-color: #fff;
+  border: 1px solid black;
+  border-radius: 25px; }
+
+/*# sourceMappingURL=dashboard.css.map */
