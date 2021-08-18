@@ -584,6 +584,12 @@ class userController extends Controller
                 )
                 ->where("user.id", "=", Auth::user()->id)
                 ->first();
+
+            $quizzes = DB::Table('quiz')->where([
+                'user' => $users->id,
+                'status' => 1,
+            ])->get();
+            $users->quiz_count = count($quizzes);
         } catch (\Throwable $th) {
             $response = [
                 'status' => 'error',
