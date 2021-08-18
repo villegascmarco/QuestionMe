@@ -85,7 +85,27 @@ class NonRegisteredHumanController extends Controller
             'quiz' => $quiz->id
         ])->get();
 
-        return view('site.quiz-module.quiz-reply', compact($quiz));
+        $title = "Contestando una encuesta/cuestionario";
+
+        $styleSheets = [            
+            array('local'=>true,'route'=>'css/common.css'),
+            array('local'=>true,'route'=>'css/navbar.css'),
+            array('local'=>true,'route'=>'css/module.css'),
+            array('local'=>true,'route'=>'css/quiz.css'),
+            array('local'=>true,'route'=>'css/quiz-reply.css'),
+            array('local'=>true,'route'=>'css/common/sweetalert2.min.css')
+        ];
+
+        $jsDocs = [
+            array('local'=>false,'route'=>'https://code.jquery.com/jquery-3.6.0.js'),      
+            array('local'=>false,'route'=>'https://code.jquery.com/ui/1.12.1/jquery-ui.js'),
+            array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),        
+            array('local'=>true,'route'=>'js/common/carousel.js'),
+            array('local'=>true,'route'=>'js/common/wizard.js'),                          
+            array('local'=>true,'route'=>'js/common/formsvalidator.js'),            
+        ];
+
+        return view('site.quiz-module.quiz-reply', compact('quiz', 'title', "styleSheets","jsDocs"));
     }
 
     /**
