@@ -197,8 +197,9 @@ const saveAnswer = async() => {
     let openAnswer = document.getElementById('rd-open')
     let questionstr = document.getElementById('question')
     let inputContainer = document.getElementById('qme-input')
+    let answersChk = document.getElementsByClassName('answer-checkboxes')
 
-    if (document.getElementsByClassName('answer-checkboxes')) {
+    if (answersChk.length != 0) {
         let checkAnswers = document.getElementsByName('posible-answer-radio')
         let inputAnswer = document.getElementsByName('posible-answer')
         let questionTypeOpen = document.getElementById('rd-open')

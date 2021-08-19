@@ -47,6 +47,7 @@ let fullTable = (quizfill) => {
         inners += "<td>0</td>"
         inners += "<td> <div class='bubble-categories-container'><label class='bubble no-button'>"+fount.name+"</label></div></td>"
         inners += `<td> <button class='table-btn btn-detail' onclick="editQuiz(${quiz.id})"> <img src='${ASSETS_ROUTE}img/svg/icons/view.svg'> </button></td>`
+        inners += `<td> <button class='table-btn btn-detail' onclick="shareQuiz(${quiz.id})"> <img src='${ASSETS_ROUTE}img/svg/icons/share.svg'> </button></td>`
         inners += `<td> <button class='table-btn btn-detail' onclick="delQuiz(${quiz.id})"> <img src='${ASSETS_ROUTE}img/svg/icons/trash.svg'> </button></td>`
         inners += "</tr>"
         return inners
@@ -82,6 +83,37 @@ let delQuiz  = async (idQuiz) => {
     await delQuizRqst(idQuiz)
     
 } 
+
+let shareQuiz = async (idQuiz) => {
+    let encrypt = await encryptID(idQuiz)
+    let url = `${ASSETS_ROUTE}nonHuman/${encrypt}`
+    let result = await Swal.fire({
+            title: 'Comparte este enlace para responder el quiz',
+            html: `<div class="qme-input special-login margin-top-25">            
+        <label class="label">Enlace</label>      
+        <input class="input" name="copy" value="${url}" id="swalCopyLink" type="text" autocomplete="off" form-message="Por favor, ingresa la contraseña actual">
+        <div class="btn-container reply-btn-container" id="btn-container">
+            <button id="qu-save" onclick="copyLink()" class="qme-button red finish-reply">Copiar enlace</button>
+        </div>
+        </div>`,
+    confirmButtonText: '¡Confirmar!',
+    confirmButtonColor: 'rgba(255,0,0,0.6)',
+    focusConfirm: false,
+    })
+
+    if(!result.isConfirmed)
+        return
+
+}
+
+let copyLink = () =>{
+    let btnCopy = document.getElementById('qu-save')
+    let copy = document.getElementById('swalCopyLink')
+    copy.select();
+    document.execCommand("copy");
+    btnCopy.innerText = "¡Copiado!"
+    btnCopy.style.backgroundColor = "#7cb364"
+}
 
 
 
@@ -161,6 +193,22 @@ let delQuizRqst = async(idQuiz) => {
             if (response.ok) {
                 await getDataTable()
                 return response.json()
+            }
+        })
+    return response
+};
+
+let encryptID = async (idQuiz) => {
+    let response = await fetch(`${ASSETS_ROUTE}quizzesE/${idQuiz}`, {
+            method: "GET",
+            headers: [
+                ["Content-Type", "application/json"],
+                ["Content-Type", "text/plain"]
+            ],
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.text()
             }
         })
     return response

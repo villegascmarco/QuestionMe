@@ -101,7 +101,8 @@ class NonRegisteredHumanController extends Controller
             array('local'=>false,'route'=>'https://code.jquery.com/ui/1.12.1/jquery-ui.js'),
             array('local'=>false,'route'=>'js/common/sweetalert2.all.min.js'),        
             array('local'=>true,'route'=>'js/common/carousel.js'),
-            array('local'=>true,'route'=>'js/common/wizard.js'),                          
+            array('local'=>true,'route'=>'js/common/wizard.js'),  
+            array('local'=>true,'route'=>'js/modules/quiz/quiz-reply.js'),                    
             array('local'=>true,'route'=>'js/common/formsvalidator.js'),            
         ];
 

@@ -22,6 +22,7 @@
                             <th>Personas que han respondido</th>
                             <th>Categoria</th>
                             <th>Detalle</th>
+                            <th>Compartir</th>
                             <th>Eliminar</th>
                         </tr>
                     </thead>
