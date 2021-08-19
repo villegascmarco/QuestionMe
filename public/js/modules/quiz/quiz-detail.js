@@ -44,7 +44,6 @@ let fullTable = (quizfill) => {
         inners += "<tr>"
         inners += "<td>"+quiz.name+"</td>"
         inners += "<td>"+questionCount+"</td>"
-        inners += "<td>0</td>"
         inners += "<td> <div class='bubble-categories-container'><label class='bubble no-button'>"+fount.name+"</label></div></td>"
         inners += `<td> <button class='table-btn btn-detail' onclick="editQuiz(${quiz.id})"> <img src='${ASSETS_ROUTE}img/svg/icons/view.svg'> </button></td>`
         inners += `<td> <button class='table-btn btn-detail' onclick="shareQuiz(${quiz.id})"> <img src='${ASSETS_ROUTE}img/svg/icons/share.svg'> </button></td>`

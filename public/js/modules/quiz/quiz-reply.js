@@ -146,7 +146,23 @@ let sendAnswers = async() => {
 
     })
 
+
+    let result = {};
+
+    result = await Swal.fire({
+        title: "¿Estas seguro de enviar tus respuestas?",
+        confirmButtonText: "¡Confirmar!",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: 'rgba(255,0,0,0.6)',
+        showCancelButton: true,
+        focusConfirm: false,        
+    });
+
+    if (!result.isConfirmed) return;
+
     await setAnswers(answerUser)
+
+    
 }
 
 //:::::::::::::::::::::::::::::::::::::::
@@ -154,7 +170,6 @@ let sendAnswers = async() => {
 //:::::::::::::::::::::::::::::::::::::::
 
 let setAnswers = async(userAns) => {
-    debugger
     let response = await fetch(`${ASSETS_ROUTE}nonHuman`, {
         method: "POST",
         headers: [
@@ -162,6 +177,10 @@ let setAnswers = async(userAns) => {
             ["Content-Type", "text/plain"]
         ],
         body: JSON.stringify(userAns)
+    }).then((response) => {
+        if (response.ok) {
+            window.location = `${ASSETS_ROUTE}`;
+        }
     });
     return response
 }

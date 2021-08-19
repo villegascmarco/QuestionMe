@@ -19,7 +19,6 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Cantidad de preguntas</th>
-                            <th>Personas que han respondido</th>
                             <th>Categoria</th>
                             <th>Detalle</th>
                             <th>Compartir</th>
