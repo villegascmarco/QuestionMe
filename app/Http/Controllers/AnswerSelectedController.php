@@ -22,7 +22,6 @@ class AnswerSelectedController extends Controller
         $answers = new stdClass();
 
         foreach ($nonHumans as $nonHuman) {
-            $loop = 0;
             foreach ($nonHuman->answers as $answer) {
 
                 if (isset($answer->question)) {
@@ -33,7 +32,7 @@ class AnswerSelectedController extends Controller
                         if (!isset($answers->user)) {
                             $answers->user = array();
                         }
-                        if ($loop == 0) {
+                        if (!isset($newHuman)) {
                             $newHuman = clone $nonHuman;
                             unset($newHuman->answers);
                             unset($newHuman->created_at);
@@ -60,7 +59,7 @@ class AnswerSelectedController extends Controller
                         if (!isset($answers->user)) {
                             $answers->user = array();
                         }
-                        if ($loop == 0) {
+                        if (!isset($newHuman)) {
                             $newHuman = clone $nonHuman;
                             unset($newHuman->answers);
                             unset($newHuman->created_at);
@@ -79,8 +78,9 @@ class AnswerSelectedController extends Controller
                         $answers->user[$lastUserIndex]->questions = $varQuestion;
                     }
                 }
-
-                $loop++;
+            }
+            if (isset($newHuman)) {
+                unset($newHuman);
             }
         }
         if (!is_null($answers)) {
