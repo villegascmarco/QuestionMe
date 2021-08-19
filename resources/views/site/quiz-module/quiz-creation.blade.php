@@ -26,24 +26,20 @@
     </div>
     <div class="creation-content margin-top-25">
         <div class="carousel" id="carousel">
-            <div class="card">
+            <div class="card form-one">
                 <header>
                     <h1>Nombra tu nueva encuesta</h1>
                 </header>
                 <section class="step-section">
-                    <div class="qme-input width-550 simple qme-required">
-                        <label class="label " for=" ">Título</label>
-                        <input class="input " type="text " placeholder="Some text ">
+                    <div class="save-lbl" id="save-title">
+                        <label class="label " for=" ">Título </label>
+                        <br>
+                        <input id="title" class="input news-input qme-input" type="text ">
                     </div>
-                    <div class="qme-bubble-category width-550 simple margin-top-25 margin-5 qme-required ">
-                        <label class="label " for=" ">Categorias</label>
-                        <div class="bubble-categories-container">
-                            <label class="bubble">Ciencias</label>
-                            <label class="bubble">Política</label>
-                            <label class="bubble bubble-button">
-                                <img src="{{asset('img/svg/icons/plus-white.svg')}}" alt="">
-                            </label>
-                        </div>
+                    <div class="save-lbl" id="save-category">
+                        <label class="label " for=" ">Categoria</label>
+                        <br>
+                        <input id="category" class="input news-input qme-input" type="text " placeholder="Psicologia">
                     </div>
                 </section>
             </div>
@@ -51,37 +47,23 @@
                 <header>
                     <h1>Selecciona una plantilla</h1>
 
-                    <span>¿Usar plantilla?</span>
-
-                    <br>
-                    
-                    <label class="switch">
-                        <input id="template-check" type="checkbox">
-                        <span class="slider"></span>
-                    </label>
+                    <div id="switch-template">
+                        <span>¿Usar plantilla?</span>
+                        <br>
+                        <label class="switch" >
+                            <input id="template-check" type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                        <br>
+                        <span class="accion" >*Esta acción no se puede deshacer</span>
+                    </div>
                     
                 </header>
+
+                <div id="list-categories-bubbles" class="bubble-categories-container">
+                </div>
                 <section id="template-section" class="step-section layout-container-grid">
-                    <div class="layout-container">
-                        <header>
-                            <h3>Nombre plantilla</h3>
-                        </header>
-                    </div>
-                    <div class="layout-container">
-                        <header>
-                            <h3>Nombre plantilla</h3>
-                        </header>
-                    </div>
-                    <div class="layout-container">
-                        <header>
-                            <h3>Nombre plantilla</h3>
-                        </header>
-                    </div>
-                    <div class="layout-container">
-                        <header>
-                            <h3>Nombre plantilla</h3>
-                        </header>
-                    </div>
+                    
                 </section>
             </div>
             <div class="card">
@@ -93,35 +75,29 @@
                         <label class="radio-group-title" for="">Tipo de pregunta</label>
 
                         <div class="qme-radio">
-                            <input type="radio" id="rd-open" name="question-type">
+                            <input type="radio" value="2" onchange="getPosibleAnswers(this)" id="rd-open" name="question-type">
                             <label class="radio-text" for="rd-open">
                                 Abierta
                             </label>
                         </div>
                         <div class="qme-radio">
-                            <input type="radio" id="rd-single" name="question-type">
-                            <label class="radio-text" for="rd-single">
-                                Una opción correcta
-                            </label>
-                        </div>
-                        <div class="qme-radio">
-                            <input type="radio" id="rd-multiple" name="question-type">
+                            <input type="radio" value="1" onchange="getPosibleAnswers(this)" id="rd-multiple" name="question-type">
                             <label class="radio-text" for="rd-multiple">
                                 Opción múltiple
                             </label>
                         </div>
                     </fieldset>
-                    <div class="question-container">
+                    <div class="question-container" id="question-container">
                         <div class="qme-input width-550 margin-15 simple qme-required">
                             <label class="label " for=" ">Escribe tu pregunta</label>
-                            <input class="input " type="text " placeholder="Some text ">
+                            <input class="input " id="question" type="text " placeholder="Some text ">
                         </div>
-                        <div class="qme-input width-550 margin-15 simple qme-required">
+                        <div id="answer-section" class="qme-input width-550 margin-15 simple qme-required">
                             <label class="label " for=" ">Respuesta correcta</label>
-                            <input class="input " type="text " placeholder="Some text ">
+                            
                         </div>
-                        <div class="btn-container">
-                            <button class="qme-button red">Guardar</button>
+                        <div class="btn-container" id="btn-container">
+                            <button id="qu-save" class="qme-button red">Añadir</button>
                         </div>
                     </div>
 
@@ -131,29 +107,26 @@
                 <header>
                     <h1>Últimos detalles</h1>
                 </header>
-                <section>
-                    <fieldset class="qme-radio-group qme-required">
-                        <label class="radio-group-title" for="">Visibilidad de tu encuesta</label>
+                <section >
+                    <fieldset class="qme-radio-group qme-required" id="is-public-step">
+                        <label class="radio-group-title" for="">Quieres que otros usuarios puedan utlizar tu encuesta/cuestionario</label>
 
                         <div class="qme-radio">
-                            <input type="radio" id="rd-open-now" name="question-type">
-                            <label class="radio-text" for="rd-open-now">
-                                Abrir ahora
+                            <input type="radio" id="rd-public" value="1" name="is-public">
+                            <label class="radio-text" for="rd-public">
+                                Si
                             </label>
                         </div>
                         <div class="qme-radio">
-                            <input type="radio" id="rd-program" name="question-type">
-                            <label class="radio-text" for="rd-program">
-                                Programar apertura
-                            </label>
-                        </div>
-                        <div class="qme-radio">
-                            <input type="radio" id="rd-ask-later" name="question-type">
-                            <label class="radio-text" for="rd-ask-later">
-                                Pregúntame luego
+                            <input type="radio" id="rd-close" value="0" name="is-public">
+                            <label class="radio-text" for="rd-close">
+                                No
                             </label>
                         </div>
                     </fieldset>
+                    <div id="lastStep">
+
+                    </div>
                 </section>
             </div>
         </div>

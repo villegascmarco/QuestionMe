@@ -158,6 +158,9 @@ body {
         height: 100%;
         width: 100%;
         background-color: transparent;
+        &.special-answer {
+            max-width: 30%;
+        }
     }
     .label {
         position: absolute;
@@ -229,6 +232,7 @@ body {
             border: 1px solid rgba($color: #ff0000, $alpha: .8);
         }
     }
+
     &.blue {
         color: white;
         background-color: rgba(0, 0, 255, .4);
@@ -239,6 +243,17 @@ body {
     }
     &.round {
         width: $measure;
+        border-radius: $measure;
+        position: relative;
+        & .icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    &.add-del {
+        margin-left: 10px;
         border-radius: $measure;
         position: relative;
         & .icon {
@@ -358,13 +373,14 @@ body {
         height: 5px;
         bottom: 2.5px;
         width: 0;
-        z-index: -1;
-        background-color: rgba(0, 0, 255, 0.4);
+        z-index: 0;
+        background-color: rgba(255, 0, 0, .6);
     }
     input[type=radio]:checked~.radio-text::before {
         content: '';
         width: 80%;
     }
+    
 }
 
 .qme-bubble-category {
@@ -383,7 +399,11 @@ body {
 }
 
 .bubble-categories-container {
-    width: fit-content;
+    height: 60px;
+    overflow-y: hidden;
+    white-space: nowrap;
+    width: 100%;
+    margin-bottom: 30px;
     .bubble {
         display: inline-flex;
         justify-content: center;
@@ -399,6 +419,7 @@ body {
         font-size: 0.8em;
         box-sizing: border-box;
         position: relative;
+        cursor: pointer;
         &.no-button {
             padding-right: 15px;
             background-color: transparent;
@@ -407,9 +428,6 @@ body {
             &::after {
                 content: "";
                 display: none;
-            }
-            &:hover {
-                cursor: auto;
             }
         }
         &::after {

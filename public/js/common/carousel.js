@@ -5,6 +5,9 @@ class CardCarousel {
     currentPosition = 0;
     btnNext;
     btnPrev;
+    callbackNext;
+    callbackPrev;
+
 
     constructor(element) {
         this.element = element;
@@ -23,12 +26,15 @@ class CardCarousel {
         this.btnNext.setAttribute('class', 'qme-button btn-carousel red margin-left-25');
         this.btnNext.innerText = 'Siguiente';
         this.btnNext.addEventListener('click', () => {
+
+            if (!this.callbackNext(this.currentPosition + 1 > this.carouselCards.length ? this.carouselCards.length - 1 : this.currentPosition + 1)) return;
+
             if (this.currentPosition < this.carouselCards.length) {
                 ++this.currentPosition;
             }
             // debugger
             if (this.currentPosition === (this.carouselCards.length - 1)) {
-                this.btnNext.disabled = true;
+
             }
             if (this.currentPosition > 0) {
                 this.btnPrev.disabled = false;
@@ -39,6 +45,10 @@ class CardCarousel {
         this.btnPrev.innerText = 'Anterior';
         this.btnPrev.disabled = true;
         this.btnPrev.addEventListener('click', () => {
+
+            if (!this.callbackPrev(this.currentPosition - 1 === -1 ? 0 : this.currentPosition - 1)) return;
+
+
             if ((this.currentPosition - 1) >= 0) {
                 --this.currentPosition;
             }
@@ -57,6 +67,15 @@ class CardCarousel {
     }
 
     updateProgress(forward = true) {
+        this.element.dispatchEvent(new CustomEvent("progress", {
+            detail: {
+                direction: forward ? "FORWARD" : "REVERSE",
+                position: this.currentPosition
+
+            }
+
+        }))
+
         if (forward) {
             this.carouselCards[this.currentPosition - 1].classList.remove('current');
         } else {
@@ -65,11 +84,6 @@ class CardCarousel {
 
         this.carouselCards[this.currentPosition].classList.add('current');
 
-        this.element.dispatchEvent(new CustomEvent("progress", {
-            detail: {
-                direction: forward ? "FORWARD" : "REVERSE"
-            }
-        }))
     }
 
 

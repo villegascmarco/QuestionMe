@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\answer_selected;
+use App\Models\category;
 use App\Models\non_registered_human;
-use App\Models\possible_answer;
 use App\Models\question;
 use App\Models\quiz;
-use App\Models\User;
-use App\Notifications\AnswersGradedNotification;
-use App\Notifications\AnswersSendNotification;
-use App\Notifications\NewResponseReceivedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\DB;
@@ -100,7 +96,20 @@ class NonRegisteredHumanController extends Controller
      */
     public function show($id)
     {
-        return (non_registered_human::with('answers')->where('id', $id)->get());
+        $id_dec = QuizController::encrypt_decrypt($id, 'decrypt');
+
+        $quiz = quiz::where([
+            'id' => preg_replace("/[^0-9]/", "", $id_dec),
+            'status' => 1,
+        ])->firstOrFail();
+
+        $quiz->category = category::where('id', $quiz->category)->first()->name;
+
+        $quiz->questions = question::with('possible_answers')->where([
+            'quiz' => $quiz->id
+        ])->get();
+
+        return view('site.quiz-module.quiz-reply', compact($quiz));
     }
 
     /**
