@@ -16,10 +16,15 @@ body {
       display: grid;
       grid-template-columns: repeat(6, 1fr); }
     .creation-container .creation-content section.step-section .layout-container {
+      display: flex;
+      flex-direction: column;
+      max-height: 250px;
+      overflow-y: scroll;
       height: 250px;
       margin: 5px;
       border: 1px solid #707070;
-      border-radius: 25px; }
+      border-radius: 8px;
+      transition: 0.3s; }
 
 .carousel {
   position: relative;
@@ -29,13 +34,11 @@ body {
   padding-bottom: 50px; }
   .carousel .carousel-button-container {
     position: absolute;
-    height: 50px;
     bottom: 0;
     right: 0;
     padding: 15px;
     box-sizing: border-box; }
   .carousel .card {
-    position: absolute;
     height: 100%;
     width: 100%;
     display: none;
@@ -59,6 +62,7 @@ body {
   width: 60px;
   height: 34px;
   margin-left: 35px;
+  margin-top: 10px;
   margin-bottom: 20px; }
 
 .switch input {
@@ -101,5 +105,97 @@ input:checked + .slider:before {
 
 .disable-template {
   color: #707070; }
+
+.news-input {
+  font-size: 25px;
+  margin-top: 20px; }
+
+.form-one {
+  text-align: center; }
+
+.save-lbl {
+  margin-top: 50px;
+  position: relative; }
+  .save-lbl .qme-alert-form {
+    margin-top: 50px;
+    margin-left: 30px; }
+
+.is-public-step {
+  position: relative; }
+  .is-public-step .qme-alert-form {
+    margin-top: 50px;
+    margin-left: 40%; }
+
+.save-lbl label {
+  font-size: 30px; }
+
+.ui-widget-content {
+  list-style: none;
+  transition: 0.3s;
+  width: 30px;
+  margin: 0%;
+  padding: 0%;
+  overflow-y: auto;
+  max-height: 7em; }
+
+.ui-menu-item {
+  transition: 0.3s;
+  padding: 5px 0;
+  width: 100%; }
+
+.ui-menu-item:hover {
+  background-color: #0000000c;
+  color: #FF6666; }
+
+.answer-checkboxes {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center; }
+
+.icon-answer {
+  width: 20px; }
+
+.questions-wait {
+  padding: 30px 10px;
+  box-sizing: border-box;
+  border-radius: 25px;
+  width: 40%;
+  border: 1px solid #707070;
+  margin-top: 30px; }
+
+.bubble-space {
+  display: inline-block; }
+  .bubble-space input[type=radio] {
+    opacity: 0;
+    position: absolute; }
+    .bubble-space input[type=radio]:hover {
+      cursor: pointer; }
+
+.titleContainer {
+  text-align: center; }
+
+.template-title {
+  font-size: 15px; }
+
+.question-template {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 10px; }
+
+.selected-template {
+  color: white;
+  background-color: #FF6666; }
+
+.questions-final {
+  margin-top: 65px; }
+
+.accion {
+  font-size: 15px; }
+
+.answers-pending {
+  display: flex; }
+
+#answer-section {
+  margin-top: 50px; }
 
 /*# sourceMappingURL=quiz.css.map */

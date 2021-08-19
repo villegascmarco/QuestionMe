@@ -8,6 +8,7 @@
     <title>{{$title}}</title>
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap" rel="stylesheet">
     @foreach ($styleSheets as $style)
     @if ($style['local'])
     <link rel="stylesheet" href="{{ asset($style['route']) }}">

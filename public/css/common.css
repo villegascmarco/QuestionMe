@@ -130,6 +130,8 @@ body {
     height: 100%;
     width: 100%;
     background-color: transparent; }
+    .qme-input .input.special-answer {
+      max-width: 30%; }
   .qme-input .label {
     position: absolute;
     background-color: white;
@@ -195,6 +197,15 @@ body {
     border-radius: 40px;
     position: relative; }
     .qme-button.round .icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); }
+  .qme-button.add-del {
+    margin-left: 10px;
+    border-radius: 40px;
+    position: relative; }
+    .qme-button.add-del .icon {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -286,8 +297,8 @@ body {
     height: 5px;
     bottom: 2.5px;
     width: 0;
-    z-index: -1;
-    background-color: rgba(0, 0, 255, 0.4); }
+    z-index: 0;
+    background-color: rgba(255, 0, 0, 0.6); }
   .qme-radio input[type=radio]:checked ~ .radio-text::before {
     content: '';
     width: 80%; }
@@ -306,7 +317,11 @@ body {
     font-size: .9em; }
 
 .bubble-categories-container {
-  width: fit-content; }
+  height: 60px;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 100%;
+  margin-bottom: 30px; }
   .bubble-categories-container .bubble {
     display: inline-flex;
     justify-content: center;
@@ -321,7 +336,8 @@ body {
     color: white;
     font-size: 0.8em;
     box-sizing: border-box;
-    position: relative; }
+    position: relative;
+    cursor: pointer; }
     .bubble-categories-container .bubble.no-button {
       padding-right: 15px;
       background-color: transparent;
@@ -330,8 +346,6 @@ body {
       .bubble-categories-container .bubble.no-button::after {
         content: "";
         display: none; }
-      .bubble-categories-container .bubble.no-button:hover {
-        cursor: auto; }
     .bubble-categories-container .bubble::after {
       content: "";
       position: absolute;
