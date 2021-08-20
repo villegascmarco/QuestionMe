@@ -5,7 +5,7 @@ let email = document.getElementById('email');
 let password = document.getElementById('password');
 let nameUser = document.getElementById('nameUser');
 // let email = document.getElementById('email');
-let confirmPassword = document.getElementById('confirm-password');
+let confirmPassword = document.getElementById('confirmPassword');
 let inputContainer = document.getElementById('loginContainer');
 let formHandler = null;
 let socMedError = document.getElementById('socMedError');
@@ -61,12 +61,10 @@ let signUp = async _ => {
     userNameTaken(nameUser.value);
     emailTaken(email.value);
     if (!formHandler.checkForm()) return;
-
-
-
+    debugger
     let user = formHandler.getAsObject();
-
-    if (user['password'] !== user['confirm-password']) {
+    user['confirmPassword']
+    if (user.confirmPassword !== user['password']) {
         confirmPassword.focus();
         formHandler.showError('confirm-pasword', 'Las contraseñas no coinciden')
         return;

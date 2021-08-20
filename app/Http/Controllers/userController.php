@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Notifications\NewResponseReceivedNotification;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\human;
 use Illuminate\Database\Eloquent\Model;
@@ -637,4 +638,11 @@ class userController extends Controller
         }
         return response()->json($users);
     }
+
+    public function testForNotification(){
+        Auth::user()->notify(new NewResponseReceivedNotification("Yo no fui we"));
+        return [];
+    }
+
+
 }

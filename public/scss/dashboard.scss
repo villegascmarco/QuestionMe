@@ -1,0 +1,47 @@
+body {
+    padding: 100px;
+}
+
+.main-container {
+    width: 100%;
+    min-height: 600px;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 25px;
+    .dashboard-section {
+        box-sizing: border-box;
+        margin: 3rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        header {
+            .title-alternative {}
+        }
+        .template-summary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .count-template {
+                font-size: 3.5rem;
+                font-family: 'Roboto Mono', monospace;
+            }
+        }
+        .human-summary {
+            overflow-y: scroll;
+            max-height: 180px;
+            .human-table {
+                width: 80%;
+                margin: auto;
+                thead {
+                    position: sticky;
+                }
+            }
+            .human-row {
+                width: 100%;
+                td {
+                    height: 60px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

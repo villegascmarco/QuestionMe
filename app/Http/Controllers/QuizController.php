@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\quiz;
+use App\Models\User;
+use App\Notifications\NewQuizWTemplateNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -79,6 +81,11 @@ class QuizController extends Controller
 
         if ($quiz->quiz_origin) {
             QuestionController::copyAllFrom($quiz->quiz_origin, $quiz->id);
+
+            $template = quiz::find($quiz->quiz_origin);
+            $user = User::find($template->user);
+
+            $user->notify(new NewQuizWTemplateNotification($template->name));
         }
         return $quiz;
     }

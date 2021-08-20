@@ -28,7 +28,7 @@
     </div>    
     <div class="qme-input special-login margin-top-25 margin-bottom-25">            
       <label class="label">Confirma la contraseña</label>      
-      <input class="input" name="confirm-pasword" id="confirm-password" type="password" autocomplete="off" form-message="Las contraseñas no coinciden" required>
+      <input class="input" name="confirmPassword" id="confirmPassword" type="password" autocomplete="off" form-message="Las contraseñas no coinciden" required>
     </div>    
     
       <button class="btnLogIn" id="btnSignUp">Registrarme</button>

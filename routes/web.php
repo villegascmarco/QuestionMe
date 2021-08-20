@@ -6,6 +6,7 @@ use App\Http\Controllers\userController;
 use App\Http\Controllers\humanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\user_roleController;
+use App\Http\Controllers\reportsController;
 use App\Http\Middleware\Role;
 use App\Http\Controllers\categoryController;
 
@@ -51,6 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post("/users/activate/{id}", [userController::class, 'activate']);
         Route::get('/users/roleFind/{role}',  [userController::class, 'roleFind']);
         Route::resource('users', 'userController', ["except" => ['destroy']]);
+        Route::resource('users.notifications', 'NotificationController');
         Route::get('/user', 'SiteController@user');
         //user-role
         Route::post("/user_role/desactivate/{id}", [user_roleController::class, 'desactivate']);
@@ -84,10 +86,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/quiz-reply', 'SiteController@quizReply');
 
     Route::get('/getUserPicture/{id}', [userController::class, 'getUserPicture']);
-
     Route::get('/my-account', 'SiteController@userConfig');
+    Route::get('/testForNotification', 'userController@testForNotification');
+
+    Route::get('/templateReport/{id}','reportsController@getReportTemplates');
+    Route::get('/humanReport/{id}','reportsController@getReportPersonResponseQuiz');
+    Route::get('/responseReport/{id}','reportsController@getReportRespose');
+    
 });
 
+
+//Route::resource('notifications', 'NotificationController');
 
 // Route::group(['middleware'=>['auth']], function(){
 // });
