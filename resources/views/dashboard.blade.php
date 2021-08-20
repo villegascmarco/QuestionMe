@@ -26,7 +26,7 @@
 
         <main class="template-summary">
             Tus plantillas han sido utilizadas un total de 
-            <label class="count-template">0</label>        
+            <label class="count-template" id="countTemplate">0</label>        
             veces.    
         </main>        
     </section>
@@ -35,7 +35,7 @@
             <h2 class="title-alternative">Personas que han respondido una de tus encuestas</h2>
         </header>
         <main class="human-summary">            
-            <table class="human-table">
+            <table class="human-table" id="humanTable">
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -45,56 +45,11 @@
                 </thead>
                 <tbody>
                     <tr class="human-row">                    
-                        <td>Oscar Alan Rodriguez Caudillo</td>
-                        <td>hendrix666@gmail.com</td>
-                        <td>Quiz falsa</td>
-                    </tr>    
-                    <tr class="human-row">                    
-                        <td>Oscar Alan Rodriguez Caudillo</td>
-                        <td>hendrix666@gmail.com</td>
-                        <td>Quiz falsa</td>
-                    </tr>    
-                    <tr class="human-row">                    
-                        <td>Oscar Alan Rodriguez Caudillo</td>
-                        <td>hendrix666@gmail.com</td>
-                        <td>Quiz falsa</td>
-                    </tr>    
-                    <tr class="human-row">                    
-                        <td>Oscar Alan Rodriguez Caudillo</td>
-                        <td>hendrix666@gmail.com</td>
-                        <td>Quiz falsa</td>
-                    </tr>    
-                    <tr class="human-row">                    
-                        <td>Oscar Alan Rodriguez Caudillo</td>
-                        <td>hendrix666@gmail.com</td>
-                        <td>Quiz falsa</td>
-                    </tr>    
-                    <tr class="human-row">                    
-                        <td>Oscar Alan Rodriguez Caudillo</td>
-                        <td>hendrix666@gmail.com</td>
-                        <td>Quiz falsa</td>
-                    </tr>    
-                    <tr class="human-row">                    
-                        <td>Oscar Alan Rodriguez Caudillo</td>
-                        <td>hendrix666@gmail.com</td>
-                        <td>Quiz falsa</td>
-                    </tr>    
-                    <tr class="human-row">                    
-                        <td>Oscar Alan Rodriguez Caudillo</td>
-                        <td>hendrix666@gmail.com</td>
-                        <td>Quiz falsa</td>
-                    </tr>    
+                        <td colspan="3" >Cargando...</td>                        
+                    </tr>                        
                 </tbody>
             </table>            
-        </main>        
-
-    </section>
-
-    <section class="dashboard-section">
-        <header>
-            <h2 class="title-alternative">Consulta reportes de tus encuestas</h2>
-        </header>
-
+        </main>
     </section>
 
 </main>

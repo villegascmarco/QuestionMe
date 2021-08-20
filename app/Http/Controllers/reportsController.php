@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class reportsController extends Controller
 {
     //pendiente de revision
-    public function getReportPersonResponseQuiz(){
+    public function getReportPersonResponseQuiz($user){
         $response = [];
         
         try {
@@ -22,7 +22,7 @@ class reportsController extends Controller
         ->join('user', 'quiz.user', '=', 'user.id')
         ->select('nrh.id', 'nrh.name', 'nrh.last_name', 'nrh.email', 'ase.given_answer', 'ase.is_correct', 'question.question', 
         'question.question_type', 'quiz.name as QuizName', 'user.name as UserName')
-        ->where("user.id","=", Auth::user()->id)
+        ->where("user.id","=", $user)
         ->groupBy('nrh.id')->get(); 
 
         } catch (\Throwable $th) {
@@ -37,7 +37,7 @@ class reportsController extends Controller
 
 
     //pendiente de revision
-    public function getReportRespose(){
+    public function getReportRespose($user){
         $response = [];
 
         try {
@@ -49,7 +49,7 @@ class reportsController extends Controller
         ->select('quiz.id as quiz', 'quiz.name as quiz_name', 
         DB::raw("concat(no_human.name, ' ', persona.apellidoP, ' ', no_human.last_name) as human_name"), 'question.id as question', 
         'question.name as question_name', 'possible_answer.id as possible_answer', 'possible_answer.answer as possible_answer_name')
-        ->where("quiz.user","=", Auth::user()->id)
+        ->where("quiz.user","=", $user)
         ->get();
        
         } catch (\Throwable $th) {
@@ -63,15 +63,15 @@ class reportsController extends Controller
         return response()->json($quiz);
     }
     // pendiente de revisar
-    public function getReportTemplates(){
+    public function getReportTemplates($user){
         $response = [];
        
         try {
         $quiz = DB::table('quiz')
         ->leftJoin('quiz as template', 'quiz.quiz_origin', '=', 'template.id')
-        ->select(DB::raw('count(*) as quiz.id'))
-        ->where("template.user","=", Auth::user()->id)
-        ->where("quiz.user","!=", Auth::user()->id)
+        ->select(DB::raw('count(quiz.id) as totalTemplatesUsed'))
+        ->where("template.user","=", $user)
+        ->where("quiz.user","!=", $user)
         ->get();
 
         } catch (\Throwable $th) {
@@ -80,6 +80,6 @@ class reportsController extends Controller
                      'error' => $th];
         return $response;
         }
-        return response()->json($quiz);
+        return response()->json($quiz[0]);
     }
 }
