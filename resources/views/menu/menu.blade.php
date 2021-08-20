@@ -24,12 +24,12 @@
             </li>        
         @endif
         <li class="navbar-item active">
-            <a href="{{url('')}}">
+            <a href="{{url('quiz')}}">
                 Encuestas
             </a>
         </li>
         <li class="navbar-item navbar-button">
-            <button class="qme-button red" href={{url('')}}>
+            <button class="qme-button red" onclick="goToQuiz()">
                 Crear encuesta
             </button>
         </li>

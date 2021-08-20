@@ -33,6 +33,7 @@
             <script src="{{ $js['route'] }}"></script>
         @endif                
     @endforeach
+    <script type="text/javascript" src="{{asset('js/common/redirect.js')}}"></script>
 </body>
 
 </html>

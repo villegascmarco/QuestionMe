@@ -8,7 +8,7 @@
             <h1 class="presentation-title">QuestionMe!</h1>
             <p class="presentation-text">La plataforma indicada para la creación
                 de encuestas y cuestionarios</p>
-            <a class="cta-btn" href="#">¡Empieza ahora!</a>
+            <a class="cta-btn" onclick="goToQuiz()">¡Empieza ahora!</a>
 
         </div>
 
@@ -113,7 +113,7 @@
                 No inicies desde <strong>0</strong>
                 utiliza una de las <strong>plantillas</strong>
                 creadas por los usuarios <br>
-                <a class="cta-btn-bottom" href="#">¡Empieza ahora!</a>
+                <a class="cta-btn-bottom"  onclick="goToQuiz()">¡Empieza ahora!</a>
             </p>
 
         </div>

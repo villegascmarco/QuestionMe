@@ -5,7 +5,9 @@
     <label id="category" class="category"></label>
 </header>
 
+
 <div class="buttons-user" id="btn-user">
+    <div class="users" id="users"></div>
     <div class="btn-container prev-user">
         <button class="qme-button red finish-reply" onclick="prevUser()"> < Usuario anterior</button>
     </div>

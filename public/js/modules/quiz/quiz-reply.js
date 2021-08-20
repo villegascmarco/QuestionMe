@@ -3,12 +3,15 @@ let quiz_all_div = document.getElementById('quiz-all')
 let title = document.getElementById('title')
 let category = document.getElementById('category')
 let quiz = null
-let ANSWER_CHECK = 0
+let ANSWER_CHECK = 6
 
 window.onload = () =>{
     quiz = JSON.parse(QUIZ_TO_REPLY)
     genQuestionContainer()
-    haveLocalStorage();
+    if(localStorage.getItem('USER_ANSWERS')){
+        haveLocalStorage();
+    }
+
 }
 
 
@@ -261,6 +264,12 @@ let haveLocalStorage = () => {
     let userAnswers = JSON.parse(localStorage.getItem('USER_ANSWERS'))
     let answer_container = document.querySelectorAll('.answer')
     let user = userAnswers.user[ANSWER_CHECK]
+    let userCount = document.getElementById('users')
+
+    document.getElementById('btn-user').style.display = "block"
+
+    userCount.innerText = `Usuarios: \n ${ANSWER_CHECK+1} / ${userAnswers.user.length}`
+    
 
     let name = document.getElementById('name')
     let last = document.getElementById('lastname')
@@ -272,22 +281,29 @@ let haveLocalStorage = () => {
 
     let answer = []
     user.questions.map((question) => {
-        if(question.question_type == 1){
-            answer.push(question.answer_selected.id)
-        } else if (question.question_type == 2) {
-            
-        }
-
+        answer.push(question.answer_selected)
     })
 
     
-
     answer_container.forEach((el) => {
         if(el.querySelector('input[type=radio]')) {
-            answer.some((ans) => {
-                if(el.querySelector('input[type=radio]').value == ans){
+            answer.map((ans) => {
+                if(el.querySelector('input[type=radio]').value == ans.id){
                     el.querySelector('input[type=radio]').checked = true
-                }
+                } 
+            })
+        } else if (el.querySelector('input[type=text]')) {
+            answer.map((ans) => {
+               let inpName =  el.querySelector('input[type=text]').name
+               questionID = inpName.replace('answer','')
+
+               if(questionID == ans.question) {
+                    if(el.querySelector('input[type=text]').name == `answer${ans.question}`)
+                        el.querySelector('input[type=text]').value = ans.given_answer
+
+               }
+
+               
             })
         }
         
@@ -302,7 +318,6 @@ let haveLocalStorage = () => {
 
 let nextUser = () => {
     let userAnswers = JSON.parse(localStorage.getItem('USER_ANSWERS'))
-
     if(ANSWER_CHECK < userAnswers.user.length-1 ){
         ANSWER_CHECK++
         haveLocalStorage()
@@ -310,7 +325,6 @@ let nextUser = () => {
 }
 
 let prevUser = () => {
-    debugger
     if(ANSWER_CHECK >= 0 ){
         ANSWER_CHECK--
         haveLocalStorage()

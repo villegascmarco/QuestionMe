@@ -74,9 +74,26 @@ let editQuiz  = async (idQuiz) => {
 } 
 
 let delQuiz  = async (idQuiz) => {
-    let promises = []
 
-    await delQuizRqst(idQuiz)
+    
+    
+    result = await Swal.fire({
+        title: "¿Estas seguro de eliminar este quiz?",
+        confirmButtonText: "¡Confirmar!",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: 'rgba(255,0,0,0.6)',
+        showCancelButton: true,
+        focusConfirm: false,        
+    });
+
+    
+    if (result.isConfirmed) {
+        await delQuizRqst(idQuiz)
+    } else {
+        return;
+    }
+
+    
     
 } 
 
