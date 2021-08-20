@@ -18,10 +18,10 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Cantidad de preguntas</th>
                             <th>Categoria</th>
-                            <th>Detalle</th>
+                            <th>Edición</th>
                             <th>Compartir</th>
+                            <th>Ver respuestas</th>
                             <th>Eliminar</th>
                         </tr>
                     </thead>

@@ -30,23 +30,20 @@ let getDataTable = async() => {
 
 let fullTable = (quizfill) => {
     let inners = ""
-    let questionCount = 0
-
     
-    quizfill.map((quiz, index) => {
-        let fount = (categories.find(el => el.id == quiz.category));
-        questionsQuizes[index] ? (questionCount = questionsQuizes[index].length) : (null)
-        let status
+    
+    quizfill.map(async (quiz, index) => {
 
-        quiz.status == 1 ? (status = "Activa") : (status = "Inactiva")
+        let fount = (categories.find(el => el.id == quiz.category));
+        let status
 
 
         inners += "<tr>"
         inners += "<td>"+quiz.name+"</td>"
-        inners += "<td>"+questionCount+"</td>"
         inners += "<td> <div class='bubble-categories-container'><label class='bubble no-button'>"+fount.name+"</label></div></td>"
         inners += `<td> <button class='table-btn btn-detail' onclick="editQuiz(${quiz.id})"> <img src='${ASSETS_ROUTE}img/svg/icons/view.svg'> </button></td>`
         inners += `<td> <button class='table-btn btn-detail' onclick="shareQuiz(${quiz.id})"> <img src='${ASSETS_ROUTE}img/svg/icons/share.svg'> </button></td>`
+        inners += `<td> <button class='table-btn btn-detail' onclick="reviewQuiz(${quiz.id})"> <img src='${ASSETS_ROUTE}img/svg/icons/examen.svg'> </button></td>`
         inners += `<td> <button class='table-btn btn-detail' onclick="delQuiz(${quiz.id})"> <img src='${ASSETS_ROUTE}img/svg/icons/trash.svg'> </button></td>`
         inners += "</tr>"
         return inners
@@ -102,6 +99,18 @@ let shareQuiz = async (idQuiz) => {
 
     if(!result.isConfirmed)
         return
+
+}
+
+let reviewQuiz = async (idQuiz) => {
+    let encrypt = await encryptID(idQuiz)
+    let url = `${ASSETS_ROUTE}nonHuman/${encrypt}`
+    let answers = await getAnswersQuiz(idQuiz);
+
+
+    localStorage.setItem('USER_ANSWERS', JSON.stringify(answers))
+    window.location = `${url}`;
+
 
 }
 
@@ -217,3 +226,19 @@ let getSelfData = () => {
     return fetch(`${ASSETS_ROUTE}getSelfData`)
         .then(resp => resp.json())
 };
+
+
+let getAnswersQuiz = async(quizID) => {
+    let response = await fetch(`${ASSETS_ROUTE}quizzes/${quizID}/answers`, {
+        method: "GET",
+        headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"]
+        ],
+    }).then((response) => {
+        if (response.ok) {
+            return response.json()
+        }
+    });
+    return response
+}

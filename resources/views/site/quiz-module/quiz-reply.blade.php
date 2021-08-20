@@ -6,8 +6,7 @@
 </header>
 
 <div class="quiz-container">
-    <div id="quiz-container"  >
-        
+    <div id="quiz-container">
     </div>
         
     <div class="btn-container reply-btn-container" id="btn-container">

@@ -4,6 +4,7 @@ let category = document.getElementById('category')
 let quiz = null
 
 window.onload = () =>{
+    haveLocalStorage();
     quiz = JSON.parse(QUIZ_TO_REPLY)
     genQuestionContainer()
 }
@@ -12,6 +13,69 @@ window.onload = () =>{
 let genQuestionContainer = () => {
     title.innerText = quiz.name
     category.innerText = quiz.category
+
+    let answerName = document.createElement("div")
+        answerName.className = "qme-input special-login margin-top-25"
+    
+    let answerLast = document.createElement("div")
+        answerLast.className = "qme-input special-login margin-top-25"
+
+    let answerEmail = document.createElement("div")
+        answerEmail.className = "qme-input special-login margin-top-25"
+
+        quiz_container.append(answerName)
+        quiz_container.append(answerLast)
+        quiz_container.append(answerEmail)
+
+        /* ************************************************ */
+
+        let label = document.createElement("label")
+            label.className = "label"
+            label.innerText = "Nombre"
+
+            answerName.append(label)
+
+        let input = document.createElement("input")
+            input.className = "input answer-input"
+            input.type = 'text'
+            input.id = "name"
+
+            answerName.append(input)
+
+            /* ************************************************ */
+
+
+        let labelLast = document.createElement("label")
+            labelLast.className = "label"
+            labelLast.innerText = "Apellidos"
+
+            answerLast.append(labelLast)
+
+        let inputLast = document.createElement("input")
+            inputLast.className = "input answer-input"
+            inputLast.type = 'text'
+            inputLast.id = "lastname"
+
+            answerLast.append(inputLast)
+
+            /* ************************************************ */
+
+        let labelEmail = document.createElement("label")
+            labelEmail.className = "label"
+            labelEmail.innerText = "Coreo electronico"
+
+            answerEmail.append(labelEmail)
+
+        let inputEmail = document.createElement("input")
+            inputEmail.className = "input answer-input"
+            inputEmail.type = 'text'
+            inputEmail.id = "email"
+
+            answerEmail.append(inputEmail)
+            
+            /* ************************************************ */
+
+
 
     quiz.questions.map((question, index) => {
         let questionCont = document.createElement('div')
@@ -83,11 +147,14 @@ let genAnswersContainer = (parent, question) => {
             answerDiv.append(input)
     
             }
-    }
+}
         
 
 let sendAnswers = async() => {
     let questionsGen = document.getElementsByClassName('answers-container')
+    let getName = document.getElementById('name').value
+    let getLast = document.getElementById('lastname').value
+    let getEmail = document.getElementById('email').value
 
     
     let answers = []
@@ -106,9 +173,9 @@ let sendAnswers = async() => {
 
 
     let answerUser = {
-        name:"maria",
-        last_name:"pérez",
-        email:"villegascmarco@gmail.com",
+        name: getName,
+        last_name:getLast,
+        email:getEmail,
         open_ended:[
             
         ],
@@ -146,6 +213,8 @@ let sendAnswers = async() => {
 
     })
 
+
+    console.log(answerUser)
 
     let result = {};
 

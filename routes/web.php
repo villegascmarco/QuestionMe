@@ -61,6 +61,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/category', 'SiteController@category');
     });
 
+
+    Route::resource('quizzes', 'QuizController');
+    Route::resource('quizzes.answers', 'AnswerSelectedController');
+    Route::resource('quizzes.questions', 'QuestionController');
+    Route::resource('quizzes.questions.answers', 'PossibleAnswerController');
+
+    Route::resource('nonHuman', 'NonRegisteredHumanController');
+    Route::get('quizzesE/{id}', 'QuizController@encryptID');
+
     
 
     Route::resource('categories', 'categoryController', ["except" => ['destroy']]);
@@ -79,12 +88,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/my-account', 'SiteController@userConfig');
 });
 
-Route::resource('quizzes', 'QuizController');
-    Route::resource('quizzes.answers', 'AnswerSelectedController');
-    Route::resource('quizzes.questions', 'QuestionController');
-    Route::resource('quizzes.questions.answers', 'PossibleAnswerController');
 
-    Route::resource('nonHuman', 'NonRegisteredHumanController');
-    Route::get('quizzesE/{id}', 'QuizController@encryptID');
 // Route::group(['middleware'=>['auth']], function(){
 // });
