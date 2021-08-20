@@ -5,14 +5,17 @@
     <label id="category" class="category"></label>
 </header>
 
-<div class="quiz-container">
+<div class="buttons-user" id="btn-user">
+    <div class="btn-container prev-user">
+        <button class="qme-button red finish-reply" onclick="prevUser()"> < Usuario anterior</button>
+    </div>
+    <div class="btn-container next-user">
+        <button class="qme-button red finish-reply"  onclick="nextUser()">Usuario siguiente ></button>
+    </div>
+</div>
+<div id="quiz-all" class="quiz-container">
     <div id="quiz-container">
     </div>
-        
-    <div class="btn-container reply-btn-container" id="btn-container">
-        <button  onclick="sendAnswers()" id="qu-save" class="qme-button red finish-reply">Enviar respuestas</button>
-    </div>
-
 
 </div>
 

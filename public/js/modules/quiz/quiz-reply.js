@@ -1,12 +1,14 @@
 let quiz_container = document.getElementById('quiz-container')
+let quiz_all_div = document.getElementById('quiz-all')
 let title = document.getElementById('title')
 let category = document.getElementById('category')
 let quiz = null
+let ANSWER_CHECK = 0
 
 window.onload = () =>{
-    haveLocalStorage();
     quiz = JSON.parse(QUIZ_TO_REPLY)
     genQuestionContainer()
+    haveLocalStorage();
 }
 
 
@@ -75,6 +77,28 @@ let genQuestionContainer = () => {
             
             /* ************************************************ */
 
+            
+        if (!localStorage.getItem('USER_ANSWERS')){
+        let btnContainer = document.createElement('div')
+            btnContainer.className = "btn-container reply-btn-container"
+            btnContainer.id = "btn-container"
+
+            quiz_all_div.append(btnContainer)
+
+        let btnSend = document.createElement('button')
+            btnSend.className = "qme-button red finish-reply"
+            btnSend.id = "qu-save"
+            btnSend.innerText = "Enviar respuestas"
+            btnSend.onclick = (evt) => {
+                sendAnswers()
+            }
+
+            btnContainer.append(btnSend)
+        }
+        
+
+
+            
 
 
     quiz.questions.map((question, index) => {
@@ -148,7 +172,6 @@ let genAnswersContainer = (parent, question) => {
     
             }
 }
-        
 
 let sendAnswers = async() => {
     let questionsGen = document.getElementsByClassName('answers-container')
@@ -232,6 +255,66 @@ let sendAnswers = async() => {
     await setAnswers(answerUser)
 
     
+}
+
+let haveLocalStorage = () => {
+    let userAnswers = JSON.parse(localStorage.getItem('USER_ANSWERS'))
+    let answer_container = document.querySelectorAll('.answer')
+    let user = userAnswers.user[ANSWER_CHECK]
+
+    let name = document.getElementById('name')
+    let last = document.getElementById('lastname')
+    let email = document.getElementById('email')
+
+    name.value = user.name
+    last.value = user.last_name
+    email.value = user.email
+
+    let answer = []
+    user.questions.map((question) => {
+        if(question.question_type == 1){
+            answer.push(question.answer_selected.id)
+        } else if (question.question_type == 2) {
+            
+        }
+
+    })
+
+    
+
+    answer_container.forEach((el) => {
+        if(el.querySelector('input[type=radio]')) {
+            answer.some((ans) => {
+                if(el.querySelector('input[type=radio]').value == ans){
+                    el.querySelector('input[type=radio]').checked = true
+                }
+            })
+        }
+        
+        
+    })
+
+    
+    
+
+
+}
+
+let nextUser = () => {
+    let userAnswers = JSON.parse(localStorage.getItem('USER_ANSWERS'))
+
+    if(ANSWER_CHECK < userAnswers.user.length-1 ){
+        ANSWER_CHECK++
+        haveLocalStorage()
+    }
+}
+
+let prevUser = () => {
+    debugger
+    if(ANSWER_CHECK >= 0 ){
+        ANSWER_CHECK--
+        haveLocalStorage()
+    }
 }
 
 //:::::::::::::::::::::::::::::::::::::::
