@@ -6,15 +6,15 @@ let dropMenuNotification = document.getElementById('dropMenuNotification')
 let markAsRead = document.getElementById('markAsRead')
 
 
-let user = {}
+let userNav = {}
 let notifications = []
 
 
 window.addEventListener('load', async() => {
 
-    user = await getSelfData()
+    userNav = await getSelfData()
 
-    Echo.private(`App.Models.User.${user.id}`)
+    Echo.private(`App.Models.User.${userNav.id}`)
         .notification(notification => {
 
             var audio = new Audio('../../audio/notification.ogg');
@@ -43,6 +43,8 @@ openMenu.addEventListener('click', () => {
     }
     dropMenu.classList.add('active')
 })
+
+
 dropNotification.addEventListener('click', () => {
     // closeAll(
 
@@ -64,9 +66,9 @@ let closeAll = () => {
 
 let getNotifications = async() => {
 
-    if (!user) return;
+    if (!userNav) return;
 
-    let response = await fetch(`${ASSETS_ROUTE}users/${user.id}/notifications`);
+    let response = await fetch(`${ASSETS_ROUTE}users/${userNav.id}/notifications`);
 
     notifications = await response.json()
 
@@ -123,7 +125,7 @@ let fillNotifications = () => {
 
 
 let removeNotification = async id => {
-    let response = fetch(`${ASSETS_ROUTE}users/${user.id}/notifications/${id}`, {
+    let response = fetch(`${ASSETS_ROUTE}users/${userNav.id}/notifications/${id}`, {
         method: "PUT"
     }).then(resp => resp.json())
 
@@ -139,7 +141,7 @@ let getSelfData = () => {
 };
 
 let markNotificationsAsRead = () => {
-    return fetch(`${ASSETS_ROUTE}users/${user.id}/notifications/*`, {
+    return fetch(`${ASSETS_ROUTE}users/${userNav.id}/notifications/*`, {
         method: "PUT"
     }).then(resp => resp.json())
 }

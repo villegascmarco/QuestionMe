@@ -13,7 +13,7 @@
 
         @if (Auth::user()->role==2)
             <li class="navbar-item ">
-                <a href="{{url('categorias')}}">
+                <a href="{{url('category')}}">
                     Categorías
                 </a>
             </li>
