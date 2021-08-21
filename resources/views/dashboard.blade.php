@@ -7,7 +7,7 @@
 
 <main class="main-container">
     
-    <section class="dashboard-section">
+    <section class="dashboard-section" id="call2CreateQuiz">
         <header>
             <h2 class="title-alternative">¿Ahora que hago?</h2>
         </header>

@@ -7,6 +7,10 @@ let humanReport = [];
 
 window.addEventListener('load', async() => {
     userData = await getData();
+    if (userData.quiz_count > 0) {
+        var deleteMe = document.getElementById('call2CreateQuiz')
+        deleteMe.parentNode.removeChild(deleteMe)
+    }
     templateReport = await getTemplateReport();
     humanReport = await getHumanReport();
     fillHumanReport()
