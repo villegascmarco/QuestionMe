@@ -3,7 +3,7 @@ let quiz_all_div = document.getElementById('quiz-all')
 let title = document.getElementById('title')
 let category = document.getElementById('category')
 let quiz = null
-let ANSWER_CHECK = 6
+let ANSWER_CHECK = 0
 
 window.onload = () =>{
     quiz = JSON.parse(QUIZ_TO_REPLY)
@@ -12,6 +12,10 @@ window.onload = () =>{
         haveLocalStorage();
     }
 
+}
+
+window.onbeforeunload = function(event) {
+    localStorage.clear()
 }
 
 
@@ -67,7 +71,7 @@ let genQuestionContainer = () => {
 
         let labelEmail = document.createElement("label")
             labelEmail.className = "label"
-            labelEmail.innerText = "Coreo electronico"
+            labelEmail.innerText = "Correo electronico"
 
             answerEmail.append(labelEmail)
 

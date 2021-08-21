@@ -69,7 +69,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('quizzes.questions', 'QuestionController');
     Route::resource('quizzes.questions.answers', 'PossibleAnswerController');
 
-    Route::resource('nonHuman', 'NonRegisteredHumanController');
     Route::get('quizzesE/{id}', 'QuizController@encryptID');
 
     
@@ -95,6 +94,7 @@ Route::group(['middleware' => ['auth']], function () {
     
 });
 
+Route::resource('nonHuman', 'NonRegisteredHumanController');
 
 //Route::resource('notifications', 'NotificationController');
 

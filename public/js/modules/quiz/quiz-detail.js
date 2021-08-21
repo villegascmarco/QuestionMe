@@ -5,7 +5,7 @@ let categories = null
 let usuario = null
 
 window.onload = async() => {
-    usuario = await getSelfData()
+    usuario = await getSelfDataQuiz()
     await getDataTable()
 }
 
@@ -239,7 +239,7 @@ let encryptID = async (idQuiz) => {
     return response
 };
 
-let getSelfData = () => {
+let getSelfDataQuiz = () => {
     return fetch(`${ASSETS_ROUTE}getSelfData`)
         .then(resp => resp.json())
 };
